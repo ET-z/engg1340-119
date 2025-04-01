@@ -1,1 +1,6 @@
-# engg1340-119
+# engg1340-119 - Platformer Game
+
+Members:
+...
+Enkhtushig Zolzaya - 3036294578
+...
