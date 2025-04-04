@@ -1,6 +1,8 @@
 #include <ncurses.h>
 #include <string>
-#include <cmath>
+#include <cstdlib>
+#include "player.h"
+#include <ctime>
 using namespace std;
 
 int main(int argc, char ** argv)
@@ -18,44 +20,19 @@ int yMax, xMax;
 //getbegyx(stdscr, yBeg, xBeg);
 getmaxyx(stdscr, yMax, xMax);
 
-WINDOW * menuwin = newwin(6, xMax-12, yMax-8, 5);
-box(menuwin, 0, 0);
+WINDOW * playwin = newwin(20, 50, (yMax/2)-10, 10);
+box(playwin, 0, 0);
 refresh();
-wrefresh(menuwin);
+wrefresh(playwin);
 
-keypad(menuwin, true);
+Player * p = new Player(playwin, 1, 1, '@');
 
-string choices[3] = {"Walk", "Jog", "Run"};
-int choice;
-int highlight = 0;
+do {
+	p->display();
+	wrefresh(playwin);
 
-while (1){
-	for(int i = 0; i < 3; i++)
-	{
-	if(i == highlight)
-		wattron(menuwin, A_REVERSE);
-	mvwprintw(menuwin, i+1, 1, "%s" , choices[i].c_str());
-	wattroff(menuwin, A_REVERSE);
-	}
-	choice = wgetch(menuwin);
-	switch(choice)
-	{
-	case KEY_UP:
-		highlight--;
-		break;
-	case KEY_DOWN:
-		highlight++;
-		break;
-	default:
-		break;
-	}
-	if(choice == 10)
-		break;
-	highlight = (int)fabs(highlight) % 3;
-}
+} while(p->getmv()!='x');
 
-printw("Your choice was: %s", choices[highlight].c_str());
-getch();
 
 endwin();
 

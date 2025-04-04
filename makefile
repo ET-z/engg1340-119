@@ -1,5 +1,7 @@
 all: ncurses
 
-ncurses: ncurses.cpp
-	g++ ncurses.cpp -o ncurses -lncurses
+ncurses.o: ncurses.cpp player.h
+	g++ -c ncurses.cpp
+ncurses: ncurses.o
+	g++ ncurses.o -o ncurses -lncurses
 
