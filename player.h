@@ -10,6 +10,8 @@ public:
 	void mvright(); 
 	int getmv();
 	void display();
+	int getX();
+	int getY();
 private:
 
 	int xLoc, yLoc, xMax, yMax;
@@ -76,6 +78,10 @@ int Player::getmv()
 	}
 	return choice;
 }
+
+int Player::getX() { return xLoc; }
+int Player::getY() { return yLoc; }
+
 void Player::display()
 {
 	mvwaddch(curwin, yLoc, xLoc, character);
