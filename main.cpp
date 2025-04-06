@@ -19,7 +19,7 @@ int main()
   }
 
   // Window dimensions
-  int HEIGHT = 50, WIDTH = 100;
+  int HEIGHT = 50, WIDTH = 200;
 
   // Check if the game window is big enough
   while (LINES < HEIGHT || COLS < WIDTH)
@@ -97,13 +97,13 @@ int main()
       // Check user selection: 0 = Start game, 1 = How to Play, 2 = Quit
       if (current_selection == 0)
       {
-        game(HEIGHT, WIDTH);
+        game(game_win);
         delwin(game_win);
         break;
       }
       else if (current_selection == 1)
       {
-        tutorial(HEIGHT, WIDTH);
+        tutorial(game_win);
         delwin(game_win);
         break;
       }

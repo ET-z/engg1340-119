@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-int game(int HEIGHT, int WIDTH);
-int tutorial(int HEIGHT, int WIDTH);
+int game(WINDOW *game_win);
+int tutorial(WINDOW *game_win);
 
 #endif
