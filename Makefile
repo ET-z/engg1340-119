@@ -1,18 +1,29 @@
-FLAGS = -pedantic-errors -std=c++11
-ENGFLAG = -lncurses
+CXX = g++  
+FLAGS = -Wall -pedantic-errors -std=c++11 
+ENGFLAG = -lncurses 
 
+SRCS = main.cpp game.cpp tutorial.cpp
+OBJS = $(SRCS:.cpp=.o) 
 
-main.o: main.cpp 
-	g++ $(FLAGS) -c $<
-	
-main: main.o 
-	g++ $(FLAGS) $^ -o $@ $(ENGFLAG)
+TARGET = main
+ARCHIVE = main.tgz
 
-run: main
-	./main
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(FLAGS) $^ -o $@ $(ENGFLAG)
+
+%.o: %.cpp game.h 
+	$(CXX) $(FLAGS) -c $< -o $@
+
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
-	rm -f main.o main.tgz
+	rm -f $(TARGET) $(OBJS) $(ARCHIVE) # Remove target, all objects, and archive
+
 tar:
-	tar -czvf *.cpp *.h
-.PHONY: clean tar
+	tar -czvf $(ARCHIVE) $(SRCS) *.h Makefile # Archive sources, headers, and Makefile
+
+# Declare phony targets
+.PHONY: all run clean tar
