@@ -2,6 +2,7 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
+#include <cctype>
 #include "game.h"
 using namespace std;
 
@@ -41,7 +42,7 @@ int main()
   box(game_win, 0, 0);
 
   // Menu items
-  const vector<string> menu_items = {"Star Game", "How to Play", "Quit"};
+  const vector<string> menu_items = {"Star Game | s", "How to Play | h", "Quit | q"};
   int menu_size = menu_items.size();
   int current_selection = 0;
   int ch;
@@ -56,6 +57,23 @@ int main()
     wclear(game_win);
     // Redraw box
     box(game_win, 0, 0);
+
+    // Title
+    vector<string> title = {
+        R"(:::::::.   ...    :::  .,-:::::  :::  .    .::::::.   ::   .:      ...   ::::::::::::    :::::::..       ...      ...    ::: :::    .,::::::::::::::::::::::::::::::.,::::::  )",
+        R"( ;;;'';;'  ;;     ;;;,;;;'````'  ;;; .;;,.;;;`    `  ,;;   ;;,  .;;;;;;;.;;;;;;;;''''    ;;;;``;;;;   .;;;;;;;.   ;;     ;;; ;;;    ;;;;'''';;;;;;;;'''';;;;;;;;'''';;;;''''  )",
+        R"( [[[__[[\.[['     [[[[[[         [[[[[/'  '[==/[[[[,,[[[,,,[[[ ,[[     \[[,   [[          [[[,/[[['  ,[[     \[[,[['     [[[ [[[     [[cccc      [[          [[      [[cccc   )",
+        R"( $$""""Y$$$$      $$$$$$        _$$$$,      '''    $"$$$"""$$$ $$$,     $$$   $$          $$$$$$c    $$$,     $$$$$      $$$ $$'     $$""""      $$          $$      $$""""   )",
+        R"(_88o,,od8P88    .d888`88bo,__,o,"888"88o,  88b    dP 888   "88o"888,_ _,88P   88,         888b "88bo,"888,_ _,88P88    .d888o88oo,.__888oo,__    88,         88,     888oo,__ )",
+        R"(""YUMMMP"  "YmmMMMM""  "YUMMMMMP"MMM "MMP"  "YMmMY"  MMM    YMM  "YMMMMMP"    MMM         MMMM   "W"   "YMMMMMP"  "YmmMMMM""""""YUMMM""""YUMMM   MMM         MMM     """"YUMMM)"};
+
+    for (int i = 0; i < title.size(); ++i)
+    {
+      // Center menu items horizontally
+      int start_col = (WIDTH - title[i].length()) / 2; // Center each item horizontally
+
+      mvwprintw(game_win, 5 + i, start_col, "%s", title[i].c_str());
+    }
 
     // Center menu items vertically
     int start_row = (HEIGHT - menu_size) / 2;
@@ -84,7 +102,23 @@ int main()
     ch = wgetch(game_win);
 
     // User input to pick menu item
-    if (ch == KEY_UP)
+    if (ch == 's' || ch == 'S')
+    {
+      game(game_win);
+      delwin(game_win);
+      break;
+    }
+    else if (ch == 'h' || ch == 'H')
+    {
+      tutorial(game_win);
+      delwin(game_win);
+      break;
+    }
+    else if (ch == 'q' || ch == 'Q')
+    {
+      break;
+    }
+    else if (ch == KEY_UP)
     {
       current_selection = (current_selection - 1 + menu_size) % menu_size;
     }
