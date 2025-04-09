@@ -2,10 +2,10 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
-#include "game.h"
+#include "../game.h"
 using namespace std;
 
-int tutorial1(WINDOW *game_win)
+int tutorial3(WINDOW *game_win)
 {
   int HEIGHT, WIDTH;
   getmaxyx(game_win, HEIGHT, WIDTH);
@@ -22,12 +22,13 @@ int tutorial1(WINDOW *game_win)
     // Redraw box
     box(game_win, 0, 0);
 
-    string hello = "Tutorial 1";
+    string hello = "Tutorial 3";
     mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(hello.size())) / 2, "%s", hello.c_str());
     string escape = "Press ESC to return";
     mvwprintw(game_win, 10, (WIDTH - static_cast<int>(escape.size())) / 2, "%s", escape.c_str());
-    string arrow = "-->";
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(arrow.size())) - 10, "%s", arrow.c_str());
+    vector<string> arrows = {"<--", "-->"};
+    mvwprintw(game_win, HEIGHT / 2, 10, "%s", arrows[0].c_str());
+    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(arrows[1].size())) - 10, "%s", arrows[1].c_str());
 
     // Display changes
     wrefresh(game_win);
@@ -37,16 +38,17 @@ int tutorial1(WINDOW *game_win)
 
     if (ch == KEY_RIGHT) // Start
     {
+      // tutorial4(game_win);
+    }
+    else if (ch == KEY_LEFT) // How to play
+    {
       tutorial2(game_win);
       break;
     }
-    else if (ch == 27) // How to play
+    else if (ch == 27) // Return to main menu
     {
       return 1;
     }
   }
-  // Clean up ncurses
-  endwin();
-
   return 0;
 }

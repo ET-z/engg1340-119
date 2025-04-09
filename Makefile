@@ -2,7 +2,7 @@ CXX = g++
 FLAGS = -Wall -pedantic-errors -std=c++11 
 ENGFLAG = -lncurses 
 
-SRCS = main.cpp game.cpp tutorial1.cpp tutorial2.cpp tutorial3.cpp 
+SRCS = main.cpp game.cpp tutorial_pages/tutorial1.cpp tutorial_pages/tutorial2.cpp tutorial_pages/tutorial3.cpp 
 OBJS = $(SRCS:.cpp=.o) 
 
 TARGET = main

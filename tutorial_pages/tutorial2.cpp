@@ -2,7 +2,7 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
-#include "game.h"
+#include "../game.h"
 using namespace std;
 
 int tutorial2(WINDOW *game_win)
@@ -51,8 +51,5 @@ int tutorial2(WINDOW *game_win)
       return 1;
     }
   }
-  // Clean up ncurses
-  endwin();
-
   return 0;
 }
