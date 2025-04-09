@@ -32,11 +32,13 @@ int main()
     string two = "Zoom out and increase window size!";
     string three = "Press any key to re-check";
     string four = "Your current screen size ";
+    string five = "The required screen size is Height: 50 and Width: 200";
     mvprintw(LINES / 2, (COLS - static_cast<int>(one.size())) / 2, "%s", one.c_str());
     mvprintw(LINES / 2 + 1, (COLS - static_cast<int>(two.size())) / 2, "%s", two.c_str());
     mvprintw(LINES / 2 + 2, (COLS - static_cast<int>(three.size())) / 2, "%s", three.c_str());
     mvprintw(LINES / 2 + 3, (COLS - static_cast<int>(four.size())) / 2, "%s", four.c_str());
     mvprintw(LINES / 2 + 4, (COLS - static_cast<int>(maxHW.size())) / 2, "%s", maxHW.c_str());
+    mvprintw(LINES / 2 + 5, (COLS - static_cast<int>(five.size())) / 2, "%s", five.c_str());
     refresh();
     getch();
   }
