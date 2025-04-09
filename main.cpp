@@ -21,7 +21,9 @@ int main()
 
   // Window dimensions
   int HEIGHT = 50, WIDTH = 200;
-
+  int yMax, xMax;
+  getmaxyx(stdscr, yMax, xMax);
+  string maxHW = "Height: " + to_string(yMax) + "    Width: " + to_string(xMax);
   // Check if the game window is big enough
   while (LINES < HEIGHT || COLS < WIDTH)
   {
@@ -29,9 +31,12 @@ int main()
     string one = "Screen not big enough";
     string two = "Zoom out and increase window size!";
     string three = "Press any key to re-check";
+    string four = "Your current screen size ";
     mvprintw(LINES / 2, (COLS - static_cast<int>(one.size())) / 2, "%s", one.c_str());
     mvprintw(LINES / 2 + 1, (COLS - static_cast<int>(two.size())) / 2, "%s", two.c_str());
     mvprintw(LINES / 2 + 2, (COLS - static_cast<int>(three.size())) / 2, "%s", three.c_str());
+    mvprintw(LINES / 2 + 3, (COLS - static_cast<int>(four.size())) / 2, "%s", four.c_str());
+    mvprintw(LINES / 2 + 4, (COLS - static_cast<int>(maxHW.size())) / 2, "%s", maxHW.c_str());
     refresh();
     getch();
   }
