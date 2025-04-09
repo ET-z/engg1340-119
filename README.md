@@ -7,7 +7,7 @@
 - @ET-z **Enkhtushig Zolzaya** - 3036294578
 - @DuskNova **Name** -
 - @tmng **Name** -
-- @tue-nhi **Name** -
+- @tue-nhi **Nguyen Tue Nhi** - 3036364517
 - @kk212371 **Name** -
 - @Maggie-maoyiqi **Name** -
 
