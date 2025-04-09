@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <cctype>
+#include <fstream>
 #include "game.h"
 using namespace std;
 
@@ -10,6 +11,7 @@ int main()
 {
   // Initialize ncurses
   initscr();
+  set_escdelay(25);     // Reduce ESC key delay
   keypad(stdscr, TRUE); // Enable keypad input
   noecho();             // Don't echo keypresses
   curs_set(0);          // Hide the cursor
@@ -17,6 +19,15 @@ int main()
   if (has_colors())
   {
     start_color();
+  }
+
+  // Track progress of player
+  ofstream fout;
+  fout.open("progress.txt");
+
+  if (fout.fail())
+  {
+    exit(1);
   }
 
   // Window dimensions
@@ -42,7 +53,7 @@ int main()
   box(game_win, 0, 0);
 
   // Menu items
-  const vector<string> menu_items = {"Star Game | s", "How to Play | h", "Quit | q"};
+  const vector<string> menu_items = {"Start Game | s", "How to Play | h", "Quit | q"};
   int menu_size = menu_items.size();
   int current_selection = 0;
   int ch;
@@ -102,20 +113,19 @@ int main()
     ch = wgetch(game_win);
 
     // User input to pick menu item
-    if (ch == 's' || ch == 'S')
+    if (ch == 's' || ch == 'S') // Start
     {
-      game(game_win);
-      delwin(game_win);
-      break;
+      if (game(game_win))
+        continue;
     }
-    else if (ch == 'h' || ch == 'H')
+    else if (ch == 'h' || ch == 'H') // How to play
     {
-      tutorial(game_win);
-      delwin(game_win);
-      break;
+      if (tutorial1(game_win))
+        continue;
     }
-    else if (ch == 'q' || ch == 'Q')
+    else if (ch == 'q' || ch == 'Q') // Quit
     {
+      delwin(game_win);
       break;
     }
     else if (ch == KEY_UP)
@@ -128,26 +138,26 @@ int main()
     }
     else if (ch == KEY_ENTER || ch == '\n')
     {
-      // Check user selection: 0 = Start game, 1 = How to Play, 2 = Quit
-      if (current_selection == 0)
+      // Check user selection:
+      if (current_selection == 0) // 0 = Start game
       {
-        game(game_win);
-        delwin(game_win);
-        break;
+        if (game(game_win))
+          continue;
       }
-      else if (current_selection == 1)
+      else if (current_selection == 1) // 1 = How to Play
       {
-        tutorial(game_win);
-        delwin(game_win);
-        break;
+        if (tutorial1(game_win))
+          continue;
       }
-      else if (current_selection == 2)
+      else if (current_selection == 2) // 2 = Quit
       {
+        delwin(game_win);
         break;
       }
     }
   }
   // Clean up ncurses
+  delwin(game_win);
   endwin();
 
   return 0;
