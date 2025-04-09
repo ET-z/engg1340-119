@@ -35,6 +35,11 @@
 > [!NOTE]
 > For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
 
+### Items
+
+> [!TIP]
+> Helpful advice for doing things better or more easily.
+
 ---
 
 ## About our project

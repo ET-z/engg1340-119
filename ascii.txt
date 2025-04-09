@@ -1,25 +1,43 @@
-Magnifying Glass 5x17: Used to check   
+Magnifying Glass 5x17: Used to check current bullet
          .-""-.
  _______/      \  
 |_______        ;
         \      /
-         '-..-' 
+         '-..-'
 
-Apple 5x12 : User to gain an extra heart
+
+Apple 5x12 : Used to gain an extra heart
   ,--./,-.
  / #      \
 |          |
  \        / 
   `._,._,'
 
-Calculator 10x12 :
- __________
-| ________ |
-||12345678||
-|""""""""""|
-|[M|#|C][-]|
-|[7|8|9][+]|
-|[4|5|6][x]|
-|[1|2|3][%]|
-|[.|O|:][=]|
-"----------"
+Beer 6x8 : Used to eject current shell
+.~~~~~~.
+i=======i_
+|ccccccc| \
+|ccccccc|_/
+|ccccccc|   
+`-=====-'
+
+Cleaver 4x19 : Upon use, the next bullet will have double damage
+emmmmmm~~~~~~~~~~oT
+""""""|          |
+      |          |
+      `----------'
+
+Handcuffs 5x18 : Upon use, the dealer will skip the next round
+  .--.      .--.
+ /--\ \.--./ /--\
+(    ) )   ( (   )
+ \__/ /'--'\ \__/
+  '--'      '--'
+
+Shotgun 6x55: Primary weapon used to shoot
+ ,________________________________       
+|__________,----------._ [____]  ""-,__  __...-----==="
+        (_(||||||||||||)___________/   ""             |
+           `----------'        [ ))"-,                |
+                                ""    `,  _,--...___  |
+                                        `/          """
