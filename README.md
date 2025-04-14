@@ -43,3 +43,43 @@
 ---
 
 ## About our project
+
+### File I/O
+
+```
+     AAAAAAA       AAAAAAA
+    AA    AS          AA   AA
+   AA   AM              AZ  AA
+   A   A                 A   A
+  A   A                 A  ZA
+   AA  AA              AA   A
+    A   AAAAAAAAAAAAAA   WA
+    AA                 AA
+    AA                 AA
+    AA                 AA
+    NA  AAAA     AAAA  A
+    A  AAAAAA   IAAAAA A
+    A   AAAA     AAAA AA
+      AA             AA
+        AAAAAAAAAAAAA
+```
+
+```
+           AAACCACCCCBAAAAAD
+        AAABSPPRPPSPQSSSKCBAAAA
+     HSOKOXTMNTSSSSSSL KKQQSSSSSE
+    YKK       SKOSPQKZS       GSSG
+    EKS        KSWASUK        KLONK
+   MPU         KSJBSSK        SY SS
+ XDFS S       RVLJCHSKW        MAAAAA
+ AASEAERNSSSWUKSCCCCPSKKPSP SAABR  TAS
+ S    KJAEIFRSN KCCACSTWSSDAAI      K
+ M    X  WKIJFDO      IJOCG Z KCS  TS
+ GJ SE  CQS   ZRLGQMLMRT  X MCSZ   OS
+ MEI XSC  DG RK S   W  I  IJ YPGU SSR
+  USMK  C C  CC UC OD  C J CJK  SSSS
+    SSKG   D C  YH  C  XZC   X KKSS
+     JPRHKKY  H   D ZPW  KY JJQSS
+       WCSOSBFS        WMCOQCSU
+           SUBAAACCAAAAAGRS
+```
