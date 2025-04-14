@@ -2,6 +2,7 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
+#include <fstream>
 #include "game.h"
 using namespace std;
 
@@ -12,28 +13,25 @@ void draw_dealer(WINDOW *game_win)
   // Color pair (This is white text on a blue background)
   init_pair(1, COLOR_RED, COLOR_BLACK);
 
-  vector<string> dealer = {
-      "                mqn                ",
-      "         hAAAAAAAAAAAAAAAAq        ",
-      "       AAAAAAAURAAAVhhAAAAAAn      ",
-      "     AAAh   yGWhhhhD     hhFAA3    ",
-      "    DA        ShAA1F        AAAM   ",
-      "    AB        hEAAhB        yvlN   ",
-      "  hAIm        AAAAAD         AAAAA ",
-      " AAAAAAhh    hAAAAAACG    hAAAh AAx",
-      " Ar  hAAAAAAAnLAAAAAhuRAAAAh     A ",
-      " A      zhAAAAAhh1hhAAAAAv  A1   A ",
-      " AA    AA r  xqAAAAAhh  0 ETc   hh ",
-      "  ABc9v  vA tAmx     A  A7 RL5 hh  ",
-      "   mhA ZNh  B  d8 BF jA  dA  w4h   ",
-      "     TAA  e     E  X   A   AAEh    ",
-      "       AAAAC           rAAAA       ",
-      "          hAAAAAAAAAAAAA3          ",
-      "                                   "};
+  // Track progress of player
+  ifstream fin;
+  fin.open("dealer_animation/dealer.txt");
+
+  if (fin.fail())
+  {
+    exit(1);
+  }
+  vector<string> dealer;
+  string line;
+  while (getline(fin, line))
+  {
+    dealer.push_back(line);
+  }
+  fin.close();
 
   // Calculate starting position to center the dealer
-  int start_y = 12;
-  int start_x = (WIDTH / 2 - dealer[0].length()) / 2;
+  int start_y = 10;
+  int start_x = (WIDTH / 2 - dealer[0].length()) / 2 - 10;
 
   // Set the color pair for the dealer
   wattron(game_win, COLOR_PAIR(1));

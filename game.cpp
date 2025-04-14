@@ -47,7 +47,7 @@ int game(WINDOW *game_win)
   }
 
   // Height and width for health bars
-  int health_height = 10, health_width = 80;
+  int health_height = 9, health_width = 80;
 
   // Dealer health bar
   int dealer_health_start_y = 1;
