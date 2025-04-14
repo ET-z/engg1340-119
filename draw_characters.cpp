@@ -55,21 +55,25 @@ void draw_player(WINDOW *game_win)
   // Color pair (This is white text on a blue background)
   init_pair(2, COLOR_BLUE, COLOR_BLACK);
 
-  vector<string> player = {
-      "              __               ",
-      "           .'  `'.             ",
-      "          /  _    |            ",
-      "          #_/.\\==/.\\           ",
-      "         (, \\\\_/ \\\\_/          ",
-      "          |    -' |            ",
-      "          \\\\   '=  /           ",
-      "          /`-.__.'             ",
-      "       .-'`-.___|__            ",
-      "      /    \\\\       `.         "};
+  // Track progress of player
+  ifstream fin;
+  fin.open("player_animation/player.txt");
+
+  if (fin.fail())
+  {
+    exit(1);
+  }
+  vector<string> player;
+  string line;
+  while (getline(fin, line))
+  {
+    player.push_back(line);
+  }
+  fin.close();
 
   // Calculate starting position to center the dealer
-  int start_y = 15;
-  int start_x = (WIDTH - player[0].length()) / 2 + WIDTH / 2 - player[0].length();
+  int start_y = 10;
+  int start_x = (WIDTH - player[0].length()) / 2 + WIDTH / 2 - player[0].length() + 10;
 
   // Set the color pair for the dealer
   wattron(game_win, COLOR_PAIR(2));
