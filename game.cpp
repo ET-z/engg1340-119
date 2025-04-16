@@ -59,6 +59,19 @@ int game(WINDOW *game_win)
   int player_health_start_x = WIDTH - health_width - 1;
   WINDOW *player_health = derwin(game_win, health_height, health_width, player_health_start_y, player_health_start_x);
 
+  // Draw window dimensions
+  int draw_height = 19, draw_width = 60;
+
+  // Dealer Draw Window
+  int dealer_draw_start_y = 10;
+  int dealer_draw_start_x = 1;
+  WINDOW *dealer_draw = derwin(game_win, draw_height, draw_width, dealer_draw_start_y, dealer_draw_start_x);
+
+  // Player Draw Window
+  int player_draw_start_y = 10;
+  int player_draw_start_x = WIDTH - draw_width - 1;
+  WINDOW *player_draw = derwin(game_win, draw_height, draw_width, player_draw_start_y, player_draw_start_x);
+
   // Bullet Table
   int bullet_table_height = 20, bullet_table_width = 30;
   int bullets_start_y = HEIGHT - bullet_table_height - 1;
@@ -78,6 +91,10 @@ int game(WINDOW *game_win)
     wrefresh(player_health);
     box(bullets_table, 0, 0);
     wrefresh(bullets_table);
+    // box(dealer_draw, 0, 0);
+    // wrefresh(dealer_draw);
+    // box(player_draw, 0, 0);
+    // wrefresh(player_draw);
 
     for (int i = 0; i < 2; i++)
     {
@@ -101,11 +118,13 @@ int game(WINDOW *game_win)
 
     mvwprintw(game_win, 1, (WIDTH - static_cast<int>(pause_msg.size())) / 2, "%s", pause_msg.c_str());
 
-    // draw dealer and player
-    draw_dealer(game_win);
-    draw_player(game_win);
-
     // Display changes
+    wrefresh(game_win);
+
+    // draw dealer and player
+    draw_dealer(dealer_draw);
+    draw_player(player_draw);
+
     wrefresh(game_win);
 
     // User input
@@ -142,6 +161,8 @@ int game(WINDOW *game_win)
         delwin(dealer_health);
         delwin(player_health);
         delwin(bullets_table);
+        delwin(dealer_draw);
+        delwin(player_draw);
         delwin(game_win);
         endwin();
       }

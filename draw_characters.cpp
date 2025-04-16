@@ -6,52 +6,64 @@
 #include "game.h"
 using namespace std;
 
-void draw_dealer(WINDOW *game_win)
+void draw_dealer(WINDOW *dealer_draw)
 {
   int HEIGHT, WIDTH;
-  getmaxyx(game_win, HEIGHT, WIDTH);
+  getmaxyx(dealer_draw, HEIGHT, WIDTH);
   // Color pair (This is white text on a blue background)
   init_pair(1, COLOR_RED, COLOR_BLACK);
 
   // Track progress of player
   ifstream fin;
-  fin.open("dealer_animation/dealer.txt");
-
-  if (fin.fail())
+  for (int i = 9; i > -1; i--)
   {
-    exit(1);
-  }
-  vector<string> dealer;
-  string line;
-  while (getline(fin, line))
-  {
-    dealer.push_back(line);
-  }
-  fin.close();
+    // box(dealer_draw, 0, 0);
 
-  // Calculate starting position to center the dealer
-  int start_y = 10;
-  int start_x = (WIDTH / 2 - dealer[0].length()) / 2 - 10;
+    string file = "dealer_animation/" + to_string(i) + ".txt";
+    fin.open(file);
 
-  // Set the color pair for the dealer
-  wattron(game_win, COLOR_PAIR(1));
+    if (fin.fail())
+    {
+      exit(1);
+    }
+    vector<string> dealer;
+    string line;
+    while (getline(fin, line))
+    {
+      dealer.push_back(line);
+    }
+    fin.close();
 
-  // Draw each row of the dealer
-  for (size_t i = 0; i < dealer.size(); i++)
-  {
-    mvwprintw(game_win, start_y + i, start_x, "%s", dealer[i].c_str());
+    // Calculate starting position to center the dealer
+    int start_y = 0;
+    int start_x = (WIDTH - dealer[0].length()) / 2;
+
+    // Set the color pair for the dealer
+    wattron(dealer_draw, COLOR_PAIR(1));
+
+    // Draw each row of the dealer
+    for (size_t i = 0; i < dealer.size(); i++)
+    {
+      mvwprintw(dealer_draw, start_y + i, start_x, "%s", dealer[i].c_str());
+    }
+
+    wrefresh(dealer_draw);
+
+    napms(100); // Pause to show the animation frame
+    if (i != 0)
+      werase(dealer_draw); // Clear the screen for the next frame
   }
 
   // Turn off the color pair
-  wattroff(game_win, COLOR_PAIR(1));
+  wattroff(dealer_draw, COLOR_PAIR(1));
 
   return;
 }
 
-void draw_player(WINDOW *game_win)
+void draw_player(WINDOW *player_draw)
 {
   int HEIGHT, WIDTH;
-  getmaxyx(game_win, HEIGHT, WIDTH);
+  getmaxyx(player_draw, HEIGHT, WIDTH);
   // Color pair (This is white text on a blue background)
   init_pair(2, COLOR_BLUE, COLOR_BLACK);
 
@@ -72,20 +84,21 @@ void draw_player(WINDOW *game_win)
   fin.close();
 
   // Calculate starting position to center the dealer
-  int start_y = 10;
-  int start_x = (WIDTH - player[0].length()) / 2 + WIDTH / 2 - player[0].length() + 10;
+  int start_y = 0;
+  int start_x = (WIDTH - player[0].length()) / 2;
 
   // Set the color pair for the dealer
-  wattron(game_win, COLOR_PAIR(2));
+  wattron(player_draw, COLOR_PAIR(2));
 
   // Draw each row of the dealer
   for (size_t i = 0; i < player.size(); i++)
   {
-    mvwprintw(game_win, start_y + i, start_x, "%s", player[i].c_str());
+    mvwprintw(player_draw, start_y + i, start_x, "%s", player[i].c_str());
   }
 
+  wrefresh(player_draw);
   // Turn off the color pair
-  wattroff(game_win, COLOR_PAIR(2));
+  wattroff(player_draw, COLOR_PAIR(2));
 
   return;
 }

@@ -8,7 +8,7 @@ int tutorial2(WINDOW *game_win);
 int tutorial3(WINDOW *game_win);
 int pause();
 
-void draw_dealer(WINDOW *game_win);
-void draw_player(WINDOW *game_win);
+void draw_dealer(WINDOW *dealer_draw);
+void draw_player(WINDOW *player_draw);
 
 #endif
