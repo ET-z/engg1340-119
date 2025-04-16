@@ -3,5 +3,6 @@
 
 int game(WINDOW *game_win);
 int tutorial(WINDOW *game_win);
+int randomsh();
 
 #endif

@@ -13,7 +13,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CXX) $(FLAGS) $^ -o $@ $(ENGFLAG)
 
-%.o: %.cpp game.h 
+%.o: %.cpp game.h player.h 
 	$(CXX) $(FLAGS) -c $< -o $@
 
 run: $(TARGET)
