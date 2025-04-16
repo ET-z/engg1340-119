@@ -97,9 +97,9 @@ int game(WINDOW *game_win)
       }
     }
 
-    string pause = "Press ESC to pause";
+    string pause_msg = "Press ESC to pause";
 
-    mvwprintw(game_win, 1, (WIDTH - static_cast<int>(pause.size())) / 2, "%s", pause.c_str());
+    mvwprintw(game_win, 1, (WIDTH - static_cast<int>(pause_msg.size())) / 2, "%s", pause_msg.c_str());
 
     // draw dealer and player
     draw_dealer(game_win);
@@ -113,132 +113,37 @@ int game(WINDOW *game_win)
 
     if (ch == 27) // ESC key - PAUSE game
     {
-      // Create new pause window
-      int height = 25, width = 100;
-      int start_y = (LINES - height) / 2;
-      int start_x = (COLS - width) / 2;
-      WINDOW *pause_win = newwin(height, width, start_y, start_x);
-      keypad(pause_win, TRUE);
-      box(pause_win, 0, 0);
-
-      const vector<string> menu_items = {"Resume Game | ESC", "Return to menu | m", "Quit | q"};
-      int menu_size = menu_items.size();
-      int current_selection = 0;
-
-      while (true)
+      int result = ::pause();
+      if (result == 0)
       {
-        // Clear pause window
-        wclear(pause_win);
-        // Redraw box
-        box(pause_win, 0, 0);
-
-        // Center pause menu items vertically
-        int start_row = (height - menu_size) / 2;
-
-        for (int i = 0; i < menu_size; ++i)
+        continue;
+      }
+      else if (result == 1)
+      {
+        return 1; // return to main menu
+      }
+      else if (result == 2)
+      {
+        for (auto &row : dealer_items)
         {
-          // Center pause menu items horizontally
-          int start_col = (width - menu_items[i].length()) / 2; // Center each item horizontally
-          if (i == current_selection)
+          for (WINDOW *win : row)
           {
-            wattron(pause_win, A_REVERSE);
-          }
-
-          mvwprintw(pause_win, start_row + i, start_col, "%s", menu_items[i].c_str());
-
-          if (i == current_selection)
-          {
-            wattroff(pause_win, A_REVERSE);
+            delwin(win);
           }
         }
 
-        // Display changes
-        wrefresh(pause_win);
-
-        // Pause window user input
-        int p_ch = wgetch(pause_win);
-
-        if (p_ch == 27) // Back to game
+        for (auto &row : player_items)
         {
-          break;
-        }
-        else if (p_ch == 'm') // Back to main menu
-        {
-          delwin(pause_win);
-          return 1; // Return 1 to indicate returning to main menu
-        }
-        else if (p_ch == 'q') // Quit
-        {
-          delwin(pause_win);
-          delwin(game_win);
-          for (auto &row : dealer_items)
+          for (WINDOW *win : row)
           {
-            for (WINDOW *win : row)
-            {
-              delwin(win);
-            }
-          }
-
-          for (auto &row : player_items)
-          {
-            for (WINDOW *win : row)
-            {
-              delwin(win);
-            }
-          }
-
-          delwin(dealer_health);
-          delwin(player_health);
-          delwin(bullets_table);
-          endwin();
-        }
-        else if (p_ch == KEY_UP)
-        {
-          current_selection = (current_selection - 1 + menu_size) % menu_size;
-        }
-        else if (p_ch == KEY_DOWN)
-        {
-          current_selection = (current_selection + 1) % menu_size;
-        }
-        else if (p_ch == KEY_ENTER || p_ch == '\n')
-        {
-          // Check user selection:
-          if (current_selection == 0) // 0 = Resume Game
-          {
-            delwin(pause_win);
-            break;
-          }
-          else if (current_selection == 1) // 1 = Return to menu
-          {
-            delwin(pause_win);
-            return 1; // Return 1 to indicate returning to main menu
-          }
-          else if (current_selection == 2) // 2 - Quit
-          {
-            for (auto &row : dealer_items)
-            {
-              for (WINDOW *win : row)
-              {
-                delwin(win);
-              }
-            }
-
-            for (auto &row : player_items)
-            {
-              for (WINDOW *win : row)
-              {
-                delwin(win);
-              }
-            }
-
-            delwin(dealer_health);
-            delwin(player_health);
-            delwin(bullets_table);
-            delwin(pause_win);
-            delwin(game_win);
-            endwin();
+            delwin(win);
           }
         }
+        delwin(dealer_health);
+        delwin(player_health);
+        delwin(bullets_table);
+        delwin(game_win);
+        endwin();
       }
     }
   }
