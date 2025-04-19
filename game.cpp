@@ -225,3 +225,13 @@ int game(WINDOW *game_win)
 
   return 0;
 }
+void healthbar(WINDOW *bar, int health)
+{
+  werase(bar);
+  box(bar, 0, 0);
+  int maxWidth = 70;
+  int fill = (health * maxWidth) / 100;
+  for (int i = 1; i <= fill; ++i)
+    mvwaddch(bar, 1, i, ACS_CKBOARD);
+  wrefresh(bar);
+}
