@@ -113,14 +113,17 @@ int game(WINDOW *game_win)
       }
     }
 
+    // Highlight player inventory selection
     for (int i = 0; i < 2; i++)
-    {
       for (int j = 0; j < 4; j++)
       {
+        if (i == selectedRow && j == selectedCol)
+          wattron(player_items[i][j], A_REVERSE);
         box(player_items[i][j], 0, 0);
+        if (i == selectedRow && j == selectedCol)
+          wattroff(player_items[i][j], A_REVERSE);
         wrefresh(player_items[i][j]);
       }
-    }
     
     string pause_msg = "Press ESC to pause";
 
