@@ -14,7 +14,6 @@ int main()
 {
   // emoji
   setlocale(LC_ALL, "");
-  initscr();
   // Initialize ncurses
   initscr();
   set_escdelay(25);     // Reduce ESC key delay
