@@ -5,6 +5,9 @@
 #include "game.h"
 using namespace std;
 
+// Declare healthbar
+void healthbar(WINDOW *bar, int health);
+
 int game(WINDOW *game_win)
 {
   int HEIGHT, WIDTH;
@@ -31,24 +34,6 @@ int game(WINDOW *game_win)
                                   dealer_start_x + j * inventory_width);
     }
   }
-  
-int selectedRow = 0;
-int selectedCol = 0;
-bool itemPicked = false; // Whether an item is picked
-int playerHealth = 60;
-int dealerHealth = 60;
-
-  void healthbar(WINDOW *bar, int health) {
-    werase(bar);
-    box(bar, 0, 0);
-    int maxWidth = 70;
-    int fill = (health * maxWidth) / 100; // Adjust to health percentage
-    for (int i = 1; i <= fill; ++i) {
-      mvwaddch(bar, 1, i, ACS_CKBOARD);
-    }
-    wrefresh(bar);
-  }
-
   // Player's inventory
   vector<vector<WINDOW *>> player_items(2, vector<WINDOW *>(4));
   int player_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
@@ -94,6 +79,12 @@ int dealerHealth = 60;
   int bullets_start_y = HEIGHT - bullet_table_height - 1;
   int bullets_start_x = (WIDTH - bullet_table_width) / 2;
   WINDOW *bullets_table = derwin(game_win, bullet_table_height, bullet_table_width, bullets_start_y, bullets_start_x);
+
+  // Game state variables
+  int selectedRow = 0, selectedCol = 0;
+  bool itemPicked = false;
+  int playerHealth = 60;
+  int dealerHealth = 60;
   
   // Main loop
   while (true)
@@ -130,7 +121,7 @@ int dealerHealth = 60;
         wrefresh(player_items[i][j]);
       }
     }
-
+    
     string pause_msg = "Press ESC to pause";
 
     mvwprintw(game_win, 1, (WIDTH - static_cast<int>(pause_msg.size())) / 2, "%s", pause_msg.c_str());
