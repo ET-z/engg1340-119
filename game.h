@@ -10,5 +10,5 @@ int pause();
 
 void draw_dealer(WINDOW *dealer_draw);
 void draw_player(WINDOW *player_draw);
-
+void healthbar(WINDOW *bar, int health);
 #endif
