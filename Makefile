@@ -18,17 +18,14 @@ TARGET = main
 ARCHIVE = main.tgz
  
 all: $(TARGET)
- 
 $(TARGET): $(OBJS)
-        $(CXX) $(FLAGS) $^ -o $@ $(ENGFLAG)
-%.o: %.cpp 25         
+	$(CXX) $(FLAGS) $^ -o $@ $(ENGFLAG)
+
+%.o: %.cpp
 	$(CXX) $(FLAGS) -c $< -o $@
+
 run: $(TARGET)
-        ./$(TARGET)
+	./$(TARGET)
+
 clean:
-        rm -f $(TARGET) $(OBJS) $(ARCHIVE)
- 
-tar:
-	tar -czvf $(ARCHIVE) $(SRCS) *.h Makefile
- 
-.PHONY: all run clean tar
+	rm -f $(TARGET) $(OBJS) $(ARCHIVE)
