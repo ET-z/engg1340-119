@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include "game.h"
+#include "draw_healthbar.h"
 using namespace std;
 
 void draw_dealer(WINDOW *dealer_draw)
