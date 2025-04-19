@@ -31,6 +31,23 @@ int game(WINDOW *game_win)
                                   dealer_start_x + j * inventory_width);
     }
   }
+  
+int selectedRow = 0;
+int selectedCol = 0;
+bool itemPicked = false; // Whether an item is picked
+int playerHealth = 60;
+int dealerHealth = 60;
+
+  void healthbar(WINDOW *bar, int health) {
+    werase(bar);
+    box(bar, 0, 0);
+    int maxWidth = 70;
+    int fill = (health * maxWidth) / 100; // Adjust to health percentage
+    for (int i = 1; i <= fill; ++i) {
+      mvwaddch(bar, 1, i, ACS_CKBOARD);
+    }
+    wrefresh(bar);
+  }
 
   // Player's inventory
   vector<vector<WINDOW *>> player_items(2, vector<WINDOW *>(4));
@@ -77,7 +94,7 @@ int game(WINDOW *game_win)
   int bullets_start_y = HEIGHT - bullet_table_height - 1;
   int bullets_start_x = (WIDTH - bullet_table_width) / 2;
   WINDOW *bullets_table = derwin(game_win, bullet_table_height, bullet_table_width, bullets_start_y, bullets_start_x);
-
+  
   // Main loop
   while (true)
   {
@@ -117,6 +134,19 @@ int game(WINDOW *game_win)
     string pause_msg = "Press ESC to pause";
 
     mvwprintw(game_win, 1, (WIDTH - static_cast<int>(pause_msg.size())) / 2, "%s", pause_msg.c_str());
+    //Hightlight selected inventory box
+    for (int i = 0; i < 2; i++) {
+      for (int j = 0; j < 4; j++) {
+        if (i == selectedRow && j == selectedCol) {
+          wattron(player_items[i][j], A_REVERSE);
+          box(player_items[i][j], 0, 0);
+          wattroff(player_items[i][j], A_REVERSE);
+        } else {
+          box(player_items[i][j], 0, 0);
+        }
+        wrefresh(player_items[i][j]);
+      }
+    }
 
     // Display changes
     wrefresh(game_win);
@@ -129,6 +159,56 @@ int game(WINDOW *game_win)
 
     // User input
     ch = wgetch(game_win);
+    switch (ch) {
+      case 27: // ESC
+        int result = ::pause();
+        if (result == 0) continue;
+        else if (result == 1) return 1;
+        else if (result == 2) {
+      // cleanup...
+        }
+        break;
+
+      case KEY_UP:
+        if (selectedRow > 0) selectedRow--;
+        break;
+
+      case KEY_DOWN:
+        if (selectedRow < 1) selectedRow++;
+        break;
+
+      case KEY_LEFT:
+        if (selectedCol > 0) selectedCol--;
+        break;
+
+      case KEY_RIGHT:
+        if (selectedCol < 3) selectedCol++;
+        break;
+
+      case 'e':
+      case 'E':
+        itemPicked = true;
+    //highlight selected box to indicate item is picked
+        mvwprintw(player_items[selectedRow][selectedCol], 1, 1, "Picked");
+        break;
+
+      case 10: // Enter key
+      case ' ': // Spacebar
+        if (itemPicked) {
+      // DEMO: pretend it’s a Cigarette (heals +1)
+          playerHealth = min(playerHealth + 1, 100);
+          itemPicked = false;
+        } else {
+          // If no item picked, default to shoot dealer
+          bool live = rand() % 2; // randomly live or blank
+          if (live) {
+            dealerHealth = max(dealerHealth - 20, 0);
+          }
+        }
+        healthbar(player_health, playerHealth);
+        healthbar(dealer_health, dealerHealth);
+        break;
+    }
 
     if (ch == 27) // ESC key - PAUSE game
     {
