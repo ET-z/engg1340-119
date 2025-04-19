@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "game.h"
+#include "draw_healthbar.h"
 using namespace std;
 
 // Declare healthbar
