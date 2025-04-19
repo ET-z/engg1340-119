@@ -128,19 +128,6 @@ int game(WINDOW *game_win)
     string pause_msg = "Press ESC to pause";
 
     mvwprintw(game_win, 1, (WIDTH - static_cast<int>(pause_msg.size())) / 2, "%s", pause_msg.c_str());
-    //Hightlight selected inventory box
-    for (int i = 0; i < 2; i++) {
-      for (int j = 0; j < 4; j++) {
-        if (i == selectedRow && j == selectedCol) {
-          wattron(player_items[i][j], A_REVERSE);
-          box(player_items[i][j], 0, 0);
-          wattroff(player_items[i][j], A_REVERSE);
-        } else {
-          box(player_items[i][j], 0, 0);
-        }
-        wrefresh(player_items[i][j]);
-      }
-    }
 
     // Display changes
     wrefresh(game_win);
@@ -153,85 +140,27 @@ int game(WINDOW *game_win)
 
     // User input
     ch = wgetch(game_win);
-    switch (ch) {
-      case 27: // ESC
-        int result = ::pause();
-        if (result == 0) continue;
-        else if (result == 1) return 1;
-        else if (result == 2) {
-      // cleanup...
-        }
-        break;
-
-      case KEY_UP:
-        if (selectedRow > 0) selectedRow--;
-        break;
-
-      case KEY_DOWN:
-        if (selectedRow < 1) selectedRow++;
-        break;
-
-      case KEY_LEFT:
-        if (selectedCol > 0) selectedCol--;
-        break;
-
-      case KEY_RIGHT:
-        if (selectedCol < 3) selectedCol++;
-        break;
-
-      case 'e':
-      case 'E':
-        itemPicked = true;
-    //highlight selected box to indicate item is picked
-        mvwprintw(player_items[selectedRow][selectedCol], 1, 1, "Picked");
-        break;
-
-      case 10: // Enter key
-      case ' ': // Spacebar
-        if (itemPicked) {
-      // DEMO: pretend it’s a Cigarette (heals +1)
-          playerHealth = min(playerHealth + 1, 100);
-          itemPicked = false;
-        } else {
-          // If no item picked, default to shoot dealer
-          bool live = rand() % 2; // randomly live or blank
-          if (live) {
-            dealerHealth = max(dealerHealth - 20, 0);
-          }
-        }
-        healthbar(player_health, playerHealth);
-        healthbar(dealer_health, dealerHealth);
-        break;
-    }
-
-    if (ch == 27) // ESC key - PAUSE game
+    
+    // Handle input
+    switch (ch)
+    {
+    case 27: // ESC
     {
       int result = ::pause();
       if (result == 0)
-      {
         continue;
-      }
       else if (result == 1)
-      {
-        return 1; // return to main menu
-      }
+        return 1;
       else if (result == 2)
       {
         for (auto &row : dealer_items)
-        {
           for (WINDOW *win : row)
-          {
             delwin(win);
-          }
-        }
 
         for (auto &row : player_items)
-        {
           for (WINDOW *win : row)
-          {
             delwin(win);
-          }
-        }
+
         delwin(dealer_health);
         delwin(player_health);
         delwin(bullets_table);
@@ -239,7 +168,55 @@ int game(WINDOW *game_win)
         delwin(player_draw);
         delwin(game_win);
         endwin();
+        return 0;
       }
+      break;
+    }
+      
+    case KEY_UP:
+      if (selectedRow > 0)
+        selectedRow--;
+      break;
+      
+    case KEY_DOWN:
+      if (selectedRow < 1)
+        selectedRow++;
+      break;
+      
+    case KEY_LEFT:
+      if (selectedCol > 0)
+        selectedCol--;
+      break;
+      
+    case KEY_RIGHT:
+      if (selectedCol < 3)
+        selectedCol++;
+      break;
+      
+    case 'e':
+    case 'E':
+      itemPicked = true;
+      // highlight selected box
+      mvwprintw(player_items[selectedRow][selectedCol], 1, 1, "Picked");
+      break;
+      
+    case 10:  // Enter key
+    case ' ': // Spacebar
+      if (itemPicked)
+      {
+        playerHealth = min(playerHealth + 1, 100); // DEMO: if user pick cig (heals + 1)
+        itemPicked = false;
+      }
+      else
+      {
+        // if no item picked, shoot dealer
+        bool live = rand() % 2; // random live or blank
+        if (live)
+          dealerHealth = max(dealerHealth - 20, 0);
+      }
+      healthbar(player_health, playerHealth);
+      healthbar(dealer_health, dealerHealth);
+      break;
     }
   }
   // Clean up ncurses
