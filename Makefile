@@ -1,29 +1,34 @@
-CXX = g++  
-FLAGS = -Wall -pedantic-errors -std=c++11 
-ENGFLAG = -lncurses 
+CXX = g++
+FLAGS = -Wall -pedantic-errors -std=c++11
+ENGFLAG = -lncurses
 
-SRCS = main.cpp game.cpp tutorial_pages/tutorial1.cpp tutorial_pages/tutorial2.cpp tutorial_pages/tutorial3.cpp draw_characters.cpp pause.cpp
-OBJS = $(SRCS:.cpp=.o) 
-
+# Add all relevant .cpp files here
+SRCS = main.cpp \
+        game.cpp \
+        draw_characters.cpp \
+        pause.cpp \
+        tutorial_pages/tutorial1.cpp \
+        tutorial_pages/tutorial2.cpp \
+        tutorial_pages/tutorial3.cpp \
+	draw_healthbar.cpp
+ 
+OBJS = $(SRCS:.cpp=.o)
+ 
 TARGET = main
 ARCHIVE = main.tgz
-
+ 
 all: $(TARGET)
-
+ 
 $(TARGET): $(OBJS)
-	$(CXX) $(FLAGS) $^ -o $@ $(ENGFLAG)
-
-%.o: %.cpp game.h 
+        $(CXX) $(FLAGS) $^ -o $@ $(ENGFLAG)
+%.o: %.cpp 25         
 	$(CXX) $(FLAGS) -c $< -o $@
-
 run: $(TARGET)
-	./$(TARGET)
-
+        ./$(TARGET)
 clean:
-	rm -f $(TARGET) $(OBJS) $(ARCHIVE) # Remove target, all objects, and archive
-
+        rm -f $(TARGET) $(OBJS) $(ARCHIVE)
+ 
 tar:
-	tar -czvf $(ARCHIVE) $(SRCS) *.h Makefile # Archive sources, headers, and Makefile
-
-# Declare phony targets
+	tar -czvf $(ARCHIVE) $(SRCS) *.h Makefile
+ 
 .PHONY: all run clean tar
