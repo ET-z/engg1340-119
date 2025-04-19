@@ -22,12 +22,24 @@ int tutorial1(WINDOW *game_win)
     // Redraw box
     box(game_win, 0, 0);
 
-    string hello = "Tutorial 1";
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(hello.size())) / 2, "%s", hello.c_str());
-    string escape = "Press ESC to return";
-    mvwprintw(game_win, 10, (WIDTH - static_cast<int>(escape.size())) / 2, "%s", escape.c_str());
-    string arrow = "-->";
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(arrow.size())) - 10, "%s", arrow.c_str());
+    vector<string> lines = {
+      "🎮 Buckshot Roulette: Tutorial",
+      "",
+      "Welcome to Buckshot Roulette.",
+      "A psychological shootout between you and the dealer.",
+      "Your life depends on a chambered round.",
+      "",
+      "You’ll take turns with the dealer — spin the cylinder and pull the trigger.",
+      "Each round could be a blank... or a live shot.",
+      "",
+      "🎯 Goal: Survive and outlast the dealer.",
+      "Each shootout has 9 rounds. If one of you reaches 0 HP, game over.",
+    };
+
+for (size_t i = 0; i < lines.size(); ++i) {
+  mvwprintw(game_win, 2 + i, 4, "%s", lines[i].c_str());
+}
+
 
     // Display changes
     wrefresh(game_win);
