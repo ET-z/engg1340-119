@@ -13,7 +13,7 @@ void healthbar(WINDOW *bar_win, int health) {
         mvwaddch(bar_win, 1, i + 1, ACS_CKBOARD);
     }
 
-    // Optional: print percentage
+    // print percentage
     mvwprintw(bar_win, 1, (maxWidth / 2) - 3, "%3d%%", health);
 
     wrefresh(bar_win);
