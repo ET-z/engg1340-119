@@ -1,19 +1,28 @@
 #include <ncurses.h>
 #include "draw_healthbar.h"
 
-// Render a horizontal health bar inside the given window
 void healthbar(WINDOW *bar_win, int health) {
-    werase(bar_win); // Clear previous contents
-    box(bar_win, 0, 0); // Draw box border
+    werase(bar_win);
+    box(bar_win, 0, 0);
 
-    int maxWidth = getmaxx(bar_win) - 2; // Width inside the border
+    int maxWidth = getmaxx(bar_win) - 2;
     int fill = (health * maxWidth) / 100;
 
-    for (int i = 0; i < fill; ++i) {
-        mvwaddch(bar_win, 1, i + 1, ACS_CKBOARD);
+    // Define a color pair for green fill (once per game session)
+    static bool color_initialized = false;
+    if (!color_initialized) {
+        init_pair(3, COLOR_GREEN, COLOR_BLACK); // Pair 3 = green text on black
+        color_initialized = true;
     }
 
-    // print percentage
+    // Draw the filled portion
+    wattron(bar_win, COLOR_PAIR(3));
+    for (int i = 0; i < fill; ++i) {
+        mvwaddch(bar_win, 1, i + 1, ACS_CKBOARD); // Fill char
+    }
+    wattroff(bar_win, COLOR_PAIR(3));
+
+    // show % value
     mvwprintw(bar_win, 1, (maxWidth / 2) - 3, "%3d%%", health);
 
     wrefresh(bar_win);
