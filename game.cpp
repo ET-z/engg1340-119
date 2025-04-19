@@ -50,16 +50,17 @@ int game(WINDOW *game_win)
   }
 
   // Height and width for health bars
-  int health_height = 9, health_width = 80;
+  int health_height = 3, health_width = 72;
+
 
   // Dealer health bar
   int dealer_health_start_y = 1;
-  int dealer_health_start_x = 1;
+  int dealer_health_start_x = 2;
   WINDOW *dealer_health = derwin(game_win, health_height, health_width, dealer_health_start_y, dealer_health_start_x);
 
   // Player health bar
   int player_health_start_y = 1;
-  int player_health_start_x = WIDTH - health_width - 1;
+  int player_health_start_x = WIDTH - health_width - 2;
   WINDOW *player_health = derwin(game_win, health_height, health_width, player_health_start_y, player_health_start_x);
 
   // Draw window dimensions
@@ -86,7 +87,10 @@ int game(WINDOW *game_win)
   bool itemPicked = false;
   int playerHealth = 60;
   int dealerHealth = 60;
-  
+
+  healthbar(player_health, playerHealth);
+  healthbar(dealer_health, dealerHealth);
+
   // Main loop
   while (true)
   {
@@ -94,10 +98,8 @@ int game(WINDOW *game_win)
     wclear(game_win);
     // Redraw boxes
     box(game_win, 0, 0);
-    box(dealer_health, 0, 0);
-    wrefresh(dealer_health);
-    box(player_health, 0, 0);
-    wrefresh(player_health);
+    healthbar(player_health, playerHealth);
+    healthbar(dealer_health, dealerHealth);
     box(bullets_table, 0, 0);
     wrefresh(bullets_table);
     // box(dealer_draw, 0, 0);
@@ -226,13 +228,4 @@ int game(WINDOW *game_win)
 
   return 0;
 }
-void healthbar(WINDOW *bar, int health)
-{
-  werase(bar);
-  box(bar, 0, 0);
-  int maxWidth = 70;
-  int fill = (health * maxWidth) / 100;
-  for (int i = 1; i <= fill; ++i)
-    mvwaddch(bar, 1, i, ACS_CKBOARD);
-  wrefresh(bar);
-}
+
