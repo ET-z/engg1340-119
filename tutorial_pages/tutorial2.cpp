@@ -22,13 +22,27 @@ int tutorial2(WINDOW *game_win)
     // Redraw box
     box(game_win, 0, 0);
 
-    string hello = "Tutorial 2";
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(hello.size())) / 2, "%s", hello.c_str());
-    string escape = "Press ESC to return";
-    mvwprintw(game_win, 10, (WIDTH - static_cast<int>(escape.size())) / 2, "%s", escape.c_str());
-    vector<string> arrows = {"<--", "-->"};
-    mvwprintw(game_win, HEIGHT / 2, 10, "%s", arrows[0].c_str());
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(arrows[1].size())) - 10, "%s", arrows[1].c_str());
+    vector<string> lines = {
+      "📄 Your Moves:",
+      "",
+      "- s → Shoot yourself", //not sure
+      "- o → Shoot the dealer", // not sure
+      "- e → Use an item",
+      "- Arrow keys → Navigate inventory",
+      "- ENTER or SPACE → Confirm action", //not sure
+      "",
+      "📦 Items:",
+      "- 🚬 Cigarette → +1 HP",
+      "- 🔪 Knife → Double your damage",
+      "- 🧴 Beer → Discard and see the next shell",
+      "- 🔭 Scope → See if the next shell is live",
+      "- ⛓️ Handcuff → Skip the dealer's turn",
+    };
+
+    for (size_t i = 0; i < lines.size(); ++i) {
+      mvwprintw(game_win, 2 + i, 4, "%s", lines[i].c_str());
+    }
+
 
     // Display changes
     wrefresh(game_win);
