@@ -22,13 +22,29 @@ int tutorial3(WINDOW *game_win)
     // Redraw box
     box(game_win, 0, 0);
 
-    string hello = "Tutorial 3";
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(hello.size())) / 2, "%s", hello.c_str());
-    string escape = "Press ESC to return";
-    mvwprintw(game_win, 10, (WIDTH - static_cast<int>(escape.size())) / 2, "%s", escape.c_str());
-    vector<string> arrows = {"<--", "-->"};
-    mvwprintw(game_win, HEIGHT / 2, 10, "%s", arrows[0].c_str());
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(arrows[1].size())) - 10, "%s", arrows[1].c_str());
+    vector<string> lines = {
+      "🧠 About the Dealer (AI):",
+      "",
+      "- The dealer will always shoot at you on their turn.",
+      "- You can disrupt their turn using items like Handcuffs.",
+      "",
+      "❤️ Health Info:",
+      "- You and the dealer start at 60 HP.",
+      "- A live round deals 20 damage.",
+      "- Reduce the dealer’s HP to 0 to win.",
+      "",
+      "⏸ Pause & Exit:",
+      "- ESC → Pause the game",
+      "- M → Return to Main Menu",
+      "- Q → Quit",
+      "",
+      "Good luck. Outplay the dealer."
+    };
+
+    for (size_t i = 0; i < lines.size(); ++i) {
+      mvwprintw(game_win, 2 + i, 4, "%s", lines[i].c_str());
+    }
+
 
     // Display changes
     wrefresh(game_win);
