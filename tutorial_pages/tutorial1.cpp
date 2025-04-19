@@ -36,9 +36,9 @@ int tutorial1(WINDOW *game_win)
       "Each shootout has 9 rounds. If one of you reaches 0 HP, game over.",
     };
 
-for (size_t i = 0; i < lines.size(); ++i) {
-  mvwprintw(game_win, 2 + i, 4, "%s", lines[i].c_str());
-}
+    for (size_t i = 0; i < lines.size(); ++i) {
+      mvwprintw(game_win, 2 + i, 4, "%s", lines[i].c_str());
+    }
 
 
     // Display changes
