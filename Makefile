@@ -1,6 +1,6 @@
 CXX = g++
 FLAGS = -Wall -pedantic-errors -std=c++11
-ENGFLAG = -lncurses
+ENGFLAG = -lncursesw
 
 # Add all relevant .cpp files here
 SRCS = main.cpp \
