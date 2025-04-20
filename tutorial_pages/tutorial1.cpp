@@ -14,9 +14,14 @@ int tutorial1(WINDOW *game_win)
     int HEIGHT, WIDTH;
     getmaxyx(game_win, HEIGHT, WIDTH);
 
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);   // Default (not used here)
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK); // Title
+    init_pair(3, COLOR_CYAN, COLOR_BLACK);
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
+    
     int ch;
-
+    
     std::vector<std::wstring> lines = {
         L"🎮 Buckshot Roulette: Tutorial",
         L"",
@@ -44,7 +49,7 @@ int tutorial1(WINDOW *game_win)
             int x = (WIDTH - lines[i].length()) / 2;
             mvwaddwstr(game_win, 2 + i, x, lines[i].c_str());
             wrefresh(game_win);
-            usleep(90000);  
+            usleep(100000);  
         }
 
         std::wstring arrow = L"→";
