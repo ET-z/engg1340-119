@@ -1,49 +1,44 @@
-#include <iostream>
-#include <ncurses.h>
-#include <vector>
-#include <string>
-#include "../game.h"
-using namespace std;
-
-int tutorial1(WINDOW *game_win)
+while (true)
 {
-  int HEIGHT, WIDTH;
-  getmaxyx(game_win, HEIGHT, WIDTH);
-
-  // Color pair (This is white text on a blue background)
-  init_pair(1, COLOR_WHITE, COLOR_BLUE);
-  int ch;
-
-  // Menu loop
-  while (true)
-  {
-    // Clear game window
-    wclear(game_win);
-    // Redraw box
+    werase(game_win);
     box(game_win, 0, 0);
 
-    string hello = "Tutorial 1";
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(hello.size())) / 2, "%s", hello.c_str());
-    string escape = "Press ESC to return";
-    mvwprintw(game_win, 10, (WIDTH - static_cast<int>(escape.size())) / 2, "%s", escape.c_str());
-    string arrow = "-->";
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(arrow.size())) - 10, "%s", arrow.c_str());
+    vector<string> lines = {
+        "🎮 Buckshot Roulette: Tutorial",
+        "",
+        "Welcome to Buckshot Roulette.",
+        "A psychological shootout between you and the dealer.",
+        "Your life depends on a chambered round.",
+        "",
+        "You’ll take turns with the dealer — spin the cylinder and pull the trigger.",
+        "Each round could be a blank... or a live shot.",
+        "",
+        "🎯 Goal: Survive and outlast the dealer.",
+        "Each shootout has 9 rounds. If one of you reaches 0 HP, game over."
+    };
 
-    // Display changes
+    int start_y = (HEIGHT - static_cast<int>(lines.size())) / 2;
+
+    for (size_t i = 0; i < lines.size(); ++i) {
+        print_centered_animated(game_win, start_y + i, lines[i]);
+    }
+
+    // Draw instruction and arrow
+    string escape = "Press ESC to return";
+    mvwprintw(game_win, HEIGHT - 3, (WIDTH - static_cast<int>(escape.size())) / 2, "%s", escape.c_str());
+
+    string arrow = "-->";
+    mvwprintw(game_win, HEIGHT - 3, WIDTH - 10, "%s", arrow.c_str());
+
     wrefresh(game_win);
 
-    // User input
+    // Input
     ch = wgetch(game_win);
-
-    if (ch == KEY_RIGHT) // Start
-    {
-      tutorial2(game_win);
-      break;
+    if (ch == KEY_RIGHT) {
+        tutorial2(game_win);
+        break;
+    } else if (ch == 27) {
+        return 1;
     }
-    else if (ch == 27) // How to play
-    {
-      return 1;
-    }
-  }
-  return 0;
 }
+return 0;
