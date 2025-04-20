@@ -6,3 +6,7 @@
 #include <ctime>
 
 using namespace std;
+
+extern vector<int> shells; 
+extern Player player;
+extern Opponent opponent;
