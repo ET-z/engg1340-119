@@ -61,9 +61,9 @@ int tutorial2(WINDOW *game_win)
     }
 
     y += 2;
-    wattron(game_win, A_BOLD | COLOR_PAIR(2));
+    wattron(game_win, A_BOLD | COLOR_PAIR(3));
     print_animated(game_win, y++, "⬅️ Back  |  ➡️ Continue  |  ESC to exit");
-    wattroff(game_win, A_BOLD | COLOR_PAIR(2));
+    wattroff(game_win, A_BOLD | COLOR_PAIR(3));
 
     wrefresh(game_win);
     ch = wgetch(game_win);
