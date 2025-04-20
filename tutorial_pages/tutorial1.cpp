@@ -15,7 +15,7 @@ void typewriterPrint(WINDOW* win, const string& text, int delay_ms = 20) {
     }
 }
 
-int main() {
+int tutorial1(WINDOW* game_win) {
     setlocale(LC_ALL, ""); // for emoji and UTF-8 support
     initscr();             // initialize ncurses
     set_escdelay(25);
