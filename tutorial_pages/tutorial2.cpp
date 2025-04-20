@@ -11,14 +11,15 @@ using namespace std;
 
 int tutorial2(WINDOW *game_win)
 {
+  setlocale(LC_ALL, ""); 
   int HEIGHT, WIDTH;
   getmaxyx(game_win, HEIGHT, WIDTH);
   start_color();
 
   // Color pairs
-  init_pair(1, COLOR_WHITE, COLOR_BLUE);    // Reserved if needed
+  init_pair(1, COLOR_WHITE, COLOR_BLUE);    // Reserved
   init_pair(2, COLOR_YELLOW, COLOR_BLACK);  // Titles
-  init_pair(3, COLOR_WHITE, COLOR_BLACK);    // Body
+  init_pair(3, COLOR_WHITE, COLOR_BLACK);   // Body text
 
   int ch;
   while (true)
@@ -26,7 +27,7 @@ int tutorial2(WINDOW *game_win)
     werase(game_win);
     box(game_win, 0, 0);
 
-    // 📄 Moves Title
+    // 📄 Moves Title (yellow)
     wattron(game_win, A_BOLD | COLOR_PAIR(2));
     print_animated(game_win, 2, "📄 Your Moves:");
     wattroff(game_win, A_BOLD | COLOR_PAIR(2));
@@ -39,11 +40,14 @@ int tutorial2(WINDOW *game_win)
       "- Arrow keys → Navigate inventory ↕️",
       "- ENTER or SPACE → Confirm action ✅",
     };
+
+    wattron(game_win, COLOR_PAIR(3));  // Body in white
     for (const auto &line : lines) {
       print_animated(game_win, y++, line);
     }
+    wattroff(game_win, COLOR_PAIR(3));
 
-    // 📦 Items Title
+    // 📦 Items Title (yellow)
     y += 1;
     wattron(game_win, A_BOLD | COLOR_PAIR(2));
     print_animated(game_win, y++, "📦 Items:");
@@ -56,10 +60,14 @@ int tutorial2(WINDOW *game_win)
       "- 🔭 Scope → See if the next shell is live",
       "- ⛓️ Handcuff → Skip the dealer's turn"
     };
+
+    wattron(game_win, COLOR_PAIR(3));  // Body in white
     for (const auto &item : items) {
       print_animated(game_win, y++, item);
     }
+    wattroff(game_win, COLOR_PAIR(3));
 
+    // Navigation prompt
     y += 2;
     wattron(game_win, A_BOLD | COLOR_PAIR(3));
     print_animated(game_win, y++, "⬅️ Back  |  ➡️ Continue  |  ESC to exit");
