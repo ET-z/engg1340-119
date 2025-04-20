@@ -1,50 +1,74 @@
-#include <iostream>
-#include <ncursesw/ncurses.h> // wide-character support
-#include <string>
-#include <locale.h>
-#include <unistd.h>
+#include <iostream>      // for std::string, std::vector
+#include <ncurses.h>     // ncurses library
+#include <vector>        // std::vector
+#include <string>        // std::string
+#include <unistd.h>      // usleep for animation delay
+#include <locale.h>      // setlocale for UTF-8/emoji support
+#include "../game.h"     // declaration of tutorial2()
 
 using namespace std;
 
-// Typewriter animation
-void typewriterPrint(WINDOW* win, const string& text, int delay_ms = 20) {
+// Typewriter-style animated print with horizontal centering
+void print_centered_animated(WINDOW *win, int y, const string &text, int delay = 15000) {
+    int x = (getmaxx(win) - static_cast<int>(text.length())) / 2;
     for (char c : text) {
-        waddch(win, c);
+        mvwaddch(win, y, x++, c);
         wrefresh(win);
-        napms(delay_ms);
+        usleep(delay);
     }
 }
 
-int tutorial1(WINDOW* game_win) {
-    setlocale(LC_ALL, ""); // for emoji and UTF-8 support
-    initscr();             // initialize ncurses
-    set_escdelay(25);
-    keypad(stdscr, TRUE);
-    noecho();
-    curs_set(0);
+int tutorial1(WINDOW *game_win)
+{
+    setlocale(LC_ALL, "");  // Enable emoji and UTF-8 support
 
-    // create a window to display the tutorial
-    WINDOW* win = newwin(LINES, COLS, 0, 0);
-    box(win, 0, 0);
-    wrefresh(win);
+    int HEIGHT, WIDTH;
+    getmaxyx(game_win, HEIGHT, WIDTH);
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);
+    int ch;
 
-    typewriterPrint(win, "🔫 Buckshot Roulette: Tutorial\n\n");
-    typewriterPrint(win, "Welcome to Buckshot Roulette.\n");
-    typewriterPrint(win, "A psychological shootout between you and the dealer.\n");
-    typewriterPrint(win, "Your life depends on a chambered round.\n\n");
+    while (true)
+    {
+        werase(game_win);
+        box(game_win, 0, 0);
 
-    typewriterPrint(win, "👥 You and the dealer take turns...\n");
-    typewriterPrint(win, "🎲 Spin the cylinder, then pull the trigger.\n");
-    typewriterPrint(win, "Each round could be a blank... or a live shot.\n\n");
+        vector<string> lines = {
+            "🎮 Buckshot Roulette: Tutorial",
+            "",
+            "Welcome to Buckshot Roulette.",
+            "A psychological shootout between you and the dealer.",
+            "Your life depends on a chambered round.",
+            "",
+            "You’ll take turns with the dealer — spin the cylinder and pull the trigger.",
+            "Each round could be a blank... or a live shot.",
+            "",
+            "🎯 Goal: Survive and outlast the dealer.",
+            "Each shootout has 9 rounds. If one of you reaches 0 HP, game over."
+        };
 
-    typewriterPrint(win, "🎯 Goal: Survive and outlast the dealer.\n");
-    typewriterPrint(win, "Each shootout has 9 rounds. If one of you reaches 0 HP, game over.\n");
+        int start_y = (HEIGHT - static_cast<int>(lines.size())) / 2;
 
-    typewriterPrint(win, "\n🚪 Press any key to begin...");
-    wgetch(win); // wait for user input
+        for (size_t i = 0; i < lines.size(); ++i) {
+            print_centered_animated(game_win, start_y + i, lines[i]);
+        }
 
-    delwin(win);
-    endwin(); // end ncurses mode
+        // Instructions at bottom
+        string escape = "Press ESC to return";
+        mvwprintw(game_win, HEIGHT - 3, (WIDTH - static_cast<int>(escape.size())) / 2, "%s", escape.c_str());
 
+        string arrow = "-->";
+        mvwprintw(game_win, HEIGHT - 3, WIDTH - 10, "%s", arrow.c_str());
+
+        wrefresh(game_win);
+
+        // Input
+        ch = wgetch(game_win);
+        if (ch == KEY_RIGHT) {
+            tutorial2(game_win);
+            break;
+        } else if (ch == 27) {
+            return 1;
+        }
+    }
     return 0;
 }
