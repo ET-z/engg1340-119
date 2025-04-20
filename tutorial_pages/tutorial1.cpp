@@ -17,7 +17,7 @@ int tutorial1(WINDOW *game_win)
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLUE);   // Default (not used here)
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); // Title
-    init_pair(3, COLOR_CYAN, COLOR_BLACK);
+    init_pair(3, COLOR_BLUE, COLOR_BLACK);
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
     
     int ch;
