@@ -7,7 +7,7 @@ using namespace std;
 
 int game(WINDOW *game_win)
 {
-  int HEIGHT, WIDTH;1
+  int HEIGHT, WIDTH;
   getmaxyx(game_win, HEIGHT, WIDTH);
 
   // Color pair (This is white text on a blue background)
