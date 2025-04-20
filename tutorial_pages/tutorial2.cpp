@@ -10,14 +10,6 @@
 
 using namespace std;
 
-void print_animated_w(WINDOW* win, int y, const wstring& text, int delay_us = 8000) {
-    int x = 4; // horizontal padding
-    for (wchar_t ch : text) {
-        mvwaddnwstr(win, y, x++, &ch, 1);
-        wrefresh(win);
-        usleep(delay_us);
-    }
-}
 
 int tutorial2(WINDOW* game_win) {
     setlocale(LC_ALL, "");
