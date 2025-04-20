@@ -5,18 +5,8 @@
 #include <locale.h>
 #include <unistd.h>
 #include "../game.h"
+#include "tutorial_utils.h"
 using namespace std;
-
-void print_animated(WINDOW *win, int y, const string &text, int delay = 20000) {
-  int x = (getmaxx(win) - static_cast<int>(text.length())) / 2;
-  wattron(win, COLOR_PAIR(3));
-  for (size_t i = 0; i < text.length(); ++i) {
-    mvwaddch(win, y, x + i, text[i]);
-    wrefresh(win);
-    usleep(delay);
-  }
-  wattroff(win, COLOR_PAIR(3));
-}
 
 int tutorial2(WINDOW *game_win)
 {
