@@ -8,19 +8,26 @@
 using namespace std;
 
 void print_animated(WINDOW *win, int y, const string &text, int delay = 20000) {
-  int x = (getmaxx(win) - text.length()) / 2;
+  int x = (getmaxx(win) - static_cast<int>(text.length())) / 2;
+  wattron(win, COLOR_PAIR(3));
   for (size_t i = 0; i < text.length(); ++i) {
     mvwaddch(win, y, x + i, text[i]);
     wrefresh(win);
     usleep(delay);
   }
+  wattroff(win, COLOR_PAIR(3));
 }
 
 int tutorial2(WINDOW *game_win)
 {
   int HEIGHT, WIDTH;
   getmaxyx(game_win, HEIGHT, WIDTH);
-  init_pair(1, COLOR_WHITE, COLOR_BLUE);
+  start_color();
+
+  // Color pairs
+  init_pair(1, COLOR_WHITE, COLOR_BLUE);    // Reserved if needed
+  init_pair(2, COLOR_YELLOW, COLOR_BLACK);  // Titles
+  init_pair(3, COLOR_BLUE, COLOR_BLACK);    // Body
 
   int ch;
   while (true)
@@ -28,9 +35,10 @@ int tutorial2(WINDOW *game_win)
     werase(game_win);
     box(game_win, 0, 0);
 
-    wattron(game_win, A_BOLD);
+    // 📄 Moves Title
+    wattron(game_win, A_BOLD | COLOR_PAIR(2));
     print_animated(game_win, 2, "📄 Your Moves:");
-    wattroff(game_win, A_BOLD);
+    wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
     int y = 4;
     vector<string> lines = {
@@ -44,10 +52,11 @@ int tutorial2(WINDOW *game_win)
       print_animated(game_win, y++, line);
     }
 
+    // 📦 Items Title
     y += 1;
-    wattron(game_win, A_BOLD);
+    wattron(game_win, A_BOLD | COLOR_PAIR(2));
     print_animated(game_win, y++, "📦 Items:");
-    wattroff(game_win, A_BOLD);
+    wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
     vector<string> items = {
       "- 🚬 Cigarette → +1 HP",
@@ -61,7 +70,9 @@ int tutorial2(WINDOW *game_win)
     }
 
     y += 2;
+    wattron(game_win, A_BOLD | COLOR_PAIR(2));
     print_animated(game_win, y++, "⬅️ Back  |  ➡️ Continue  |  ESC to exit");
+    wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
     wrefresh(game_win);
     ch = wgetch(game_win);
