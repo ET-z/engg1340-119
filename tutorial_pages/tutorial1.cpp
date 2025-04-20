@@ -47,17 +47,17 @@ int tutorial1(WINDOW *game_win)
 
             // Title gets a special color
             if (i == 0) {
-                wattron(game_win, COLOR_PAIR(2) | A_BOLD);
+                wattron(game_win, COLOR_PAIR(1) | A_BOLD);
             } else {
-                wattron(game_win, COLOR_PAIR(3) | A_BOLD);
+                wattron(game_win, COLOR_PAIR(2) | A_BOLD);
             }
 
             mvwaddwstr(game_win, line_y, x, lines[i].c_str());
 
             if (i == 0) {
-                wattroff(game_win, COLOR_PAIR(2) | A_BOLD);
+                wattroff(game_win, COLOR_PAIR(1) | A_BOLD);
             } else {
-                wattroff(game_win, COLOR_PAIR(3) | A_BOLD);
+                wattroff(game_win, COLOR_PAIR(2) | A_BOLD);
             }
 
             line_y += 2;
