@@ -1,61 +1,50 @@
 #include <iostream>
-#include <ncurses.h>
-#include <vector>
+#include <ncursesw/ncurses.h> // wide-character support
 #include <string>
-#include "../game.h"
+#include <locale.h>
+#include <unistd.h>
+
 using namespace std;
 
-int tutorial1(WINDOW *game_win)
-{
-  int HEIGHT, WIDTH;
-  getmaxyx(game_win, HEIGHT, WIDTH);
-
-  // Color pair (This is white text on a blue background)
-  init_pair(1, COLOR_WHITE, COLOR_BLUE);
-  int ch;
-
-  // Menu loop
-  while (true)
-  {
-    // Clear game window
-    wclear(game_win);
-    // Redraw box
-    box(game_win, 0, 0);
-
-    vector<string> lines = {
-      "🎮 Buckshot Roulette: Tutorial",
-      "",
-      "Welcome to Buckshot Roulette.",
-      "A psychological shootout between you and the dealer.",
-      "Your life depends on a chambered round.",
-      "",
-      "You’ll take turns with the dealer — spin the cylinder and pull the trigger.",
-      "Each round could be a blank... or a live shot.",
-      "",
-      "🎯 Goal: Survive and outlast the dealer.",
-      "Each shootout has 9 rounds. If one of you reaches 0 HP, game over.",
-    };
-
-    for (size_t i = 0; i < lines.size(); ++i) {
-      mvwprintw(game_win, 2 + i, 4, "%s", lines[i].c_str());
+// Typewriter animation
+void typewriterPrint(WINDOW* win, const string& text, int delay_ms = 20) {
+    for (char c : text) {
+        waddch(win, c);
+        wrefresh(win);
+        napms(delay_ms);
     }
+}
 
+int main() {
+    setlocale(LC_ALL, ""); // for emoji and UTF-8 support
+    initscr();             // initialize ncurses
+    set_escdelay(25);
+    keypad(stdscr, TRUE);
+    noecho();
+    curs_set(0);
 
-    // Display changes
-    wrefresh(game_win);
+    // create a window to display the tutorial
+    WINDOW* win = newwin(LINES, COLS, 0, 0);
+    box(win, 0, 0);
+    wrefresh(win);
 
-    // User input
-    ch = wgetch(game_win);
+    typewriterPrint(win, "🔫 Buckshot Roulette: Tutorial\n\n");
+    typewriterPrint(win, "Welcome to Buckshot Roulette.\n");
+    typewriterPrint(win, "A psychological shootout between you and the dealer.\n");
+    typewriterPrint(win, "Your life depends on a chambered round.\n\n");
 
-    if (ch == KEY_RIGHT) // Start
-    {
-      tutorial2(game_win);
-      break;
-    }
-    else if (ch == 27) // How to play
-    {
-      return 1;
-    }
-  }
-  return 0;
+    typewriterPrint(win, "👥 You and the dealer take turns...\n");
+    typewriterPrint(win, "🎲 Spin the cylinder, then pull the trigger.\n");
+    typewriterPrint(win, "Each round could be a blank... or a live shot.\n\n");
+
+    typewriterPrint(win, "🎯 Goal: Survive and outlast the dealer.\n");
+    typewriterPrint(win, "Each shootout has 9 rounds. If one of you reaches 0 HP, game over.\n");
+
+    typewriterPrint(win, "\n🚪 Press any key to begin...");
+    wgetch(win); // wait for user input
+
+    delwin(win);
+    endwin(); // end ncurses mode
+
+    return 0;
 }
