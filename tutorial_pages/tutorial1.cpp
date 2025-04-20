@@ -39,35 +39,49 @@ int tutorial1(WINDOW *game_win)
     // Menu loop
     while (true)
     {
-        // Clear game window
         wclear(game_win);
         box(game_win, 0, 0);
 
-        // Animate lines one by one
+        int line_y = 2;
         for (size_t i = 0; i < lines.size(); ++i)
         {
             int x = (WIDTH - lines[i].length()) / 2;
-            mvwaddwstr(game_win, 2 + i, x, lines[i].c_str());
+
+            // Title gets a special color
+            if (i == 0) {
+                wattron(game_win, COLOR_PAIR(2) | A_BOLD);
+            } else {
+                wattron(game_win, COLOR_PAIR(3) | A_BOLD);
+            }
+
+            mvwaddwstr(game_win, line_y, x, lines[i].c_str());
+
+            if (i == 0) {
+                wattroff(game_win, COLOR_PAIR(2) | A_BOLD);
+            } else {
+                wattroff(game_win, COLOR_PAIR(3) | A_BOLD);
+            }
+
+            line_y += 2;
             wrefresh(game_win);
-            usleep(100000);  
+            usleep(100000); // 100ms delay for animation
         }
 
+        // Navigation arrow and escape message
         std::wstring arrow = L"→";
-        mvwaddwstr(game_win, HEIGHT / 2, WIDTH - 6, arrow.c_str());
+        mvwaddwstr(game_win, HEIGHT - 3, WIDTH - 6, arrow.c_str());
+        std::wstring escape = L"Press ESC to return";
+        mvwaddwstr(game_win, HEIGHT - 3, 2, escape.c_str());
 
         wrefresh(game_win);
-        ch = wgetch(game_win);
 
-        if (ch == KEY_RIGHT)
-        {
+        ch = wgetch(game_win);
+        if (ch == KEY_RIGHT) {
             tutorial2(game_win);
             break;
-        }
-        else if (ch == 27) // ESC
-        {
+        } else if (ch == 27) {
             return 1;
         }
     }
-
     return 0;
 }
