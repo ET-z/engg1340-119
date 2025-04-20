@@ -1,9 +1,10 @@
 #include <iostream>
-#include <ncurses.h>
 #include <vector>
 #include <string>
 #include <locale.h>
-#include <unistd.h>
+#include <cwchar>       
+#include <unistd.h>     
+#include <ncursesw/ncurses.h> 
 #include "../game.h"
 #include "tutorial_utils.h"
 using namespace std;
@@ -17,7 +18,7 @@ int tutorial2(WINDOW *game_win)
   // Color pairs
   init_pair(1, COLOR_WHITE, COLOR_BLUE);    // Reserved if needed
   init_pair(2, COLOR_YELLOW, COLOR_BLACK);  // Titles
-  init_pair(3, COLOR_BLUE, COLOR_BLACK);    // Body
+  init_pair(3, COLOR_WHITE, COLOR_BLACK);    // Body
 
   int ch;
   while (true)
