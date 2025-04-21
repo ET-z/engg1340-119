@@ -100,21 +100,34 @@ void apple() {
     }
 }
 
-
-bool knifeActive = false; 
-
-void knife() {
+void beer() {
     // check
-    auto it = find(player.items.begin(), player.items.end(), "knife");
+    auto it = find(player.items.begin(), player.items.end(), "beer");
     if (it != player.items.end()) {
         // remove
         player.items.erase(it);
 
-        // active
-        knifeActive = true;
-        cout << "You used a knife! The next shot damage will be doubled." << endl;
+        // check
+        if (!shells.empty()) {
+            // remove
+            int removedShell = shells[0];
+            shells.erase(shells.begin());
+
+            // force
+            cout << "You drank beer and fired a shot!" << endl;
+            if (removedShell == 1) {
+                // hurt
+                player.takeDamage(20);
+                cout << "It was a live shell! You took 20 damage. Current health: " << player.health << endl;
+            } else {
+                // empty
+                cout << "It was a blank shell. Phew!" << endl;
+            }
+        } else {
+            cout << "There are no shells left." << endl;
+        }
     } else {
-        cout << "You don't have a knife." << endl;
+        cout << "You don't have beer." << endl;
     }
 }
 
