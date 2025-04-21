@@ -10,6 +10,7 @@ using namespace std;
 extern vector<int> shells; 
 extern Player player;
 extern Opponent opponent;
+
 int double=1
 void useKnife(vector<int> shell, Player player, int& double) {
     // Check if the player has the "knife" item
@@ -61,4 +62,59 @@ void magnifyingGlass(vector<string>shells,) {
 //1. need a int vector to represent the current shells
 //need player.items be a vector, player should be a struct 
 //only checks player, how about using it for dealer
+
+void handcuff() {
+    // check
+    auto it = find(player.items.begin(), player.items.end(), "handcuff");
+    if (it != player.items.end()) {
+        // remove
+        player.items.erase(it);
+
+        // save
+        bool currentTurn = player.isTurn;
+
+        // skip
+        cout << "You used handcuff! The opponent is restrained for one turn." << endl;
+
+        // resume
+        player.isTurn = currentTurn;
+        opponent.isTurn = !currentTurn;
+    } else {
+        cout << "You don't have handcuff." << endl;
+    }
+}
+
+
+void apple() {
+    // check
+    auto it = find(player.items.begin(), player.items.end(), "apple");
+    if (it != player.items.end()) {
+        // remove
+        player.items.erase(it);
+
+        // increase
+        player.health += 1;
+        cout << "You smoked a apple! Your health increased by 1. Current health: " << player.health << endl;
+    } else {
+        cout << "You don't have a apple." << endl;
+    }
+}
+
+
+bool knifeActive = false; 
+
+void knife() {
+    // check
+    auto it = find(player.items.begin(), player.items.end(), "knife");
+    if (it != player.items.end()) {
+        // remove
+        player.items.erase(it);
+
+        // active
+        knifeActive = true;
+        cout << "You used a knife! The next shot damage will be doubled." << endl;
+    } else {
+        cout << "You don't have a knife." << endl;
+    }
+}
 
