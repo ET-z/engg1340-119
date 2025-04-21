@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<random>
 using namespace std;
 vector<int> generateShells(int size) {
     vector<int> shells(size);
