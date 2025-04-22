@@ -219,6 +219,10 @@ vector<int> getGameShells() {
     return generateShells();
 }
 
+
+///////// If this version is too complicated, I have a simple one. I can change it. Just let me know in the group thx！
+
+
 int main() {       // The calling method in the main function
     auto generator = ShellGeneratorFactory::createDefaultGenerator();
     generator->displayStatistics(); 
