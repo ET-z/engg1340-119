@@ -125,33 +125,6 @@ vector<int> generateShells() {
     return generator.getShells();
 }
 
-// test
-void testShellGenerator() {
-    ShellGenerator generator(9, 1, 5);
-
-    // display initial
-    cout << "Initial shells: ";
-    for (int shell : generator.getShells()) {
-        cout << shell << " ";
-    }
-    cout << endl;
-
-    // Display information
-    generator.displayStatistics();
-
-    // Reshuffle
-    generator.reshuffle();
-
-    // add live bullet
-    generator.addShell(1);
-
-    // remove shell
-    generator.removeShell(0);
-
-    // show uodated info
-    generator.displayStatistics();
-}
-
 // Call this function in the main loop
 vector<int> getGameShells() {
     return generateShells();
