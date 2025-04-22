@@ -9,7 +9,7 @@
 
 int tutorial1(WINDOW *game_win)
 {
-    setlocale(LC_ALL, "");  // Important for Unicode/emoji
+    setlocale(LC_ALL, "");  // use for emoji
 
     int HEIGHT, WIDTH;
     getmaxyx(game_win, HEIGHT, WIDTH);
