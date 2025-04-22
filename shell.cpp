@@ -108,10 +108,13 @@ public:
     }
 };
 
-// Global function: Generate the cartridge case and return
+// Modified global function: Generate the cartridge case and display statistics
 vector<int> generateShells() {
     // a total of 9 bullets, with a minimum of 1 live bullet and a maximum of 5 live bullets
     ShellGenerator generator(9, 1, 5);
+
+    // Display statistics
+    generator.displayStatistics();
 
     // return the generated shells
     return generator.getShells();
@@ -120,4 +123,10 @@ vector<int> generateShells() {
 // Call this function in the main loop
 vector<int> getGameShells() {
     return generateShells();
+}
+
+// Test function to demonstrate the output
+int main() {
+    vector<int> shells = getGameShells();
+    return 0;
 }
