@@ -219,7 +219,16 @@ vector<int> getGameShells() {
     return generateShells();
 }
 
-int main() {
-    vector<int> shells = getGameShells();
+int main() {       // The calling method in the main function
+    auto generator = ShellGeneratorFactory::createDefaultGenerator();
+    generator->displayStatistics(); 
+
+    vector<int> shells = generator->getShells(); // Obtain the arrangement of the shells
+    cout << "Shell arrangement: ";
+    for (int shell : shells) {
+        cout << shell << " ";// Print the status of each shell
+    }
+    cout << endl;
+
     return 0;
 }
