@@ -7,7 +7,7 @@
 #include <ncursesw/ncurses.h> // wide-character ncurses
 #include "../game.h"
 
-int tutorial1(WINDOW *game_win)
+int tutorial3(WINDOW *game_win)
 {
     setlocale(LC_ALL, "");  // Important for Unicode/emoji
 
@@ -36,6 +36,7 @@ int tutorial1(WINDOW *game_win)
 
     // Menu loop
     while (true)
+
     {
         wclear(game_win);
         box(game_win, 0, 0);
@@ -81,5 +82,7 @@ int tutorial1(WINDOW *game_win)
             return 1;
         }
     }
+
     return 0;
+
 }

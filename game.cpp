@@ -136,8 +136,8 @@ int game(WINDOW *game_win)
     wrefresh(game_win);
 
     // draw dealer and player
-    draw_dealer(dealer_draw);
     draw_player(player_draw);
+    draw_dealer(dealer_draw);
 
     wrefresh(game_win);
 
@@ -228,4 +228,3 @@ int game(WINDOW *game_win)
 
   return 0;
 }
-
