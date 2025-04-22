@@ -34,29 +34,29 @@ public:
     void generateShells() {
         shells.clear();
 
-        // 创建一个包含所有弹壳位置的列表
+        // create list
         vector<int> positions(totalShells);
         for (int i = 0; i < totalShells; ++i) {
             positions[i] = i;
         }
 
-        // 随机打乱位置
+        // random
         random_shuffle(positions.begin(), positions.end());
 
-        // 在随机位置放置实弹
+        // Place live ammunition
         for (int i = 0; i < liveCount; ++i) {
-            shells.push_back(1); // 实弹
+            shells.push_back(1); 
         }
 
-        // 剩余位置填充空包
+        // l the empty package
         for (int i = liveCount; i < totalShells; ++i) {
-            shells.push_back(0); // 空包
+            shells.push_back(0);
         }
 
-        // 再次打乱整个弹壳序列
+        // Shuffle again
         random_shuffle(shells.begin(), shells.end());
 
-        // 输出生成的弹壳序列（用于调试）
+        // output
         cout << "Generated shells: ";
         for (int shell : shells) {
             cout << shell << " ";
@@ -77,13 +77,13 @@ public:
     }
 
     void reshuffle() {
-        // 重新洗牌弹壳
+        // Reshuffle the cartridge cases
         random_shuffle(shells.begin(), shells.end());
         cout << "Shells reshuffled." << endl;
     }
 
     void addShell(int type) {
-        // 添加一个弹壳（0或1）
+        // Add a cartridge case (0 or 1)
         if (type == 1) {
             liveCount++;
         } else {
@@ -94,7 +94,7 @@ public:
     }
 
     void removeShell(int index) {
-        // 移除指定索引的弹壳
+        // Remove the cartridge case of the specified index
         if (index >= 0 && index < totalShells) {
             if (shells[index] == 1) {
                 liveCount--;
@@ -107,7 +107,7 @@ public:
     }
 
     void displayStatistics() const {
-        // 显示弹壳统计信息
+        // show the informstion
         cout << "Shell Statistics:" << endl;
         cout << "Total shells: " << totalShells << endl;
         cout << "Live shells: " << liveCount << endl;
@@ -116,16 +116,16 @@ public:
     }
 };
 
-// 全局函数：生成弹壳并返回
+// Global function: Generate the cartridge case and return
 vector<int> generateShells() {
-    // 创建弹壳生成器，总共有9发子弹，最少1发实弹，最多5发实弹
+    // a total of 9 bullets, with a minimum of 1 live bullet and a maximum of 5 live bullets
     ShellGenerator generator(9, 1, 5);
 
-    // 获取生成的弹壳序列
+    // get list
     return generator.getShells();
 }
 
-// 测试函数
+// test
 void testShellGenerator() {
     ShellGenerator generator(9, 1, 5);
 
@@ -142,17 +142,17 @@ void testShellGenerator() {
     // Reshuffle
     generator.reshuffle();
 
-    // 添加一个实弹
+    // add live bullet
     generator.addShell(1);
 
-    // 移除第一个弹壳
+    // remove shell
     generator.removeShell(0);
 
-    // 显示更新后的统计信息
+    // show uodated info
     generator.displayStatistics();
 }
 
-// 在游戏主循环中调用此函数来获取弹壳
+// Call this function in the main loop
 vector<int> getGameShells() {
     return generateShells();
 }
