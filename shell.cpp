@@ -3,129 +3,221 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <string>
+#include <sstream>
+#include <memory>
+#include <numeric>
 
 using namespace std;
 
-class ShellGenerator {
-private:
-    vector<int> shells; //current situation for shells
-    int liveCount; // num of live shell
-    int blankCount; // numb of blank shell
-    int totalShells; // num of total
-
+class IShellContainer {
 public:
-    ShellGenerator(int total, int minLive, int maxLive) : totalShells(total) {
-        // initialize random seed
-        srand(static_cast<unsigned int>(time(0)));
+    virtual ~IShellContainer() = default;
+    virtual void validate() const = 0;
+};
 
-        // ensure num of live shell and blank shell within proper range
-        if (minLive < 0) minLive = 0;
-        if (maxLive > totalShells) maxLive = totalShells;
-        if (minLive > maxLive) minLive = maxLive;
+class ShellConfig {
+private:
+    int total;
+    int minLive;
+    int maxLive;
+public:
+    ShellConfig(int t, int minL, int maxL) : total(t), minLive(minL), maxLive(maxL) {}
+    
+    int getTotal() const { return total; }
+    int getMinLive() const { return minLive; }
+    int getMaxLive() const { return maxLive; }
+};
 
-        // random num of live shell
-        liveCount = rand() % (maxLive - minLive + 1) + minLive;
-        blankCount = totalShells - liveCount;
+class ShellValidator {
+public:
+    static void validateRange(int value, int min, int max, const string& name) {
+        if (value < min || value > max) {
+            stringstream ss;
+            ss << name << " value " << value << " is out of range [" << min << "," << max << "]";
+            throw runtime_error(ss.str());
+        }
+    }
+};
 
-        // generate shell
+class ShellGenerator : public IShellContainer {
+private:
+    vector<int> shells;
+    int liveCount;
+    int blankCount;
+    int totalShells;
+    shared_ptr<ShellConfig> config;
+    
+    static int instanceCount;
+    const int instanceId;
+    
+public:
+    ShellGenerator(int total, int minLive, int maxLive) 
+        : totalShells(total), instanceId(++instanceCount) {
+        initializeConfig(total, minLive, maxLive);
+        initializeRandomSeed();
+        validateInitialParameters();
+        calculateShellCounts();
         generateShells();
     }
-
-    void generateShells() {
+    
+    void initializeConfig(int total, int minLive, int maxLive) {
+        config = make_shared<ShellConfig>(total, minLive, maxLive);
+    }
+    
+    void initializeRandomSeed() {
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    
+    void validateInitialParameters() {
+        ShellValidator::validateRange(config->getMinLive(), 0, config->getTotal(), "minLive");
+        ShellValidator::validateRange(config->getMaxLive(), 0, config->getTotal(), "maxLive");
+        
+        if (config->getMinLive() > config->getMaxLive()) {
+            throw runtime_error("minLive cannot be greater than maxLive");
+        }
+    }
+    
+    void calculateShellCounts() {
+        int range = config->getMaxLive() - config->getMinLive();
+        int randomOffset = rand() % (range + 1);
+        liveCount = config->getMinLive() + randomOffset;
+        blankCount = config->getTotal() - liveCount;
+    }
+    
+    void generateShells() override {
         shells.clear();
-
-        // create list
-        vector<int> positions(totalShells);
-        for (int i = 0; i < totalShells; ++i) {
-            positions[i] = i;
-        }
-
-        // random
+        createPositionIndexes();
+        performInitialShuffle();
+        populateLiveShells();
+        populateBlankShells();
+        performFinalShuffle();
+        validate();
+    }
+    
+    void createPositionIndexes() {
+        vector<int> positions(config->getTotal());
+        iota(positions.begin(), positions.end(), 0);
+    }
+    
+    void performInitialShuffle() {
+        vector<int> positions(config->getTotal());
+        iota(positions.begin(), positions.end(), 0);
         random_shuffle(positions.begin(), positions.end());
-
-        // Place live ammunition
+    }
+    
+    void populateLiveShells() {
         for (int i = 0; i < liveCount; ++i) {
-            shells.push_back(1); 
+            shells.push_back(1);
         }
-
-        // l the empty package
-        for (int i = liveCount; i < totalShells; ++i) {
+    }
+    
+    void populateBlankShells() {
+        for (int i = liveCount; i < config->getTotal(); ++i) {
             shells.push_back(0);
         }
-
-        // Shuffle again
+    }
+    
+    void performFinalShuffle() {
         random_shuffle(shells.begin(), shells.end());
     }
-
+    
+    void validate() const override {
+        int actualLive = count(shells.begin(), shells.end(), 1);
+        int actualBlank = count(shells.begin(), shells.end(), 0);
+        
+        if (actualLive != liveCount || actualBlank != blankCount) {
+            throw runtime_error("Shell count validation failed");
+        }
+        
+        if (shells.size() != config->getTotal()) {
+            throw runtime_error("Total shells validation failed");
+        }
+    }
+    
     vector<int> getShells() const {
+        validate();
         return shells;
     }
-
+    
     int getLiveCount() const {
+        validate();
         return liveCount;
     }
-
+    
     int getBlankCount() const {
+        validate();
         return blankCount;
     }
-
+    
     void reshuffle() {
-        // Reshuffle the cartridge cases
-        random_shuffle(shells.begin(), shells.end());
-        cout << "Shells reshuffled." << endl;
+        performFinalShuffle();
     }
-
+    
     void addShell(int type) {
-        // Add a cartridge case (0 or 1)
+        if (type != 0 && type != 1) {
+            throw invalid_argument("Invalid shell type");
+        }
+        
         if (type == 1) {
             liveCount++;
         } else {
             blankCount++;
         }
+        
         shells.push_back(type);
         totalShells++;
+        validate();
     }
-
+    
     void removeShell(int index) {
-        // Remove the cartridge case of the specified index
-        if (index >= 0 && index < totalShells) {
-            if (shells[index] == 1) {
-                liveCount--;
-            } else {
-                blankCount--;
-            }
-            shells.erase(shells.begin() + index);
-            totalShells--;
+        if (index < 0 || index >= totalShells) {
+            throw out_of_range("Invalid shell index");
         }
+        
+        int type = shells[index];
+        if (type == 1) {
+            liveCount--;
+        } else {
+            blankCount--;
+        }
+        
+        shells.erase(shells.begin() + index);
+        totalShells--;
+        validate();
     }
-
+    
     void displayStatistics() const {
-        // show the informstion
         cout << "Shell Statistics:" << endl;
         cout << "Total shells: " << totalShells << endl;
         cout << "Live shells: " << liveCount << endl;
         cout << "Blank shells: " << blankCount << endl;
     }
+    
+    int getInstanceId() const {
+        return instanceId;
+    }
 };
 
-// Modified global function: Generate the cartridge case and display statistics
+int ShellGenerator::instanceCount = 0;
+
+class ShellGeneratorFactory {
+public:
+    static unique_ptr<ShellGenerator> createDefaultGenerator() {
+        return make_unique<ShellGenerator>(9, 1, 5);
+    }
+};
+
 vector<int> generateShells() {
-    // a total of 9 bullets, with a minimum of 1 live bullet and a maximum of 5 live bullets
-    ShellGenerator generator(9, 1, 5);
-
-    // Display statistics
-    generator.displayStatistics();
-
-    // return the generated shells
-    return generator.getShells();
+    auto generator = ShellGeneratorFactory::createDefaultGenerator();
+    generator->displayStatistics();
+    return generator->getShells();
 }
 
-// Call this function in the main loop
 vector<int> getGameShells() {
     return generateShells();
 }
 
-// Test function to demonstrate the output
 int main() {
     vector<int> shells = getGameShells();
     return 0;
