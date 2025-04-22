@@ -15,19 +15,15 @@ inline std::wstring utf8_to_wstring(const std::string& str) {
 }
 // Animated print for narrow string (ASCII only)
 inline void print_animated_w(WINDOW *win, int y, const std::wstring &text, int delay = 8000) {
-    int visual_width = wcswidth(text.c_str(), text.length());
-    int x = (getmaxx(win) - visual_width) / 2;  // center it based on visual width
-
+    int x = (getmaxx(win) - wcswidth(text.c_str(), text.length())) / 2;
     wattron(win, COLOR_PAIR(3));
     for (wchar_t ch : text) {
-        mvwaddnwstr(win, y, x, &ch, 1);
-        x += std::max(1, wcwidth(ch));  // advance by character display width
+        mvwaddnwstr(win, y, x++, &ch, 1);
         wrefresh(win);
         usleep(delay);
     }
     wattroff(win, COLOR_PAIR(3));
 }
-
 
 // Animated print for wide string (Unicode + emoji)
 inline void print_animated_w(WINDOW *win, int y, const std::wstring &text, int delay = 8000) {
