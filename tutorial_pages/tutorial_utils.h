@@ -6,14 +6,7 @@
 #include <locale.h>
 #include <unistd.h>
 #include <ncursesw/ncurses.h>
-#include <codecvt>
 #include <wchar.h>
-
-// Converts UTF-8 encoded std::string to std::wstring
-inline std::wstring utf8_to_wstring(const std::string& str) {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-    return converter.from_bytes(str);
-}
 
 // Animated print for wide string (Unicode + emoji)
 inline void print_animated_w(WINDOW *win, int y, const std::wstring &text, int delay = 8000) {
