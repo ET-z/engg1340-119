@@ -5,31 +5,34 @@
 #include <cwchar>
 #include <unistd.h>
 #include <ncursesw/ncurses.h>
+
 #include "../game.h"
 #include "tutorial_utils.h"
 
 using namespace std;
 
-
-int tutorial2(WINDOW* game_win) {
+int tutorial2(WINDOW *game_win) {
     setlocale(LC_ALL, "");
     int HEIGHT, WIDTH;
     getmaxyx(game_win, HEIGHT, WIDTH);
     start_color();
 
     // Color pairs
-    init_pair(2, COLOR_YELLOW, COLOR_BLACK); // Titles
-    init_pair(3, COLOR_WHITE, COLOR_BLACK);  // Body text
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);    // (Optional)
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);  // Titles
+    init_pair(3, COLOR_WHITE, COLOR_BLACK);   // Body
 
     int ch;
     while (true) {
         werase(game_win);
         box(game_win, 0, 0);
 
+        // 🟡 Title: Your Moves
         wattron(game_win, A_BOLD | COLOR_PAIR(2));
         print_animated_w(game_win, 2, L"📄 Your Moves:");
         wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
+        // 🤍 Body text: Moves
         int y = 4;
         vector<wstring> lines = {
             L"- s → Shoot yourself 💥",
@@ -39,16 +42,18 @@ int tutorial2(WINDOW* game_win) {
             L"- ENTER or SPACE → Confirm action ✅",
         };
         wattron(game_win, COLOR_PAIR(3));
-        for (const auto& line : lines) {
+        for (const auto &line : lines) {
             print_animated_w(game_win, y++, line);
         }
         wattroff(game_win, COLOR_PAIR(3));
 
+        // 🟡 Title: Items
         y += 1;
         wattron(game_win, A_BOLD | COLOR_PAIR(2));
         print_animated_w(game_win, y++, L"📦 Items:");
         wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
+        // 🤍 Body text: Items
         vector<wstring> items = {
             L"- 🚬 Cigarette → +1 HP",
             L"- 🔪 Knife → Double your damage",
@@ -57,11 +62,12 @@ int tutorial2(WINDOW* game_win) {
             L"- ⛓️ Handcuff → Skip the dealer's turn"
         };
         wattron(game_win, COLOR_PAIR(3));
-        for (const auto& item : items) {
+        for (const auto &item : items) {
             print_animated_w(game_win, y++, item);
         }
         wattroff(game_win, COLOR_PAIR(3));
 
+        // Navigation
         y += 2;
         wattron(game_win, A_BOLD | COLOR_PAIR(3));
         print_animated_w(game_win, y++, L"⬅️ Back  |  ➡️ Continue  |  ESC to exit");
@@ -76,10 +82,10 @@ int tutorial2(WINDOW* game_win) {
         } else if (ch == KEY_LEFT) {
             tutorial1(game_win);
             break;
-        } else if (ch == 27) {
+        } else if (ch == 27) { // ESC
             return 1;
         }
     }
+
     return 0;
 }
-
