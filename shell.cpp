@@ -113,8 +113,8 @@ vector<int> generateShells() {
     // a total of 9 bullets, with a minimum of 1 live bullet and a maximum of 5 live bullets
     ShellGenerator generator(9, 1, 5);
 
-    // get list
-    return generator.getShells();
+    // show
+    return generator.displayStatistics();;
 }
 
 // Call this function in the main loop
