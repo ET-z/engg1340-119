@@ -55,13 +55,6 @@ public:
 
         // Shuffle again
         random_shuffle(shells.begin(), shells.end());
-
-        // output
-        cout << "Generated shells: ";
-        for (int shell : shells) {
-            cout << shell << " ";
-        }
-        cout << endl;
     }
 
     vector<int> getShells() const {
