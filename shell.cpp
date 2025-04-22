@@ -86,7 +86,7 @@ public:
         blankCount = config->getTotal() - liveCount;
     }
 
-    void generateShells() override {
+    void generateShells() {
         shells.clear();
         createPositionIndexes();
         performInitialShuffle();
