@@ -112,7 +112,6 @@ public:
         cout << "Total shells: " << totalShells << endl;
         cout << "Live shells: " << liveCount << endl;
         cout << "Blank shells: " << blankCount << endl;
-        cout << "Live percentage: " << (static_cast<double>(liveCount) / totalShells) * 100 << "%" << endl;
     }
 };
 
