@@ -1,3 +1,5 @@
+//////// If this version is too complicated, I have a simple one. I can change it. Just let me know in the group thx！
+
 #include <cstdlib>
 #include <ctime>
 #include <vector>
