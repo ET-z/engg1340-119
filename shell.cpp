@@ -129,17 +129,17 @@ vector<int> generateShells() {
 void testShellGenerator() {
     ShellGenerator generator(9, 1, 5);
 
-    // 显示初始弹壳
+    // display initial
     cout << "Initial shells: ";
     for (int shell : generator.getShells()) {
         cout << shell << " ";
     }
     cout << endl;
 
-    // 显示统计信息
+    // Display information
     generator.displayStatistics();
 
-    // 重新洗牌
+    // Reshuffle
     generator.reshuffle();
 
     // 添加一个实弹
