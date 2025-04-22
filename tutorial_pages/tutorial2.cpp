@@ -1,55 +1,91 @@
 #include <iostream>
-#include <ncurses.h>
 #include <vector>
 #include <string>
+#include <locale.h>
+#include <cwchar>
+#include <unistd.h>
+#include <ncursesw/ncurses.h>
+
 #include "../game.h"
+#include "tutorial_utils.h"
+
 using namespace std;
 
-int tutorial2(WINDOW *game_win)
-{
-  int HEIGHT, WIDTH;
-  getmaxyx(game_win, HEIGHT, WIDTH);
+int tutorial2(WINDOW *game_win) {
+    setlocale(LC_ALL, "");
+    int HEIGHT, WIDTH;
+    getmaxyx(game_win, HEIGHT, WIDTH);
+    start_color();
 
-  // Color pair (This is white text on a blue background)
-  init_pair(1, COLOR_WHITE, COLOR_BLUE);
-  int ch;
+    // Color pairs
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);    // (Optional)
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);  // Titles
+    init_pair(3, COLOR_WHITE, COLOR_BLACK);   // Body
 
-  // Menu loop
-  while (true)
-  {
-    // Clear game window
-    wclear(game_win);
-    // Redraw box
-    box(game_win, 0, 0);
+    int ch;
+    while (true) {
+        werase(game_win);
+        box(game_win, 0, 0);
 
-    string hello = "Tutorial 2";
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(hello.size())) / 2, "%s", hello.c_str());
-    string escape = "Press ESC to return";
-    mvwprintw(game_win, 10, (WIDTH - static_cast<int>(escape.size())) / 2, "%s", escape.c_str());
-    vector<string> arrows = {"<--", "-->"};
-    mvwprintw(game_win, HEIGHT / 2, 10, "%s", arrows[0].c_str());
-    mvwprintw(game_win, HEIGHT / 2, (WIDTH - static_cast<int>(arrows[1].size())) - 10, "%s", arrows[1].c_str());
+        // 🟡 Title: Your Moves
+        wattron(game_win, A_BOLD | COLOR_PAIR(2));
+        print_animated_w(game_win, 2, L"📄 Your Moves:");
+        wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
-    // Display changes
-    wrefresh(game_win);
+        // 🤍 Body text: Moves
+        int y = 4;
+        vector<wstring> lines = {
+            L"- s → Shoot yourself 💥",
+            L"- o → Shoot the dealer 🎯",
+            L"- e → Use an item 🧪",
+            L"- Arrow keys → Navigate inventory ↕️",
+            L"- ENTER or SPACE → Confirm action ✅",
+        };
+        wattron(game_win, COLOR_PAIR(3));
+        for (const auto &line : lines) {
+            print_animated_w(game_win, y++, line);
+        }
+        wattroff(game_win, COLOR_PAIR(3));
 
-    // User input
-    ch = wgetch(game_win);
+        // 🟡 Title: Items
+        y += 1;
+        wattron(game_win, A_BOLD | COLOR_PAIR(2));
+        print_animated_w(game_win, y++, L"📦 Items:");
+        wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
-    if (ch == KEY_RIGHT) // Start
-    {
-      tutorial3(game_win);
-      break;
+        // 🤍 Body text: Items
+        vector<wstring> items = {
+            L"- 🚬 Cigarette → +1 HP",
+            L"- 🔪 Knife → Double your damage",
+            L"- 🧴 Beer → Discard and see the next shell",
+            L"- 🔭 Scope → See if the next shell is live",
+            L"- ⛓️ Handcuff → Skip the dealer's turn"
+        };
+        wattron(game_win, COLOR_PAIR(3));
+        for (const auto &item : items) {
+            print_animated_w(game_win, y++, item);
+        }
+        wattroff(game_win, COLOR_PAIR(3));
+
+        // Navigation
+        y += 2;
+        wattron(game_win, A_BOLD | COLOR_PAIR(3));
+        print_animated_w(game_win, y++, L"⬅️ Back  |  ➡️ Continue  |  ESC to exit");
+        wattroff(game_win, A_BOLD | COLOR_PAIR(3));
+
+        wrefresh(game_win);
+        ch = wgetch(game_win);
+
+        if (ch == KEY_RIGHT) {
+            tutorial3(game_win);
+            break;
+        } else if (ch == KEY_LEFT) {
+            tutorial1(game_win);
+            break;
+        } else if (ch == 27) { // ESC
+            return 1;
+        }
     }
-    else if (ch == KEY_LEFT) // How to play
-    {
-      tutorial1(game_win);
-      break;
-    }
-    else if (ch == 27) // How to play
-    {
-      return 1;
-    }
-  }
-  return 0;
+
+    return 0;
 }

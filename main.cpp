@@ -5,10 +5,15 @@
 #include <cctype>
 #include <fstream>
 #include "game.h"
+#include <locale.h>
+
+
 using namespace std;
 
 int main()
 {
+  // emoji
+  setlocale(LC_ALL, "");
   // Initialize ncurses
   initscr();
   set_escdelay(25);     // Reduce ESC key delay
@@ -20,6 +25,9 @@ int main()
   {
     start_color();
   }
+  init_pair(1, COLOR_WHITE, COLOR_BLUE);   // Your menu highlight
+  init_pair(3, COLOR_GREEN, COLOR_BLACK);  // Health bar color
+
 
   // Track progress of player
   ofstream fout;
