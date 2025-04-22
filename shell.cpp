@@ -8,26 +8,26 @@ using namespace std;
 
 class ShellGenerator {
 private:
-    vector<int> shells; // 用于存储弹壳状态，1表示实弹，0表示空包
-    int liveCount; // 实弹数量
-    int blankCount; // 空包数量
-    int totalShells; // 总弹壳数量
+    vector<int> shells; //current situation for shells
+    int liveCount; // num of live shell
+    int blankCount; // numb of blank shell
+    int totalShells; // num of total
 
 public:
     ShellGenerator(int total, int minLive, int maxLive) : totalShells(total) {
-        // 初始化随机种子
+        // initialize random seed
         srand(static_cast<unsigned int>(time(0)));
 
-        // 确保最小和最大实弹数量合理
+        // ensure num of live shell and blank shell within proper range
         if (minLive < 0) minLive = 0;
         if (maxLive > totalShells) maxLive = totalShells;
         if (minLive > maxLive) minLive = maxLive;
 
-        // 随机生成实弹数量（在指定范围内）
+        // random num of live shell
         liveCount = rand() % (maxLive - minLive + 1) + minLive;
         blankCount = totalShells - liveCount;
 
-        // 生成弹壳序列
+        // generate shell
         generateShells();
     }
 
