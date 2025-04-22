@@ -7,7 +7,7 @@
 #include <ncursesw/ncurses.h> // wide-character ncurses
 #include "../game.h"
 
-int tutorial3(WINDOW *game_win)
+int tutorial1(WINDOW *game_win)
 {
     setlocale(LC_ALL, "");  // Important for Unicode/emoji
 
