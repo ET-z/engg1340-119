@@ -11,21 +11,24 @@ extern vector<int> shells;
 extern Player player;
 extern Opponent opponent;
 
-int double=1
-void useKnife(vector<int> shell, Player player, int& double) {
-    // Check if the player has the "knife" item
-    bool hasKnife = false;
-    for (const string& item : player.items) {
-        if (item == "knife") {
-            hasKnife = true;
-            break;
-        }
-    }
+//functions needed: player.takeDamage(int damage),player.health, opponent.isTurn,items.erase()
 
-    // Apply double damage if the player has the knife
-    if (hasKnife) {
+void Knife(vector<int> shell, Player player) {
+    auto it = find(player.items.begin(), player.items.end(), "knife");
+    if (it != player.items.end()) {
+        // Remove the knife from the player's inventory
+        player.items.erase(it);
         cout << "Knife found! Doubling the damage..." << endl;
-        double=2; // Double damage
+        if (!shells.empty()) {
+            int currentShell = shells[0]; // assuming the first shell is the current one
+            if (currentShell == 1) {
+                cout << "Doubling the demage.....!" << endl;
+                player.takeDamage(40);
+                cout << "Opponent's remaining health: " << health << endl;
+            } else {
+                out << "The current shell is blank." << endl;
+            }
+        }  
     } 
     else{
         cout<<"No knife found"<<endl;
@@ -34,10 +37,9 @@ void useKnife(vector<int> shell, Player player, int& double) {
     // Output the opponent's remaining health
     cout << "Opponent's remaining health: " << health << endl;
 }
-//after shooting, reset double to 1
-int double=1
 
-void magnifyingGlass(vector<string>shells,) {
+
+void magnifyingGlass(vector<string>shells) {
     // checking 
     auto it = find(player.items.begin(), player.items.end(), "magnifyingGlass");
     if (it != player.items.end()) {
@@ -48,7 +50,7 @@ void magnifyingGlass(vector<string>shells,) {
         if (!shells.empty()) {
             int currentShell = shells[0]; // assuming the first shell is the current one
             if (currentShell == 1) {
-                cout << "The current shell is live!" << endl;
+                cout << "The current shell is live!"<<endl;
             } else {
                 cout << "The current shell is blank." << endl;
             }
@@ -69,7 +71,7 @@ void handcuff() {
     if (it != player.items.end()) {
         // remove
         player.items.erase(it);
-
+       
         // save
         bool currentTurn = player.isTurn;
 
@@ -131,3 +133,4 @@ void beer() {
     }
 }
 
+// needed functions or menbers: player.health,player.takeDemage()
