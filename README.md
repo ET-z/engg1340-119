@@ -9,7 +9,7 @@
 - @tmng **Name** -
 - @tue-nhi **Nguyen Tue Nhi** - 3036364517
 - @kk212371 **Name** - 3036392461
-- @Maggie-maoyiqi **Name** -
+- @Maggie-maoyiqi **Mao Yiqi** - 3036291186
 
 ---
 
