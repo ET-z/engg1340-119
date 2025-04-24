@@ -81,7 +81,7 @@ string get_item_description(string item) {
     // add description
     if (item == "handcuff") {
         return "restrain the dealer for one round";
-    } else if (item == "cigarette") {
+    } else if (item == "apple") {
         return "gain an extra heart";
     } else if (item == "knife") {
         return "double the next bullet damage";
@@ -93,7 +93,9 @@ string get_item_description(string item) {
         return "unknown item";
     }
 }
-void draw_dealer_Items(const std::string dealerItems[8],  const std::vector<std::vector<WINDOW*>>& dealerWindows) {
+void draw_dealer_Items(Player &dealer,  const std::vector<std::vector<WINDOW*>>& dealerWindows) {
+    // initialize colorpair
+    init_pair(3, COLOR_GREEN, COLOR_BLACK);
     // Draw dealer items in dealer inventory windows
     for (int i=0;i<8;++i) {
         int row=(i-i%4)/4;
@@ -103,16 +105,13 @@ void draw_dealer_Items(const std::string dealerItems[8],  const std::vector<std:
         int HEIGHT, WIDTH;
         getmaxyx(dealerWindows[row][col], HEIGHT, WIDTH);
 
-        // initialize colorpair
-        init_pair(3, COLOR_GREEN, COLOR_BLACK);
-
         // clean
-        werase(dealerWindows);
+        werase(dealerWindows[row][col]);
 
         // box
         box(dealerWindows[row][col], 0, 0);
         // declare current item
-        string item = dealerItems[i];
+        string item = dealer.items[i];
 
         //color
         wattron(dealerWindows[row][col], COLOR_PAIR(3));
@@ -145,7 +144,9 @@ void draw_dealer_Items(const std::string dealerItems[8],  const std::vector<std:
         
     }
 }
-void draw_player_Items(const std::string playerItems[8], const std::vector<std::vector<WINDOW*>>& playerWindows) {
+void draw_player_Items(Player &player, const std::vector<std::vector<WINDOW*>>& playerWindows) {
+    // initialize colorpair
+    init_pair(3, COLOR_GREEN, COLOR_BLACK);
     // Draw player items in player inventory windows
     for (int i=0;i<8;++i) {
         int row=(i-i%4)/4;
@@ -155,16 +156,13 @@ void draw_player_Items(const std::string playerItems[8], const std::vector<std::
         int HEIGHT, WIDTH;
         getmaxyx(playerWindows[row][col], HEIGHT, WIDTH);
 
-        // initialize colorpair
-        init_pair(3, COLOR_GREEN, COLOR_BLACK);
-
         // clean
-        werase(playerWindows);
+        werase(playerWindows[row][col]);
 
         // box
         box(playerWindows[row][col], 0, 0);
         // declare current item
-        string item = playerItems[i];
+        string item = player.items[i];
 
         //color
         wattron(playerWindows[row][col], COLOR_PAIR(3));
