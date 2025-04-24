@@ -26,7 +26,7 @@ while (true)
 
     // Title
     wattron(game_win, A_BOLD | COLOR_PAIR(2));
-    print_animated_w(game_win, 2, L"About the Dealer (AI) 🧠 :");
+    print_animated_w(game_win, 2, L"About the Dealer (AI):");
     wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
     // Dealer info
