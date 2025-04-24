@@ -23,7 +23,7 @@ extern Opponent opponent;
  //   bool isTurn;                    // Whether it's the player's turn
  //   bool isDealer;                  // Whether the player is the dealer
 //handcuff 里面的turn逻辑可能有点问题
-//functions needed: player.takeDamage(int damage),player.health, opponent.isTurn,items.erase(),a structure named Player
+//functions needed: player.takeDamage(int damage),player.health, opponent.isTurn,items.erase,a structure named Player
 // Function to erase an item from the inventory window
 void erase_in_inventory(WINDOW *subWindow) {
     if (!subWindow) {
@@ -115,20 +115,24 @@ void magnifyingGlass(vector<int> &shells, Player &player,const std::vector<std::
 //only checks player, how about using it for dealer
 
 
-void handcuff() {
+void handcuff(vector<int> &shells, Player &player,const std::vector<std::vector<WINDOW*>>& dealerWindows,const std::vector<std::vector<WINDOW*>>& playerWindows) {
     // Find the item "handcuff" in the player's items
     auto it = find(player.items.begin(), player.items.end(), "handcuff");
     // Check if the item is found
     if (it != player.items.end()) {
         // Calculate the position of the item in the items vector
         int position = distance(player.items.begin(), it);
-        // Calculate the row position for winning
-        win_row = position / 4;
-        // Calculate the column position for winning
-        win_col = position % 4;
-        // Remove the item from the player's items
+        int win_row;
+        int win_col;
+        win_row=position/4;
+        win_col=position%4;
         player.items.erase(it);
-       
+        if (!player.isDealer){
+            erase_in_inventory(playerWindows[win_row][win_col]);
+        }
+        else if (player.isDealer){
+            erase_in_inventory(dealerWindows[win_row][win_col]);
+        }
         // Save the current player's turn status
         bool currentTurn = player.isTurn;
 
@@ -157,22 +161,27 @@ void handcuff() {
     refresh();
 }
 
-void apple() {
+void apple(vector<int> &shells, Player &player,const std::vector<std::vector<WINDOW*>>& dealerWindows,const std::vector<std::vector<WINDOW*>>& playerWindows) {
     // Find the item "apple" in the player's items
     auto it = find(player.items.begin(), player.items.end(), "apple");
     // Check if the item is found
     if (it != player.items.end()) {
         // Calculate the position of the item in the items vector
         int position = distance(player.items.begin(), it);
-        // Calculate the row position for winning
-        win_row = position / 4;
-        // Calculate the column position for winning
-        win_col = position % 4;
-        // Remove the item from the player's items
+        int win_row;
+        int win_col;
+        win_row=position/4;
+        win_col=position%4;
         player.items.erase(it);
+        if (!player.isDealer){
+            erase_in_inventory(playerWindows[win_row][win_col]);
+        }
+        else if (player.isDealer){
+            erase_in_inventory(dealerWindows[win_row][win_col]);
+        }
 
         // Increase the player's health
-        player.health += 1;
+        player.health += 20;
 
         // Get the window dimensions
         int rows, cols;
@@ -197,19 +206,24 @@ void apple() {
     refresh();
 }
 
-void beer() {
+void beer(vector<int> &shells, Player &player,const std::vector<std::vector<WINDOW*>>& dealerWindows,const std::vector<std::vector<WINDOW*>>& playerWindows) {
     // Find the item "beer" in the player's items
     auto it = find(player.items.begin(), player.items.end(), "beer");
     // Check if the item is found
     if (it != player.items.end()) {
-        // Calculate the position of the item in the items vector
         int position = distance(player.items.begin(), it);
-        // Calculate the row position for winning
-        win_row = position / 4;
-        // Calculate the column position for winning
-        win_col = position % 4;
-        // Remove the item from the player's items
+        int win_row;
+        int win_col;
+        win_row=position/4;
+        win_col=position%4;
         player.items.erase(it);
+        if (!player.isDealer){
+            erase_in_inventory(playerWindows[win_row][win_col]);
+        }
+        else if (player.isDealer){
+            erase_in_inventory(dealerWindows[win_row][win_col]);
+        }
+
 
         // Check if there are shells available
         if (!shells.empty()) {
