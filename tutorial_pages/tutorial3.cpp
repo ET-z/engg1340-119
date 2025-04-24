@@ -24,9 +24,9 @@ while (true)
     werase(game_win);
     box(game_win, 0, 0);
 
-    // 🧠 Title
+    // Title
     wattron(game_win, A_BOLD | COLOR_PAIR(2));
-    print_animated_w(game_win, 2, L"🧠 About the Dealer (AI):");
+    print_animated_w(game_win, 2, L"About the Dealer (AI) 🧠 :");
     wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
     // Dealer info
@@ -44,7 +44,7 @@ while (true)
     // ❤️ Health Info
     y += 1;
     wattron(game_win, A_BOLD | COLOR_PAIR(2));
-    print_animated_w(game_win, y++, L"❤️ Health Info:");
+    print_animated_w(game_win, y++, L"Health Info ❤️:");
     wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
     std::vector<std::wstring> health_lines = {
