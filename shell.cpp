@@ -10,31 +10,33 @@
 
 using namespace std;
 
-// Shell container interface to define basic shell container behavior
+// Interface for shell containers
 class IShellContainer {
 public:
     virtual ~IShellContainer() = default;
-    virtual void validate() const = 0;
+    virtual void validate() const = 0;  // Validation interface
 };
 
-// Shell configuration class to store total shells, minimum live shells, and maximum live shells
+// Configuration class for shell parameters
 class ShellConfig {
 private:
-    int total;    // Total number of shells
-    int minLive;  // Minimum number of live shells
-    int maxLive;  // Maximum number of live shells
+    int total;     // Total number of shells
+    int minLive;   // Minimum live shells
+    int maxLive;   // Maximum live shells
 
 public:
     ShellConfig(int t, int minL, int maxL) : total(t), minLive(minL), maxLive(maxL) {}
 
+    // Accessors
     int getTotal() const { return total; }
     int getMinLive() const { return minLive; }
     int getMaxLive() const { return maxLive; }
 };
 
-// Shell validator class to check if parameters are within valid ranges
+// Validation utility class
 class ShellValidator {
 public:
+    // Validate value range with error message
     static void validateRange(int value, int min, int max, const string& name) {
         if (value < min || value > max) {
             stringstream ss;
@@ -44,45 +46,40 @@ public:
     }
 };
 
-// Shell generator class to create a list of randomly arranged shells
+// Main shell generator class
 class ShellGenerator : public IShellContainer {
 private:
-    vector<int> shells;      // Vector to store shell states (0 for blank, 1 for live)
-    int liveCount;          // Number of live shells
-    int blankCount;         // Number of blank shells
-    int totalShells;        // Total number of shells
-    shared_ptr<ShellConfig> config;  // Shell configuration
+    vector<int> shells;       // 1=live, 0=blank shells
+    int liveCount;            // Current live shell count
+    int blankCount;           // Current blank shell count
+    int totalShells;          // Total shells (cached value)
+    shared_ptr<ShellConfig> config;  // Configuration reference
 
-    static int instanceCount;  // Static variable to track instance count
-    const int instanceId;      // Unique identifier for the current instance
+    static int instanceCount; // Class-level instance counter
+    const int instanceId;     // Unique instance ID
 
 public:
-    // Constructor to initialize the shell generator
+    // Constructor with parameter validation
     ShellGenerator(int total, int minLive, int maxLive)
         : totalShells(total), instanceId(++instanceCount) {
-        // Initialize configuration
         initializeConfig(total, minLive, maxLive);
-        // Initialize random seed
         initializeRandomSeed();
-        // Validate initial parameters
         validateInitialParameters();
-        // Calculate shell counts
         calculateShellCounts();
-        // Generate shells
         generateShells();
     }
 
-    // Initialize configuration
+    // Initialize configuration object
     void initializeConfig(int total, int minLive, int maxLive) {
         config = make_shared<ShellConfig>(total, minLive, maxLive);
     }
 
-    // Initialize random seed
+    // Seed random number generator
     void initializeRandomSeed() {
         srand(static_cast<unsigned int>(time(0)));
     }
 
-    // Validate initial parameters are within valid ranges
+    // Validate configuration parameters
     void validateInitialParameters() {
         ShellValidator::validateRange(config->getMinLive(), 0, config->getTotal(), "minLive");
         ShellValidator::validateRange(config->getMaxLive(), 0, config->getTotal(), "maxLive");
@@ -92,7 +89,7 @@ public:
         }
     }
 
-    // Calculate the number of live and blank shells
+    // Calculate live/blank shell counts
     void calculateShellCounts() {
         int range = config->getMaxLive() - config->getMinLive();
         int randomOffset = rand() % (range + 1);
@@ -100,7 +97,7 @@ public:
         blankCount = config->getTotal() - liveCount;
     }
 
-    // Generate the list of shells
+    // Main generation workflow
     void generateShells() {
         shells.clear();
         createPositionIndexes();
@@ -111,39 +108,39 @@ public:
         validate();
     }
 
-    // Create position indexes (not used, reserved for extension)
+    // Create position indexes (reserved for future use)
     void createPositionIndexes() {
         vector<int> positions(config->getTotal());
         iota(positions.begin(), positions.end(), 0);
     }
 
-    // Initial shuffle (not used, reserved for extension)
+    // Initial shuffle of positions (reserved for future use)
     void performInitialShuffle() {
         vector<int> positions(config->getTotal());
         iota(positions.begin(), positions.end(), 0);
         random_shuffle(positions.begin(), positions.end());
     }
 
-    // Populate live shells
+    // Add live shells to the collection
     void populateLiveShells() {
         for (int i = 0; i < liveCount; ++i) {
             shells.push_back(1);
         }
     }
 
-    // Populate blank shells
+    // Add blank shells to the collection
     void populateBlankShells() {
         for (int i = liveCount; i < config->getTotal(); ++i) {
             shells.push_back(0);
         }
     }
 
-    // Final shuffle
+    // Final shuffle of shells
     void performFinalShuffle() {
         random_shuffle(shells.begin(), shells.end());
     }
 
-    // Validate the validity of the shell list
+    // Validate shell counts and totals
     void validate() const override {
         int actualLive = count(shells.begin(), shells.end(), 1);
         int actualBlank = count(shells.begin(), shells.end(), 0);
@@ -157,30 +154,35 @@ public:
         }
     }
 
-    // Get the list of shells
+    // Get shell collection
     vector<int> getShells() const {
         validate();
         return shells;
     }
 
-    // Get the number of live shells
+    // Get live shell count
     int getLiveCount() const {
         validate();
         return liveCount;
     }
 
-    // Get the number of blank shells
+    // Get blank shell count
     int getBlankCount() const {
         validate();
         return blankCount;
     }
 
-    // Reshuffle
+    // Get total shells from config
+    int getTotalShells() const {
+        return config->getTotal();
+    }
+
+    // Re-shuffle existing shells
     void reshuffle() {
         performFinalShuffle();
     }
 
-    // Add a shell
+    // Add new shell to collection
     void addShell(int type) {
         if (type != 0 && type != 1) {
             throw invalid_argument("Invalid shell type");
@@ -197,7 +199,7 @@ public:
         validate();
     }
 
-    // Remove a shell
+    // Remove shell from collection
     void removeShell(int index) {
         if (index < 0 || index >= totalShells) {
             throw out_of_range("Invalid shell index");
@@ -215,74 +217,84 @@ public:
         validate();
     }
 
-    // Display statistics
-    void displayStatistics() const {
-        mvprintw(0, 0, "Shell Statistics:");
-        mvprintw(1, 0, "Total shells: %d", totalShells);
-        mvprintw(2, 0, "Live shells: %d", liveCount);
-        mvprintw(3, 0, "Blank shells: %d", blankCount);
+    // Display centered information using ncurses
+    void displayCentered(int max_y, int max_x) const {
+        // Prepare display content
+        vector<string> content = {
+            "Shell Statistics:",
+            "Total shells: " + to_string(getTotalShells()),
+            "Live shells: " + to_string(getLiveCount()),
+            "Blank shells: " + to_string(getBlankCount()),
+            "", // Empty line
+            "Shell arrangement: "
+        };
+
+        // Convert shell array to string
+        string shells_str;
+        for (int s : shells) {
+            shells_str += to_string(s) + " ";
+        }
+        content.push_back(shells_str);
+        content.push_back(""); // Empty line
+        content.push_back("Press any key to exit...");
+
+        // Calculate vertical start position
+        int start_y = (max_y - content.size()) / 2;
+
+        // Clear screen and print centered content
+        clear();
+        for (size_t i = 0; i < content.size(); ++i) {
+            // Calculate horizontal position
+            int x = (max_x - content[i].length()) / 2;
+            // Prevent negative x values
+            x = x < 0 ? 0 : x; 
+            // Print centered line
+            mvprintw(start_y + i, x, "%s", content[i].c_str());
+        }
+        refresh();
     }
 
-    // Get instance ID
+    // Get instance identifier
     int getInstanceId() const {
         return instanceId;
     }
 };
 
-// Initialize instance counter
+// Initialize static instance counter
 int ShellGenerator::instanceCount = 0;
 
-// Shell generator factory class to create default shell generators
+// Factory class for creating generators
 class ShellGeneratorFactory {
 public:
+    // Create generator with default configuration
     static unique_ptr<ShellGenerator> createDefaultGenerator() {
-        // Preset initial conditions: total shells 9, minimum live shells 1, maximum live shells 5
         return unique_ptr<ShellGenerator>(new ShellGenerator(9, 1, 5));
     }
 };
 
-// Function to generate shells
-vector<int> generateShells() {
-    auto generator = ShellGeneratorFactory::createDefaultGenerator();
-    generator->displayStatistics();
-    return generator->getShells();
-}
-
-// Function to get game shells
-vector<int> getGameShells() {
-    return generateShells();
-}
-
-// Main function
+// Main program entry
 int main() {
-    // Initialize Curses library
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-
-    // Create default shell generator
+    // Initialize ncurses
+    initscr();          // Start curses mode
+    cbreak();           // Disable line buffering
+    noecho();           // Don't echo input
+    curs_set(0);        // Hide cursor
+    keypad(stdscr, TRUE); // Enable special keys
+    
+    // Get terminal dimensions
+    int max_y, max_x;
+    getmaxyx(stdscr, max_y, max_x);
+    
+    // Create generator instance
     auto generator = ShellGeneratorFactory::createDefaultGenerator();
-
-    // Display statistics
-    generator->displayStatistics();
-
-    // Get shells
-    vector<int> shells = generator->getShells();
-
-    // Display shell arrangement
-    mvprintw(5, 0, "Shell arrangement: ");
-    for (int i = 0; i < shells.size(); ++i) {
-        mvprintw(6, i * 3, "%d", shells[i]);
-    }
-
-    // Refresh screen
-    refresh();
-
+    
+    // Display centered information
+    generator->displayCentered(max_y, max_x);
+    
     // Wait for user input
     getch();
-
-    // Exit Curses library
+    
+    // Cleanup ncurses
     endwin();
 
     return 0;
