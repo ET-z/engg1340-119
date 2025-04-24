@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <iterator>
 
 using namespace std;
 
@@ -11,11 +12,24 @@ extern vector<int> shells;
 extern Player player;
 extern Opponent opponent;
 
-//functions needed: player.takeDamage(int damage),player.health, opponent.isTurn,items.erase()
+//functions needed: player.takeDamage(int damage),player.health, opponent.isTurn,items.erase(),a structure named Player
+// Function to erase an item from the inventory window
+void erase_in_inventory(WINDOW *subWindow) {
+    // Clear the sub-window
+    wclear(subWindow);
 
+    // Redraw the box for the sub-window
+    box(subWindow, 0, 0);
+
+    // Refresh the sub-window to reflect the changes
+    wrefresh(subWindow);
+}
 void Knife(vector<int> shell, Player player) {
     auto it = find(player.items.begin(), player.items.end(), "knife");
     if (it != player.items.end()) {
+        int position = distance(player.items.begin(), it);
+        win_row=position/4;
+        win_col=position%4;
         // Remove the knife from the player's inventory
         player.items.erase(it);
         cout << "Knife found! Doubling the damage..." << endl;
@@ -43,6 +57,9 @@ void magnifyingGlass(vector<string>shells) {
     // checking 
     auto it = find(player.items.begin(), player.items.end(), "magnifyingGlass");
     if (it != player.items.end()) {
+        int position = distance(player.items.begin(), it);
+        win_row=position/4;
+        win_col=position%4;
         // erase the magnifying glass from the player's items
         player.items.erase(it);
 
@@ -69,6 +86,9 @@ void handcuff() {
     // check
     auto it = find(player.items.begin(), player.items.end(), "handcuff");
     if (it != player.items.end()) {
+        int position = distance(player.items.begin(), it);
+        win_row=position/4;
+        win_col=position%4;
         // remove
         player.items.erase(it);
        
@@ -91,6 +111,9 @@ void apple() {
     // check
     auto it = find(player.items.begin(), player.items.end(), "apple");
     if (it != player.items.end()) {
+        int position = distance(player.items.begin(), it);
+        win_row=position/4;
+        win_col=position%4;
         // remove
         player.items.erase(it);
 
@@ -106,6 +129,9 @@ void beer() {
     // check
     auto it = find(player.items.begin(), player.items.end(), "beer");
     if (it != player.items.end()) {
+        int position = distance(player.items.begin(), it);
+        win_row=position/4;
+        win_col=position%4;
         // remove
         player.items.erase(it);
 
