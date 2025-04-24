@@ -55,11 +55,11 @@ int tutorial2(WINDOW *game_win) {
 
         // 🤍 Body text: Items
         vector<wstring> items = {
-            L"- 🚬  Cigarette → +1 HP",
-            L"- 🔪  Knife → Double your damage",
-            L"- 🍺  Beer → Discard and see the next shell",
-            L"- 🔎  Scope → See if the next shell is live",
-            L"- ⛓️  Handcuff → Skip the dealer's turn"
+            L"- Cigarette → +1 HP 🚬",
+            L"- Knife → Double your damage🔪",
+            L"- Beer → Discard and see the next shell 🍺",
+            L"- Scope → See if the next shell is live 🔎",
+            L"- Handcuff → Skip the dealer's turn ⛓️"
         };
         wattron(game_win, COLOR_PAIR(3));
         for (const auto &item : items) {
