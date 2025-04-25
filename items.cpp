@@ -57,23 +57,27 @@ void Knife(vector<int> &shells, Player &player,Player &opponent,const std::vecto
         else if (player.isDealer){
             erase_in_inventory(dealerWindows[win_row][win_col]);
         }
-        cout << "Knife found! Doubling the damage..." << endl;
+        int rows, cols;
+        getmaxyx(stdscr, rows, cols);
+        mvprintw(rows / 2, (cols - strlen("Doubling the damage.....!"))/2,"Doubling the damage.....!")
         if (!shells.empty()) {
             int currentShell = shells[0]; // assuming the first shell is the current one
             if (currentShell == 1) {
-                mvprintw(rows / 2, (cols - strlen("Doubling the damage.....!");
+                mvprintw(rows / 2, (cols - strlen("Doubling the damage.....!"))/2,"Doubling the damage.....!");
 
                 opponent.takeDamage(40);
-                mvprintw(rows / 2, (cols - strlen("Opponent's remaining health -40 ");
+                mvprintw(rows / 2, (cols - strlen("Opponent's remaining health -40 "))/2,"Opponent's remaining health -40 ");
 
             } else {
-                mvprintw(rows / 2, (cols - strlen("The current shell is blank.");
+                mvprintw(rows / 2, (cols - strlen("The current shell is blank."))/2,"The current shell is blank.");
 
             }
         }  
     } 
     else{
-        cout<<"No knife found"<<endl;
+        int rows,cols;
+        getmaxyx(stdscr, rows, cols);
+        mvprintw(rows / 2, (cols - strlen("You don't have a knife! "))/2,"You don't have a knife! ");
     }
 
 }
@@ -101,16 +105,18 @@ void magnifyingGlass(vector<int> &shells, Player &player,const std::vector<std::
         // reveal the current shell
         if (!shells.empty()) {
             int currentShell = shells[0]; // assuming the first shell is the current one
+            int rows, cols;
+            getmaxyx(stdscr, rows, cols);
             if (currentShell == 1) {
-                mvprintw(rows / 2, (cols - strlen("The current shell is live!");
+                mvprintw(rows / 2, (cols - strlen("The current shell is live!"))/2,"The current shell is live!");
             } else {
-                mvprintw(rows / 2, (cols - strlen("The current shell is blank.");
+                mvprintw(rows / 2, (cols - strlen("The current shell is blank."))/2,"The current shell is blank.");
             }
         } else {
-            mvprintw(rows / 2, (cols - strlen("There are no shells left.");
+            mvprintw(rows / 2, (cols - strlen("There are no shells left."))/2,"There are no shells left.");
         }
     } else {
-        mvprintw(rows / 2, (cols - strlen("You don't have a magnifying glass.");
+        mvprintw(rows / 2, (cols - strlen("You don't have a magnifying glass."))/2,"You don't have a magnifying glass.");
     }
 }
 //1. need a int vector to represent the current shells
