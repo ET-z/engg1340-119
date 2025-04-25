@@ -61,11 +61,14 @@ void Knife(vector<int> &shells, Player &player,Player &opponent,const std::vecto
         if (!shells.empty()) {
             int currentShell = shells[0]; // assuming the first shell is the current one
             if (currentShell == 1) {
-                cout << "Doubling the damage.....!" << endl;
+                mvprintw(rows / 2, (cols - strlen("Doubling the damage.....!");
+
                 opponent.takeDamage(40);
-                cout << "Opponent's remaining health -40 " <<  endl;
+                mvprintw(rows / 2, (cols - strlen("Opponent's remaining health -40 ");
+
             } else {
-                cout << "The current shell is blank." << endl;
+                mvprintw(rows / 2, (cols - strlen("The current shell is blank.");
+
             }
         }  
     } 
@@ -99,15 +102,15 @@ void magnifyingGlass(vector<int> &shells, Player &player,const std::vector<std::
         if (!shells.empty()) {
             int currentShell = shells[0]; // assuming the first shell is the current one
             if (currentShell == 1) {
-                cout << "The current shell is live!"<<endl;
+                mvprintw(rows / 2, (cols - strlen("The current shell is live!");
             } else {
-                cout << "The current shell is blank." << endl;
+                mvprintw(rows / 2, (cols - strlen("The current shell is blank.");
             }
         } else {
-            cout << "There are no shells left." << endl;
+            mvprintw(rows / 2, (cols - strlen("There are no shells left.");
         }
     } else {
-        cout << "You don't have a magnifying glass." << endl;
+        mvprintw(rows / 2, (cols - strlen("You don't have a magnifying glass.");
     }
 }
 //1. need a int vector to represent the current shells
