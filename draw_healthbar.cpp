@@ -8,14 +8,14 @@ void healthbar(WINDOW *bar_win, int health) {
     int maxWidth = getmaxx(bar_win) - 2;
     int fill = (health * maxWidth) / 100;
 
-    // Define a color pair for green fill (once per game session)
+    // color pair for green fill (once per game session)
     static bool color_initialized = false;
     if (!color_initialized) {
-        init_pair(3, COLOR_GREEN, COLOR_BLACK); // Pair 3 = green text on black
+        init_pair(3, COLOR_GREEN, COLOR_BLACK);
         color_initialized = true;
     }
 
-    // Draw the filled portion
+    // filled portion
     wattron(bar_win, COLOR_PAIR(3));
     for (int i = 0; i < fill; ++i) {
         mvwaddch(bar_win, 1, i + 1, ACS_CKBOARD); // Fill char
