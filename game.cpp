@@ -15,12 +15,12 @@ int game(WINDOW *game_win)
   int HEIGHT, WIDTH;
   getmaxyx(game_win, HEIGHT, WIDTH);
 
-  // Color pair (This is white text on a blue background)
+  // Color pair
   init_pair(1, COLOR_WHITE, COLOR_BLUE);
 
   int ch;
 
-  // Height and width for inventory item boxes
+  // Height + width for inventory item boxes
   int inventory_height = 10, inventory_width = 20;
 
   // Dealer's inventory
@@ -64,20 +64,20 @@ int game(WINDOW *game_win)
   int player_health_start_x = WIDTH - health_width - 2;
   WINDOW *player_health = derwin(game_win, health_height, health_width, player_health_start_y, player_health_start_x);
 
-  // Draw window dimensions
+  // Window dimensions
   int draw_height = 19, draw_width = 60;
 
-  // Dealer Draw Window
+  // Dealer draw window
   int dealer_draw_start_y = 10;
   int dealer_draw_start_x = 1;
   WINDOW *dealer_draw = derwin(game_win, draw_height, draw_width, dealer_draw_start_y, dealer_draw_start_x);
 
-  // Player Draw Window
+  // Player draw window
   int player_draw_start_y = 10;
   int player_draw_start_x = WIDTH - draw_width - 1;
   WINDOW *player_draw = derwin(game_win, draw_height, draw_width, player_draw_start_y, player_draw_start_x);
 
-  // Bullet Table
+  // Bullet table
   int bullet_table_height = 20, bullet_table_width = 30;
   int bullets_start_y = HEIGHT - bullet_table_height - 1;
   int bullets_start_x = (WIDTH - bullet_table_width) / 2;
