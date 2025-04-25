@@ -271,31 +271,3 @@ public:
         return unique_ptr<ShellGenerator>(new ShellGenerator(9, 1, 5));
     }
 };
-
-// Main program entry
-int main() {
-    // Initialize ncurses
-    initscr();          // Start curses mode
-    cbreak();           // Disable line buffering
-    noecho();           // Don't echo input
-    curs_set(0);        // Hide cursor
-    keypad(stdscr, TRUE); // Enable special keys
-    
-    // Get terminal dimensions
-    int max_y, max_x;
-    getmaxyx(stdscr, max_y, max_x);
-    
-    // Create generator instance
-    auto generator = ShellGeneratorFactory::createDefaultGenerator();
-    
-    // Display centered information
-    generator->displayCentered(max_y, max_x);
-    
-    // Wait for user input
-    getch();
-    
-    // Cleanup ncurses
-    endwin();
-
-    return 0;
-}
