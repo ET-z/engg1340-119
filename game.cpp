@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "game.h"
+#include "shell.h"
 #include "draw_healthbar.h"
 using namespace std;
 
