@@ -176,7 +176,8 @@ int main()
     }
   }
   // Clean up ncurses
-  delwin(game_win);
+  
+  refresh();
   endwin();
 
   return 0;
