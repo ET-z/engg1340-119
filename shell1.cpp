@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <curses.h>
+#include "shell.h"
 
 using namespace std;
 
@@ -58,17 +59,6 @@ public:
         refresh();
     }
 };
-
-int main() {
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-    
-    ShellGenerator game;
-    game.display();
-    
-    getch();
-    endwin();
-    return 0;
-}
+   
+    //ShellGenerator game;
+    //game.display()

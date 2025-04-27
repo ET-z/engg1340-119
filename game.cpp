@@ -5,6 +5,7 @@
 #include "game.h"
 #include "shell.h"
 #include "draw_healthbar.h"
+#include "player.h"
 using namespace std;
 
 // Declare healthbar
@@ -83,11 +84,15 @@ int game(WINDOW *game_win)
   int bullets_start_x = (WIDTH - bullet_table_width) / 2;
   WINDOW *bullets_table = derwin(game_win, bullet_table_height, bullet_table_width, bullets_start_y, bullets_start_x);
 
-  // Game state variables
+  // Game state variables and initiate players, shells
   int selectedRow = 0, selectedCol = 0;
   bool itemPicked = false;
-  int playerHealth = 60;
-  int dealerHealth = 60;
+  Player player("ENGG1340", 60, true);
+  Opponent AI("S1mple", 60, false);
+  int playerHealth = player.health;
+  int dealerHealth = AI.health;
+  ShellGenerator gen;
+  string a = gen.getShells();
 
   healthbar(player_health, playerHealth);
   healthbar(dealer_health, dealerHealth);
@@ -142,7 +147,7 @@ int game(WINDOW *game_win)
 
     wrefresh(game_win);
 
-    // User input
+    //User input
     ch = wgetch(game_win);
     
     // Handle input

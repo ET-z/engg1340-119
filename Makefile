@@ -10,8 +10,7 @@ SRCS = main.cpp \
         tutorial_pages/tutorial1.cpp \
         tutorial_pages/tutorial2.cpp \
         tutorial_pages/tutorial3.cpp \
-	draw_healthbar.cpp \
-	player.h
+	draw_healthbar.cpp
  
 OBJS = $(SRCS:.cpp=.o)
  
