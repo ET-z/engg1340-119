@@ -218,13 +218,97 @@ int game(WINDOW *game_win)
       }
       else
       {
-        // if no item picked, shoot dealer
-        bool live = rand() % 2; // random live or blank
-        if (live)
-          dealerHealth = max(dealerHealth - 20, 0);
+        
+        static vector<bool> rounds;       // current shell
+        static int currentRound = 0;       // cirrent bullet
+        static bool playerTurn = true;     // playerturn signal
+        
+        if (rounds.empty() || currentRound >= rounds.size()) {
+            ShellGenerator gen;
+            rounds = gen.getShells();
+            currentRound = 0;
+        }
+        
+        // DRAW UI：hint player to choose
+        mvwprintw(game_win, 5, 2, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
+        wrefresh(game_win);
+        
+        // player option selection
+        int action = wgetch(game_win);
+        
+        if (playerTurn) {
+            if (action == '1') { // Shoot Dealer
+                bool result = rounds[currentRound++];
+                if (result) { // live shell
+                    dealerHealth = max(dealerHealth - 20, 0);
+                    mvwprintw(game_win, 6, 2, "A live shell! Dealer takes 20 damage.");
+                    playerTurn = false;
+                } else { // blank shell
+                    mvwprintw(game_win, 6, 2, "Oops! Blank! Your turn ends.");
+                    playerTurn = false;
+                }
+            } else if (action == '2') { // Shoot Self
+                bool result = rounds[currentRound++];
+                if (result) { // live shell
+                    playerHealth = max(playerHealth - 20, 0);
+                    mvwprintw(game_win, 6, 2, "You shot yourself with a live shell! -20 HP.");
+                    playerTurn = false;
+                } else { // blank shell
+                    mvwprintw(game_win, 6, 2, "Blank! Lucky! Shoot again.");
+                    playerTurn = true; // Blank self-shot => keep turn
+                }
+            } else {
+                mvwprintw(game_win, 6, 2, "Invalid choice. Turn skipped.");
+                playerTurn = false;
+            }
+        }
+        
+        // CHECK if player or dealer dead after player turn
+        if (playerHealth <= 0) {
+            mvwprintw(game_win, 8, 2, "You died! Dealer wins!");
+            wrefresh(game_win);
+            getch();
+            return 0;
+        }
+        if (dealerHealth <= 0) {
+            mvwprintw(game_win, 8, 2, "Dealer died! You win!");
+            wrefresh(game_win);
+            getch();
+            return 0;
+        }
+        
+        // If it's Dealer's turn now
+        if (!playerTurn) {
+            int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
+            int remainingTotalShells = rounds.size() - currentRound;
+
+            dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++], remainingLiveShells, remainingTotalShells, currentDealerAILevel);
+
+            playerTurn = true;
+        }
+        
+            // Dealer action blood check
+            if (playerHealth <= 0) {
+                mvwprintw(game_win, 8, 2, "You died! Dealer wins!");
+                wrefresh(game_win);
+                getch();
+                return 0;
+            }
+        }
+        
+        // If shells are finished after AI or player
+        if (currentRound >= rounds.size()) {
+            ShellGenerator gen;
+            rounds = gen.getShells();
+            currentRound = 0;
+            mvwprintw(game_win, 9, 2, "Reloading a new clip...");
+            wrefresh(game_win);
+        }
+
+
+
       }
-      healthbar(player_health, playerHealth);
-      healthbar(dealer_health, dealerHealth);
+      
       break;
     }
   }
