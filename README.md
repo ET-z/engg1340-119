@@ -6,7 +6,7 @@
 
 - @ET-z **Enkhtushig Zolzaya** - 3036294578
 - @DuskNova **Name** -
-- @tmng **Name** -
+- @tmng **Tran Minh Nguyen** - 3036384892
 - @tue-nhi **Nguyen Tue Nhi** - 3036364517
 - @kk212371 **Name** - 3036392461
 - @Maggie-maoyiqi **Mao Yiqi** - 3036291186
