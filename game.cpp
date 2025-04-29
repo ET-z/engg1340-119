@@ -196,7 +196,7 @@ int game(WINDOW *game_win)
 				}
 
 				
-				int x_center = (WIDTH - 27) / 2; 
+				int x_center = (WIDTH - 56) / 2; 
 				
 				
 				mvwprintw(game_win, 5, x_center, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
