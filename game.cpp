@@ -195,7 +195,13 @@ int game(WINDOW *game_win)
 					currentRound = 0;
 				}
 
-				mvwprintw(game_win, 5, 2, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
+				
+				int x_center = (WIDTH - 27) / 2; 
+				
+				
+				mvwprintw(game_win, 5, x_center, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
+				
+
 				wrefresh(game_win);
 				int action = wgetch(game_win);
 
