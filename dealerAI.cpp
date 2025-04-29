@@ -3,23 +3,42 @@
 #include <string>
 #include <algorithm>
 
+void printCentered(WINDOW *win, const std::string &message, int y_center) {
+    int HEIGHT, WIDTH;
+    getmaxyx(win, HEIGHT, WIDTH); 
+    
+    
+    int x_center = (WIDTH - message.length()) / 2;
+    
+    
+    mvwprintw(win, y_center, x_center, "%s", message.c_str());
+    wrefresh(win);
+}
+
+
+
+
 // Dumb AI: Always attack
 void dealerDumb(WINDOW *game_win, int &playerHealth) {
     if (rand() % 2 == 1) {
-        mvwprintw(game_win, 7, 2, "[Dumb AI] Dealer shot live!");
+        printCentered(game_win, "[Dumb AI] Dealer shot live!", 7);
+        napms(2000);  
         playerHealth = std::max(playerHealth - 20, 0);
     } else {
-        mvwprintw(game_win, 7, 2, "[Dumb AI] Dealer shot blank.");
+        printCentered(game_win, "[Dumb AI] Dealer shot blank.", 7);
+        napms(2000);  
     }
 }
 
 // Scope-Aware AI: If dealer knows the shell, act accordingly
 void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell) {
     if (currentShell) {
-        mvwprintw(game_win, 7, 2, "[Scope-Aware AI] Dealer knows it's live! Attacking.");
+        printCentered(game_win, "[Scope-Aware AI] Dealer knows it's live! Attacking.", 7);
+        napms(2000);  
         playerHealth = std::max(playerHealth - 20, 0);
     } else {
-        mvwprintw(game_win, 7, 2, "[Scope-Aware AI] Dealer knows it's blank. Skipping.");
+        printCentered(game_win, "[Scope-Aware AI] Dealer knows it's blank. Skipping.", 7);
+        napms(2000);  
     }
 }
 
@@ -27,14 +46,17 @@ void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell) {
 void dealerRiskAware(WINDOW *game_win, int &playerHealth, int dealerHealth, int liveCount, int totalShells) {
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
     if (dealerHealth < 20 && risk > 0.6) {
-        mvwprintw(game_win, 7, 2, "[Risk-Aware AI] Dealer too weak, skipped shooting.");
+        printCentered(game_win, "[Risk-Aware AI] Dealer too weak, skipped shooting.", 7);
+        napms(2000)
         return;
     }
     if (risk > 0.4 || rand() % 2 == 1) {
-        mvwprintw(game_win, 7, 2, "[Risk-Aware AI] Dealer decided to shoot.");
+        printCentered(game_win, "[Risk-Aware AI] Dealer decided to shoot.", 7);
+        napms(2000)
         playerHealth = std::max(playerHealth - 20, 0);
     } else {
-        mvwprintw(game_win, 7, 2, "[Risk-Aware AI] Dealer skipped shooting.");
+        printCentered(game_win, 7, 2, "[Risk-Aware AI] Dealer skipped shooting.");
+        napms(2000)
     }
 }
 
@@ -43,21 +65,25 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int dealerHealth, bool cur
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
 
     if (playerHealth <= 20 && (currentShell || risk > 0.5)) {
-        mvwprintw(game_win, 7, 2, "[Smart AI] Player weak, Dealer tries to finish!");
+        printCentered(game_win, "[Smart AI] Player weak, Dealer tries to finish!", 7);
+        napms(2000)
         playerHealth = std::max(playerHealth - 20, 0);
         return;
     }
 
     if (dealerHealth <= 20 && risk > 0.5) {
-        mvwprintw(game_win, 7, 2, "[Smart AI] Dealer avoids risky shooting.");
+        printCentered(game_win, "[Smart AI] Dealer avoids risky shooting.", 7);
+        napms(2000)
         return;
     }
 
     if (currentShell || risk > 0.5 || rand() % 2 == 1) {
-        mvwprintw(game_win, 7, 2, "[Smart AI] Dealer attacked smartly.");
+        printCentered(game_win, "[Smart AI] Dealer attacked smartly.", 7);
+        napms(2000)
         playerHealth = std::max(playerHealth - 20, 0);
     } else {
-        mvwprintw(game_win, 7, 2, "[Smart AI] Dealer skipped.");
+        printCentered(game_win, "[Smart AI] Dealer skipped.", 7);
+        napms(2000)
     }
 }
 
