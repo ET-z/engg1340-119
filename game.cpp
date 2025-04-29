@@ -285,7 +285,7 @@ int game(WINDOW *game_win)
 				for (char c : shellString)
 					rounds.push_back(c == '1');
 				currentRound = 0;
-				printCentered(game_win, "Reloading a new clip..."， 9);
+				printCentered(game_win, "Reloading...", 9);
 				wrefresh(game_win);
 			}
 			break;
