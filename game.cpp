@@ -9,7 +9,7 @@
 #include "dealerAI.h"
 extern DealerAILevel currentDealerAILevel;
 using namespace std;
-int currentRound = 0;
+
 vector<bool> rounds;
 
 // Declare healthbar
@@ -17,7 +17,8 @@ void healthbar(WINDOW *bar, int health);
 
 int game(WINDOW *game_win)
 {
-  int HEIGHT, WIDTH;
+  bool inGame =  true;
+	int HEIGHT, WIDTH;
   getmaxyx(game_win, HEIGHT, WIDTH);
 
   // Color pair
@@ -95,251 +96,190 @@ int game(WINDOW *game_win)
   int playerHealth = player.health;
   int dealerHealth = AI.health;
   ShellGenerator gen;
-  string a = gen.getShells();
+	vector<bool> rounds;
+	int currentRound = 0
+  bool playerTurn = true;
 
   healthbar(player_health, playerHealth);
   healthbar(dealer_health, dealerHealth);
 
   // Main loop
-  while (true)
-  {
-    // Clear game window
-    wclear(game_win);
-    // Redraw boxes
-    box(game_win, 0, 0);
-    healthbar(player_health, playerHealth);
-    healthbar(dealer_health, dealerHealth);
-    box(bullets_table, 0, 0);
-    wrefresh(bullets_table);
-    // box(dealer_draw, 0, 0);
-    // wrefresh(dealer_draw);
-    // box(player_draw, 0, 0);
-    // wrefresh(player_draw);
+	while (inGame)
+	{
+		wclear(game_win);
+		box(game_win, 0, 0);
+		healthbar(player_health, playerHealth);
+		healthbar(dealer_health, dealerHealth);
+		box(bullets_table, 0, 0);
+		wrefresh(bullets_table);
 
-    for (int i = 0; i < 2; i++)
-    {
-      for (int j = 0; j < 4; j++)
-      {
-        box(dealer_items[i][j], 0, 0);
-        wrefresh(dealer_items[i][j]);
-      }
-    }
+		for (int i = 0; i < 2; i++)
+			for (int j = 0; j < 4; j++)
+			{
+				box(dealer_items[i][j], 0, 0);
+				wrefresh(dealer_items[i][j]);
+			}
 
-    // Highlight player inventory selection
-    for (int i = 0; i < 2; i++)
-      for (int j = 0; j < 4; j++)
-      {
-        if (i == selectedRow && j == selectedCol)
-          wattron(player_items[i][j], A_REVERSE);
-        box(player_items[i][j], 0, 0);
-        if (i == selectedRow && j == selectedCol)
-          wattroff(player_items[i][j], A_REVERSE);
-        wrefresh(player_items[i][j]);
-      }
+		for (int i = 0; i < 2; i++)
+			for (int j = 0; j < 4; j++)
+			{
+				if (i == selectedRow && j == selectedCol)
+					wattron(player_items[i][j], A_REVERSE);
+				box(player_items[i][j], 0, 0);
+				if (i == selectedRow && j == selectedCol)
+					wattroff(player_items[i][j], A_REVERSE);
+				wrefresh(player_items[i][j]);
+			}
 
-    string pause_msg = "Press ESC to pause";
+		mvwprintw(game_win, 1, (WIDTH - 18) / 2, "Press ESC to pause");
+		draw_player(player_draw);
+		draw_dealer(dealer_draw);
+		wrefresh(game_win);
 
-    mvwprintw(game_win, 1, (WIDTH - static_cast<int>(pause_msg.size())) / 2, "%s", pause_msg.c_str());
+		ch = wgetch(game_win);
 
-    // Display changes
-    wrefresh(game_win);
+		switch (ch)
+		{
+		case 27: // ESC
+		{
+			int result = ::pause();
+			if (result == 0)
+				continue;
+			else if (result == 1)
+				inGame = false;
+			else if (result == 2)
+			{
+				inGame = false;
+				break;
+			}
+			break;
+		}
 
-    // draw dealer and player
-    draw_player(player_draw);
-    draw_dealer(dealer_draw);
+		case KEY_UP:
+			if (selectedRow > 0) selectedRow--;
+			break;
 
-    wrefresh(game_win);
+		case KEY_DOWN:
+			if (selectedRow < 1) selectedRow++;
+			break;
 
-    // User input
-    ch = wgetch(game_win);
+		case KEY_LEFT:
+			if (selectedCol > 0) selectedCol--;
+			break;
 
-    // Handle input
-    switch (ch)
-    {
-    case 27: // ESC
-    {
-      int result = ::pause();
-      if (result == 0)
-        continue;
-      else if (result == 1)
-        return 1;
-      else if (result == 2)
-      {
-        for (auto &row : dealer_items)
-          for (WINDOW *win : row)
-            delwin(win);
+		case KEY_RIGHT:
+			if (selectedCol < 3) selectedCol++;
+			break;
 
-        for (auto &row : player_items)
-          for (WINDOW *win : row)
-            delwin(win);
+		case 'e':
+		case 'E':
+			itemPicked = true;
+			mvwprintw(player_items[selectedRow][selectedCol], 1, 1, "Picked");
+			break;
 
-        delwin(dealer_health);
-        delwin(player_health);
-        delwin(bullets_table);
-        delwin(dealer_draw);
-        delwin(player_draw);
-        delwin(game_win);
-        endwin();
-        return 0;
-      }
-      break;
-    }
+		case 10:
+		case ' ':
+			if (itemPicked)
+			{
+				playerHealth = min(playerHealth + 1, 100);
+				itemPicked = false;
+			}
+			else
+			{
+				if (rounds.empty() || currentRound >= rounds.size())
+				{
+					string shellStr = gen.getShells();
+					rounds.clear();
+					for (char c : shellStr)
+						rounds.push_back(c == '1');
+					currentRound = 0;
+				}
 
-    case KEY_UP:
-      if (selectedRow > 0)
-        selectedRow--;
-      break;
+				mvwprintw(game_win, 5, 2, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
+				wrefresh(game_win);
+				int action = wgetch(game_win);
 
-    case KEY_DOWN:
-      if (selectedRow < 1)
-        selectedRow++;
-      break;
+				if (playerTurn)
+				{
+					if (action == '1')
+					{
+						bool result = rounds[currentRound++];
+						if (result)
+						{
+							dealerHealth = max(dealerHealth - 20, 0);
+							mvwprintw(game_win, 6, 2, "A live shell! Dealer takes 20 damage.");
+							playerTurn = false;
+						}
+						else
+						{
+							mvwprintw(game_win, 6, 2, "Oops! Blank! Your turn ends.");
+							playerTurn = false;
+						}
+					}
+					else if (action == '2')
+					{
+						bool result = rounds[currentRound++];
+						if (result)
+						{
+							playerHealth = max(playerHealth - 20, 0);
+							mvwprintw(game_win, 6, 2, "You shot yourself with a live shell! -20 HP.");
+							playerTurn = false;
+						}
+						else
+						{
+							mvwprintw(game_win, 6, 2, "Blank! Lucky! Shoot again.");
+							playerTurn = true;
+						}
+					}
+					else
+					{
+						mvwprintw(game_win, 6, 2, "Invalid choice. Turn skipped.");
+						playerTurn = false;
+					}
+				}
 
-    case KEY_LEFT:
-      if (selectedCol > 0)
-        selectedCol--;
-      break;
+				if (playerHealth <= 0 || dealerHealth <= 0)
+				{
+					inGame = false;
+					break;
+				}
 
-    case KEY_RIGHT:
-      if (selectedCol < 3)
-        selectedCol++;
-      break;
+				if (!playerTurn)
+				{
+					int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
+					int remainingTotalShells = rounds.size() - currentRound;
+					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
+							 remainingLiveShells, remainingTotalShells, currentDealerAILevel);
+					playerTurn = true;
+				}
 
-    case 'e':
-    case 'E':
-      itemPicked = true;
-      // highlight selected box
-      mvwprintw(player_items[selectedRow][selectedCol], 1, 1, "Picked");
-      break;
+				if (playerHealth <= 0 || dealerHealth <= 0)
+				{
+					inGame = false;
+					break;
+				}
+			}
 
-    case 10:  // Enter key
-    case ' ': // Spacebar
-      if (itemPicked)
-      {
-        playerHealth = min(playerHealth + 1, 100); // DEMO: if user pick cig (heals + 1)
-        itemPicked = false;
-      }
-      else
-      {
+			if (currentRound >= rounds.size())
+			{
+				string shellString = gen.getShells();
+				rounds.clear();
+				for (char c : shellString)
+					rounds.push_back(c == '1');
+				currentRound = 0;
+				mvwprintw(game_win, 9, 2, "Reloading a new clip...");
+				wrefresh(game_win);
+			}
+			break;
 
-        static vector<bool> rounds;    // current shell
-        static int currentRound = 0;   // cirrent bullet
-        static bool playerTurn = true; // playerturn signal
+		default:
+			mvwprintw(game_win, 1, 2, "Unknown key: ch = %d", ch);
+			wrefresh(game_win);
+			break;
+		} // end switch
+	} // end while
 
-        if (rounds.empty() || currentRound >= rounds.size())
-        {
-          ShellGenerator gen;
-          string shellStr = gen.getShells();
-          rounds.clear();
-          for (char c: shellStr){
-            rounds.push_back(c == '1');
-          }
-          currentRound = 0;
-        }
-
-        // DRAW UI：hint player to choose
-        mvwprintw(game_win, 5, 2, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
-        wrefresh(game_win);
-
-        // player option selection
-        int action = wgetch(game_win);
-
-        if (playerTurn)
-        {
-          if (action == '1')
-          { // Shoot Dealer
-            bool result = rounds[currentRound++];
-            if (result)
-            { // live shell
-              dealerHealth = max(dealerHealth - 20, 0);
-              mvwprintw(game_win, 6, 2, "A live shell! Dealer takes 20 damage.");
-              playerTurn = false;
-            }
-            else
-            { // blank shell
-              mvwprintw(game_win, 6, 2, "Oops! Blank! Your turn ends.");
-              playerTurn = false;
-            }
-          }
-          else if (action == '2')
-          { // Shoot Self
-            bool result = rounds[currentRound++];
-            if (result)
-            { // live shell
-              playerHealth = max(playerHealth - 20, 0);
-              mvwprintw(game_win, 6, 2, "You shot yourself with a live shell! -20 HP.");
-              playerTurn = false;
-            }
-            else
-            { // blank shell
-              mvwprintw(game_win, 6, 2, "Blank! Lucky! Shoot again.");
-              playerTurn = true; // Blank self-shot => keep turn
-            }
-          }
-          else
-          {
-            mvwprintw(game_win, 6, 2, "Invalid choice. Turn skipped.");
-            playerTurn = false;
-          }
-        }
-
-        // CHECK if player or dealer dead after player turn
-        if (playerHealth <= 0)
-        {
-          mvwprintw(game_win, 8, 2, "You died! Dealer wins!");
-          wrefresh(game_win);
-          getch();
-          return 0;
-        }
-        if (dealerHealth <= 0)
-        {
-          mvwprintw(game_win, 8, 2, "Dealer died! You win!");
-          wrefresh(game_win);
-          getch();
-          return 0;
-        }
-
-        // If it's Dealer's turn now
-        if (!playerTurn)
-        {
-          int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
-          int remainingTotalShells = rounds.size() - currentRound;
-
-          dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++], remainingLiveShells, remainingTotalShells, currentDealerAILevel);
-
-          playerTurn = true;
-        }
-
-        // Dealer action blood check
-        if (playerHealth <= 0)
-        {
-          mvwprintw(game_win, 8, 2, "You died! Dealer wins!");
-          wrefresh(game_win);
-          getch();
-          return 0;
-        }
-      }
-
-      // If shells are finished after AI or player
-      if (currentRound >= rounds.size())
-      {
-        ShellGenerator gen;
-        string shellString = gen.getShells();
-        rounds.clear();
-        for (char c : shellString){
-          rounds.push_back(c == '1');
-        }
-        currentRound = 0;
-        mvwprintw(game_win, 9, 2, "Reloading a new clip...");
-        wrefresh(game_win);
-      }
-    }
-
-    break;
-  }
-  // Clean up ncurses
-  delwin(game_win);
-  endwin();
-
-  return 0;
+	delwin(game_win);
+	endwin();
+	return 0;
 }
