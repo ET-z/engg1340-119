@@ -47,16 +47,16 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int dealerHealth, int 
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
     if (dealerHealth < 20 && risk > 0.6) {
         printCentered(game_win, "[Risk-Aware AI] Dealer too weak, skipped shooting.", 7);
-        napms(2000)
+        napms(2000); 
         return;
     }
     if (risk > 0.4 || rand() % 2 == 1) {
         printCentered(game_win, "[Risk-Aware AI] Dealer decided to shoot.", 7);
-        napms(2000)
+        napms(2000); 
         playerHealth = std::max(playerHealth - 20, 0);
     } else {
         printCentered(game_win, 7, 2, "[Risk-Aware AI] Dealer skipped shooting.");
-        napms(2000)
+        napms(2000); 
     }
 }
 
@@ -66,25 +66,25 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int dealerHealth, bool cur
 
     if (playerHealth <= 20 && (currentShell || risk > 0.5)) {
         printCentered(game_win, "[Smart AI] Player weak, Dealer tries to finish!", 7);
-        napms(2000)
+        napms(2000); 
         playerHealth = std::max(playerHealth - 20, 0);
         return;
     }
 
     if (dealerHealth <= 20 && risk > 0.5) {
         printCentered(game_win, "[Smart AI] Dealer avoids risky shooting.", 7);
-        napms(2000)
+        napms(2000); 
         return;
     }
 
     if (currentShell || risk > 0.5 || rand() % 2 == 1) {
         printCentered(game_win, "[Smart AI] Dealer attacked smartly.", 7);
-        napms(2000)
+        napms(2000); 
         playerHealth = std::max(playerHealth - 20, 0);
     } else {
         printCentered(game_win, "[Smart AI] Dealer skipped.", 7);
-        napms(2000)
-    }
+        napms(2000); 
+    };
 }
 
 
