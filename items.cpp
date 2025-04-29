@@ -215,73 +215,56 @@ void apple(vector<int> &shells, Player &player,const std::vector<std::vector<WIN
     refresh();
 }
 
-void beer(vector<int> &shells, Player &player,const std::vector<std::vector<WINDOW*>>& dealerWindows,const std::vector<std::vector<WINDOW*>>& playerWindows) {
+void beer(vector<int> &shells, Player &player, const std::vector<std::vector<WINDOW*>>& dealerWindows, const std::vector<std::vector<WINDOW*>>& playerWindows) {
     // Find the item "beer" in the player's items
     auto it = find(player.items.begin(), player.items.end(), "beer");
+    
     // Check if the item is found
     if (it != player.items.end()) {
         int position = distance(player.items.begin(), it);
-        int win_row;
-        int win_col;
-        win_row=position/4;
-        win_col=position%4;
+        int win_row = position / 4;
+        int win_col = position % 4;
+        
+        // Remove beer from inventory
         player.items.erase(it);
-        if (!player.isDealer){
+        
+        if (!player.isDealer) {
             erase_in_inventory(playerWindows[win_row][win_col]);
-        }
-        else if (player.isDealer){
+        } else if (player.isDealer) {
             erase_in_inventory(dealerWindows[win_row][win_col]);
         }
-
 
         // Check if there are shells available
         if (!shells.empty()) {
             // Remove the first shell from the shells vector
-            int removedShell = shells[0];
             shells.erase(shells.begin());
-
-            // Get the window dimensions
+            
+            // Get window dimensions
             int rows, cols;
             getmaxyx(stdscr, rows, cols);
-
+            
             // Display message in the middle of the screen
-            mvprintw(rows / 2, (cols - strlen("You drank beer and fired a shot!")) / 2,
-                     "You drank beer and fired a shot!");
-
-            // Check if the removed shell is live
-            if (removedShell == 1) {
-                // Decrease the player's health
-                player.takeDamage(20);
-
-                // Create a message string with the updated health
-                char message[100];
-                snprintf(message, sizeof(message), "It was a live shell! You took 20 damage. Current health: %d", player.health);
-
-                // Display message below the previous one
-                mvprintw(rows / 2 + 1, (cols - strlen(message)) / 2, message);
-            } else {
-                // Display message below the previous one
-                mvprintw(rows / 2 + 1, (cols - strlen("It was a blank shell. Phew!")) / 2,
-                         "It was a blank shell. Phew!");
-            }
+            mvprintw(rows / 2, (cols - strlen("You used beer to eject a shell")) / 2,
+                     "You used beer to eject a shell");
         } else {
-            // Get the window dimensions
+            // Get window dimensions
             int rows, cols;
             getmaxyx(stdscr, rows, cols);
-
+            
             // Display message in the middle of the screen
             mvprintw(rows / 2, (cols - strlen("There are no shells left.")) / 2,
                      "There are no shells left.");
         }
     } else {
-        // Get the window dimensions
+        // Get window dimensions
         int rows, cols;
         getmaxyx(stdscr, rows, cols);
-
+        
         // Display message in the middle of the screen
         mvprintw(rows / 2, (cols - strlen("You don't have beer.")) / 2,
                  "You don't have beer.");
     }
+
     // Refresh the screen to display the changes
     refresh();
 }
