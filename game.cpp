@@ -97,7 +97,7 @@ int game(WINDOW *game_win)
   int dealerHealth = AI.health;
   ShellGenerator gen;
 	vector<bool> rounds;
-	int currentRound = 0
+	int currentRound = 0;
   bool playerTurn = true;
 
   healthbar(player_health, playerHealth);
