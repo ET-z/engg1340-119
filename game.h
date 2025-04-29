@@ -3,7 +3,7 @@
 #include "dealerAI.h"
 
 int main();
-int game(WINDOW *game_win, DealerAILevel aiLevel); 
+int game(WINDOW *game_win); 
 int tutorial1(WINDOW *game_win);
 int tutorial2(WINDOW *game_win);
 int tutorial3(WINDOW *game_win);
