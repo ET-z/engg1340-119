@@ -137,22 +137,21 @@ int main()
 	    box(game_win, 0, 0);
 	
 	    
-	    int x_center_1 = (WIDTH - 21) / 2; 
-		int x_center_2 = (WIDTH - 22) / 2;  
-		int x_center_3 = (WIDTH - 24) / 2;  
-		int x_center_4 = (WIDTH - 22) / 2;  
+				   
+			int x_center_2 = (WIDTH - 22) / 2;  
+			int x_center_3 = (WIDTH - 24) / 2;  
+			int x_center_4 = (WIDTH - 22) / 2;  
+			
 		
+			int y_center = HEIGHT / 2 - 2;  
+			
 		
-		int y_center = HEIGHT / 2 - 2;  
-		
-		
-		mvwprintw(game_win, y_center, x_center_1, "Choose Difficulty:");
-		mvwprintw(game_win, y_center + 2, x_center_2, "[1] Easy (Dumb AI)");
-		mvwprintw(game_win, y_center + 3, x_center_3, "[2] Medium (Risk-Aware AI)");
-		mvwprintw(game_win, y_center + 4, x_center_4, "[3] Hard (Smart AI)");
-
-	
-	    wrefresh(game_win);
+			mvwprintw(game_win, y_center, x_center_1, "Choose Difficulty:");
+			mvwprintw(game_win, y_center + 2, x_center_2, "[1] Easy (Dumb AI)");
+			mvwprintw(game_win, y_center + 3, x_center_3, "[2] Medium (Risk-Aware AI)");
+			mvwprintw(game_win, y_center + 4, x_center_4, "[3] Hard (Smart AI)");
+			
+			wrefresh(game_win);
 	
 	    
 	    int diff_ch = wgetch(game_win);
