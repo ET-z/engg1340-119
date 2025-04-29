@@ -10,7 +10,8 @@ SRCS = main.cpp \
         tutorial_pages/tutorial1.cpp \
         tutorial_pages/tutorial2.cpp \
         tutorial_pages/tutorial3.cpp \
-	draw_healthbar.cpp
+	draw_healthbar.cpp \
+	dealerAI.cpp
  
 OBJS = $(SRCS:.cpp=.o)
  
