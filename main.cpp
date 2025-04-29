@@ -6,9 +6,11 @@
 #include <fstream>
 #include "game.h"
 #include <locale.h>
-
+#include "dealerAI.h"
 
 using namespace std;
+
+DealerAILevel currentDealerAILevel = DUMB;
 
 int main()
 {
@@ -130,15 +132,36 @@ int main()
     // User input to pick menu item
     if (ch == 's' || ch == 'S') // Start
     {
-      if (game(game_win))
-        continue;
+      
+	    wclear(game_win);
+	    box(game_win, 0, 0);
+	
+	    
+	    mvwprintw(game_win, 5, 5, "Choose Difficulty:");
+	    mvwprintw(game_win, 7, 7, "[1] Easy (Dumb AI)");
+	    mvwprintw(game_win, 8, 7, "[2] Medium (Risk-Aware AI)");
+	    mvwprintw(game_win, 9, 7, "[3] Hard (Smart AI)");
+	
+	    wrefresh(game_win);
+	
+	    
+	    int diff_ch = wgetch(game_win);
+	
+	    if (diff_ch == '1') currentDealerAILevel = DUMB;
+	    else if (diff_ch == '2') currentDealerAILevel = RISK_AWARE;
+	    else if (diff_ch == '3') currentDealerAILevel = SMART;
+	    else currentDealerAILevel = DUMB; 
+	
+	    if (game(game_win)) 
+	        continue;
+	     
     }
-    else if (ch == 'h' || ch == 'H') // How to play
+    else if (ch == 'h' || ch == 'H')
     {
       if (tutorial1(game_win))
         continue;
     }
-    else if (ch == 'q' || ch == 'Q') // Quit
+    else if (ch == 'q' || ch == 'Q')
     {
       delwin(game_win);
       clear();
