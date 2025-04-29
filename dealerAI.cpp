@@ -61,7 +61,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int dealerHealth, bool cur
     }
 }
 
-// 总调度器
+
 void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, DealerAILevel aiLevel) {
     switch (aiLevel) {
         case DUMB:
@@ -77,5 +77,5 @@ void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool curre
             dealerSmart(game_win, playerHealth, dealerHealth, currentShell, liveCount, totalShells);
             break;
     }
-    wrefresh(game_win); // 保证AI出手信息刷新出来
+    wrefresh(game_win); 
 }
