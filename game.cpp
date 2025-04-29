@@ -291,7 +291,7 @@ int game(WINDOW *game_win)
 					rounds.push_back(c == '1');
 				currentRound = 0;
 				printCentered(game_win, "Reloading...", 9);
-				napms(2000)
+				napms(2000);
 				wrefresh(game_win);
 			}
 			break;
