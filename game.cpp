@@ -229,13 +229,13 @@ int game(WINDOW *game_win)
 						{
 							dealerHealth = max(dealerHealth - 20, 0);
 							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
-							napms(2000)
+							napms(2000); 
 							playerTurn = false;
 						}
 						else
 						{
 							printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
-							napms(2000)
+							napms(2000); 
 							playerTurn = false;
 						}
 					}
@@ -246,13 +246,13 @@ int game(WINDOW *game_win)
 						{
 							playerHealth = max(playerHealth - 20, 0);
 							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
-							napms(2000)
+							napms(2000); 
 							playerTurn = false;
 						}
 						else
 						{
 							printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
-							napms(2000)
+							napms(2000); 
 							playerTurn = true;
 						}
 					}
@@ -262,7 +262,7 @@ int game(WINDOW *game_win)
 				if (playerHealth <= 0 || dealerHealth <= 0)
 				{
 					printCentered(game_win, "Game Over!", 7);
-					napms(2000)
+					napms(2000); 
 					inGame = false;
 					break;
 				}
