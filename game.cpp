@@ -9,6 +9,8 @@
 #include "dealerAI.h"
 extern DealerAILevel currentDealerAILevel;
 using namespace std;
+int currentRound = 0;
+vector<bool> rounds;
 
 // Declare healthbar
 void healthbar(WINDOW *bar, int health);
