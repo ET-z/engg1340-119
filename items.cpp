@@ -198,7 +198,7 @@ void apple(vector<int> &shells, Player &player,const std::vector<std::vector<WIN
 
         // Create a message string with the updated health
         char message[100];
-        snprintf(message, sizeof(message), "You ate an apple! Your health increased by 1. Current health: %d", player.health);
+        snprintf(message, sizeof(message), "You ate an apple! Your health increased by 20. Current health: %d", player.health);
 
         // Display message in the middle of the screen
         mvprintw(rows / 2, (cols - strlen(message)) / 2, message);
