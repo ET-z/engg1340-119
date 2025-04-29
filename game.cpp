@@ -7,6 +7,7 @@
 #include "draw_healthbar.h"
 #include "player.h"
 #include "dealerAI.h"
+extern DealerAILevel currentDealerAILevel;
 using namespace std;
 
 // Declare healthbar
@@ -226,7 +227,11 @@ int game(WINDOW *game_win)
         if (rounds.empty() || currentRound >= rounds.size())
         {
           ShellGenerator gen;
-          rounds = gen.getShells();
+          string shellStr = gen.getShells();
+          rounds.clear();
+          for (char c: shellStr){
+            rounds.push_back(c == '1');
+          }
           currentRound = 0;
         }
 
