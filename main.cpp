@@ -160,7 +160,8 @@ int main()
 	    else if (diff_ch == '2') currentDealerAILevel = RISK_AWARE;
 	    else if (diff_ch == '3') currentDealerAILevel = SMART;
 	    else currentDealerAILevel = DUMB; 
-	
+	    wclear(game_win);
+    	wrefresh(game_win);
 	    if (game(game_win)) 
 	        continue;
 	     
