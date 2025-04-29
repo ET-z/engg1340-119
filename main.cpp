@@ -139,7 +139,7 @@ int main()
 	    
 			int x_center_1 = (WIDTH - 21) / 2;	   
 			int x_center_2 = (WIDTH - 22) / 2;  
-			int x_center_3 = (WIDTH - 24) / 2;  
+			int x_center_3 = (WIDTH - 27) / 2;  
 			int x_center_4 = (WIDTH - 22) / 2;  
 			
 		
