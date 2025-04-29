@@ -328,6 +328,7 @@ int game(WINDOW *game_win)
         rounds.clear();
         for (char c : shellString){
           rounds.push_back(c == '1');
+        }
         currentRound = 0;
         mvwprintw(game_win, 9, 2, "Reloading a new clip...");
         wrefresh(game_win);
