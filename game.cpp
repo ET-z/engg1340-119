@@ -15,6 +15,21 @@ vector<bool> rounds;
 // Declare healthbar
 void healthbar(WINDOW *bar, int health);
 
+
+void printCentered(WINDOW *win, const std::string &message, int y_center) {
+    int HEIGHT, WIDTH;
+    getmaxyx(win, HEIGHT, WIDTH); 
+    
+    
+    int x_center = (WIDTH - message.length()) / 2;
+    
+    
+    mvwprintw(win, y_center, x_center, "%s", message.c_str());
+    wrefresh(win);
+}
+
+
+
 int game(WINDOW *game_win)
 {
   bool inGame =  true;
@@ -213,12 +228,12 @@ int game(WINDOW *game_win)
 						if (result)
 						{
 							dealerHealth = max(dealerHealth - 20, 0);
-							mvwprintw(game_win, 6, 2, "A live shell! Dealer takes 20 damage.");
+							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
 							playerTurn = false;
 						}
 						else
 						{
-							mvwprintw(game_win, 6, 2, "Oops! Blank! Your turn ends.");
+							printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
 							playerTurn = false;
 						}
 					}
@@ -228,24 +243,21 @@ int game(WINDOW *game_win)
 						if (result)
 						{
 							playerHealth = max(playerHealth - 20, 0);
-							mvwprintw(game_win, 6, 2, "You shot yourself with a live shell! -20 HP.");
+							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
 							playerTurn = false;
 						}
 						else
 						{
-							mvwprintw(game_win, 6, 2, "Blank! Lucky! Shoot again.");
+							printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
 							playerTurn = true;
 						}
 					}
-					else
-					{
-						mvwprintw(game_win, 6, 2, "Invalid choice. Turn skipped.");
-						playerTurn = false;
-					}
+					
 				}
 
 				if (playerHealth <= 0 || dealerHealth <= 0)
 				{
+					printCentered(game_win, "Game Over!", 7);
 					inGame = false;
 					break;
 				}
@@ -273,7 +285,7 @@ int game(WINDOW *game_win)
 				for (char c : shellString)
 					rounds.push_back(c == '1');
 				currentRound = 0;
-				mvwprintw(game_win, 9, 2, "Reloading a new clip...");
+				printCentered(game_win, "Reloading a new clip..."， 9);
 				wrefresh(game_win);
 			}
 			break;
