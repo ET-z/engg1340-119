@@ -6,6 +6,7 @@
 #include "shell.h"
 #include "draw_healthbar.h"
 #include "player.h"
+#include "dealerAI.h"
 using namespace std;
 
 // Declare healthbar
