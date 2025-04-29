@@ -1,6 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-#include "dealerAI.h"
+
 
 int main();
 int game(WINDOW *game_win); 
