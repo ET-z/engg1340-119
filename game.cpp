@@ -106,8 +106,8 @@ int game(WINDOW *game_win)
   // Game state variables and initiate players, shells
   int selectedRow = 0, selectedCol = 0;
   bool itemPicked = false;
-  Player player("ENGG1340", 60, true);
-  Opponent AI("S1mple", 60, false);
+  Player player("ENGG1340", 100, true);
+  Opponent AI("S1mple", 100, false);
   int playerHealth = player.health;
   int dealerHealth = AI.health;
   ShellGenerator gen;
