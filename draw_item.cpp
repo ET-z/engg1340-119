@@ -110,122 +110,36 @@ string get_item_description(string item)
     }
 }
 
-void draw_dealer_Items(Player &dealer, const std::vector<std::vector<WINDOW *>> &dealerWindows)
+void draw_item(WINODW *item_draw, string item)
 {
     // initialize colorpair
     init_pair(3, COLOR_GREEN, COLOR_BLACK);
+    int start_y = 0;
+    int start_x = 0;
     // Draw dealer items in dealer inventory windows
-    for (int i = 0; i < 8; ++i)
+    if (item == "handcuff")
     {
-        int row = (i - i % 4) / 4;
-        int col = i % 4;
-        // Clear the dealer inventory window
-        wclear(dealerWindows[row][col]);
-        int HEIGHT, WIDTH;
-        getmaxyx(dealerWindows[row][col], HEIGHT, WIDTH);
-
-        // clean
-        werase(dealerWindows[row][col]);
-
-        // box
-        box(dealerWindows[row][col], 0, 0);
-        // declare current item
-        string item = dealer.items[i];
-
-        // color
-        wattron(dealerWindows[row][col], COLOR_PAIR(3));
-        // start position
-        int start_y = 2;
-        int start_x = 2;
-        // name and tutorial
-        mvwprintw(dealerWindows[row][col], start_y, start_x, "%s", item.c_str());
-        mvwprintw(dealerWindows[row][col], start_y + 1, start_x, "Used to %s", get_item_description(item).c_str());
-        // draw items accordingly
-        start_y = 4;
-        if (item == "handcuff")
-        {
-            draw_handcuff(dealerWindows[row][col], start_y, start_x);
-        }
-        else if (item == "apple")
-        {
-            draw_apple(dealerWindows[row][col], start_y, start_x);
-        }
-        else if (item == "knife")
-        {
-            draw_knife(dealerWindows[row][col], start_y, start_x);
-        }
-        else if (item == "magnifyingGlass")
-        {
-            draw_magnifying_glass(dealerWindows[row][col], start_y, start_x);
-        }
-        else if (item == "beer")
-        {
-            draw_beer(dealerWindows[row][col], start_y, start_x);
-        }
-
-        wattroff(dealerWindows[row][col], COLOR_PAIR(3));
-
-        // Refresh the dealer inventory window to display the item
-        wrefresh(dealerWindows[row][col]);
+        draw_handcuff(item_draw, start_y, start_x);
     }
-}
-
-void draw_player_Items(Player &player, const std::vector<std::vector<WINDOW *>> &playerWindows)
-{
-    // initialize colorpair
-    init_pair(3, COLOR_GREEN, COLOR_BLACK);
-    // Draw player items in player inventory windows
-    for (int i = 0; i < 8; ++i)
+    else if (item == "apple")
     {
-        int row = (i - i % 4) / 4;
-        int col = i % 4;
-        // Clear the player inventory window
-        wclear(playerWindows[row][col]);
-        int HEIGHT, WIDTH;
-        getmaxyx(playerWindows[row][col], HEIGHT, WIDTH);
-
-        // clean
-        werase(playerWindows[row][col]);
-
-        // box
-        box(playerWindows[row][col], 0, 0);
-        // declare current item
-        string item = player.items[i];
-
-        // color
-        wattron(playerWindows[row][col], COLOR_PAIR(3));
-        // start position
-        int start_y = 2;
-        int start_x = 2;
-        // name and tutorial
-        mvwprintw(playerWindows[row][col], start_y, start_x, "%s", item.c_str());
-        mvwprintw(playerWindows[row][col], start_y + 1, start_x, "Used to %s", get_item_description(item).c_str());
-        // draw items accordingly
-        start_y = 4;
-        if (item == "handcuff")
-        {
-            draw_handcuff(playerWindows[row][col], start_y, start_x);
-        }
-        else if (item == "apple")
-        {
-            draw_apple(playerWindows[row][col], start_y, start_x);
-        }
-        else if (item == "knife")
-        {
-            draw_knife(playerWindows[row][col], start_y, start_x);
-        }
-        else if (item == "magnifyingGlass")
-        {
-            draw_magnifying_glass(playerWindows[row][col], start_y, start_x);
-        }
-        else if (item == "beer")
-        {
-            draw_beer(playerWindows[row][col], start_y, start_x);
-        }
-
-        wattroff(playerWindows[row][col], COLOR_PAIR(3));
-
-        // Refresh the dealer inventory window to display the item
-        wrefresh(playerWindows[row][col]);
+        draw_apple(item_draw, start_y, start_x);
     }
+    else if (item == "knife")
+    {
+        draw_knife(item_draw, start_y, start_x);
+    }
+    else if (item == "magnifyingGlass")
+    {
+        draw_magnifying_glass(item_draw, start_y, start_x);
+    }
+    else if (item == "beer")
+    {
+        draw_beer(item_draw, start_y, start_x);
+    }
+
+    wattroff(item_draw, COLOR_PAIR(3));
+
+    // Refresh the dealer inventory window to display the item
+    wrefresh(item_draw);
 }
