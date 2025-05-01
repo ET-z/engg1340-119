@@ -280,6 +280,7 @@ int game(WINDOW *game_win)
 		case 'E':
 			itemPicked = true;
 			mvwprintw(player_items[selectedRow][selectedCol], 1, 1, "Picked");
+			wrefresh(player_items);
 			break;
 
 		case 10:
