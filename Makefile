@@ -18,7 +18,8 @@ OBJS = $(SRCS:.cpp=.o)
 TARGET = main
 ARCHIVE = main.tgz
  
-all: $(TARGET)
+all: setup $(TARGET)
+
 $(TARGET): $(OBJS)
 	$(CXX) $(FLAGS) $^ -o $@ $(ENGFLAG)
 
@@ -28,7 +29,7 @@ $(TARGET): $(OBJS)
 setup:
 	mkdir -p dealer_animation player_animation tutorial_pages
 
-run: $(TARGET) setup
+run: $(TARGET)
 	./$(TARGET)
 
 clean:
