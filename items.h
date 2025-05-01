@@ -27,4 +27,6 @@ void beer(std::vector<int> &shells, Player &player, const std::vector<std::vecto
 
 void draw_item(WINDOW *item_draw, string item);
 
+void random_items(vector<vector<string>> *inventory);
+
 #endif // ITEMS_H

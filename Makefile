@@ -12,7 +12,8 @@ SRCS = main.cpp \
         tutorial_pages/tutorial3.cpp \
 				draw_healthbar.cpp \
 				dealerAI.cpp \
-				draw_item.cpp
+				draw_item.cpp \
+				random_items.cpp
  
 OBJS = $(SRCS:.cpp=.o)
  

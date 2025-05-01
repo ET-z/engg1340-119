@@ -131,7 +131,7 @@ void draw_player(WINDOW *player_draw)
 
   // Calculate starting position to center the dealer
   int start_y = 0;
-  int start_x = (WIDTH - player[0].length()) / 2;
+  int start_x = (WIDTH - player[0].length()) / 2 - 5;
 
   // Set the color pair for the dealer
   wattron(player_draw, COLOR_PAIR(2));

@@ -42,16 +42,7 @@ int game(WINDOW *game_win)
 
 	// Dealer's inventory
 	vector<vector<WINDOW *>> dealer_items(2, vector<WINDOW *>(4));
-	vector<vector<string>> dealer_item_texts(2, vector<string>(4));
-	// Initialize dealer items
-	dealer_item_texts[0][0] = "knife";
-	dealer_item_texts[0][1] = "magnifyingGlass";
-	dealer_item_texts[0][2] = "handcuff";
-	dealer_item_texts[0][3] = "apple";
-	dealer_item_texts[1][0] = "beer";
-	dealer_item_texts[1][1] = "knife";
-	dealer_item_texts[1][2] = "apple";
-	dealer_item_texts[1][3] = "beer";
+	vector<vector<string>> dealer_item_texts(2, vector<string>(4, ""));
 
 	int dealer_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
 	int dealer_start_x = 1;
@@ -66,16 +57,7 @@ int game(WINDOW *game_win)
 	}
 	// Player's inventory
 	vector<vector<WINDOW *>> player_items(2, vector<WINDOW *>(4));
-	vector<vector<string>> player_item_texts(2, vector<string>(4));
-	// Initialize player items
-	player_item_texts[0][0] = "magnifyingGlass";
-	player_item_texts[0][1] = "handcuff";
-	player_item_texts[0][2] = "beer";
-	player_item_texts[0][3] = "knife";
-	player_item_texts[1][0] = "apple";
-	player_item_texts[1][1] = "beer";
-	player_item_texts[1][2] = "magnifyingGlass";
-	player_item_texts[1][3] = "handcuff";
+	vector<vector<string>> player_item_texts(2, vector<string>(4, ""));
 
 	int player_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
 	int player_start_x = WIDTH - 4 * inventory_width - 1;
@@ -221,6 +203,10 @@ int game(WINDOW *game_win)
 
 		if (currentRound == 0 && animCount == 0)
 		{
+			// Add random items to inevntories
+			random_items(dealer_item_texts);
+			random_items(player_item_texts);
+			// Display live and blank
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
 			wrefresh(game_win);
