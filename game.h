@@ -10,6 +10,6 @@ int pause();
 
 void draw_dealer(WINDOW *dealer_draw);
 void draw_player(WINDOW *player_draw);
-void draw_dealer_single(WINDOW *player_draw);
+void draw_dealer_single(WINDOW *dealer_draw);
 void healthbar(WINDOW *bar, int health);
 #endif
