@@ -77,7 +77,7 @@ void draw_beer(WINDOW *items_draw, int y, int x)
         "`-=====-'"};
     for (size_t i = 0; i < art.size(); i++)
     {
-        mvwprintw(items_draw, y + i, x + 4, "%s", art[i].c_str());
+        mvwprintw(items_draw, y + 1 + i, x + 4, "%s", art[i].c_str());
     }
 }
 
@@ -113,7 +113,7 @@ string get_item_description(string item)
 void draw_item(WINDOW *item_draw, string item)
 {
     // initialize colorpair
-    init_pair(3, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
     int start_y = 1;
     int start_x = 1;
     // Draw dealer items in dealer inventory windows
