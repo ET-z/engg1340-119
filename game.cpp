@@ -222,7 +222,7 @@ int game(WINDOW *game_win)
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
 			wrefresh(game_win);
 			draw_dealer(dealer_draw);
-			npos(500);
+			napms(500);
 			// Delete the live and blank display after aybe 2-3 seconds (including dealer animation time)
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%*s", liveText.length(), "");
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%*s", blankText.length(), "");
