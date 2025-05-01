@@ -17,7 +17,7 @@ void draw_handcuff(WINDOW *items_draw, int y, int x)
         "  '--'      '--'  "};
     for (size_t i = 0; i < art.size(); i++)
     {
-        mvwprintw(items_draw, y + i, x, "%s", art[i].c_str());
+        mvwprintw(items_draw, y + 1 + i, x, "%s", art[i].c_str());
     }
 }
 
@@ -32,7 +32,7 @@ void draw_apple(WINDOW *items_draw, int y, int x)
         "     `._,._,'    "};
     for (size_t i = 0; i < art.size(); i++)
     {
-        mvwprintw(items_draw, y + i, x, "%s", art[i].c_str());
+        mvwprintw(items_draw, y + 1 + i, x, "%s", art[i].c_str());
     }
 }
 
@@ -46,7 +46,7 @@ void draw_knife(WINDOW *items_draw, int y, int x)
         "      `----------'"};
     for (size_t i = 0; i < art.size(); i++)
     {
-        mvwprintw(items_draw, y + i, x, "%s", art[i].c_str());
+        mvwprintw(items_draw, y + 2 + i, x, "%s", art[i].c_str());
     }
 }
 
@@ -61,7 +61,7 @@ void draw_magnifying_glass(WINDOW *items_draw, int y, int x)
         "         '-..-'"};
     for (size_t i = 0; i < art.size(); i++)
     {
-        mvwprintw(items_draw, y + i, x, "%s", art[i].c_str());
+        mvwprintw(items_draw, y + 1 + i, x, "%s", art[i].c_str());
     }
 }
 
@@ -77,7 +77,7 @@ void draw_beer(WINDOW *items_draw, int y, int x)
         "`-=====-'"};
     for (size_t i = 0; i < art.size(); i++)
     {
-        mvwprintw(items_draw, y + i, x + 2, "%s", art[i].c_str());
+        mvwprintw(items_draw, y + i, x + 4, "%s", art[i].c_str());
     }
 }
 
