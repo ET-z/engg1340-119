@@ -25,6 +25,6 @@ void apple(std::vector<int> &shells, Player &player, const std::vector<std::vect
 // Function to use beer item
 void beer(std::vector<int> &shells, Player &player, const std::vector<std::vector<WINDOW *>> &dealerWindows, const std::vector<std::vector<WINDOW *>> &playerWindows);
 
-void draw_item(WINODW *item_draw, string item);
+void draw_item(WINDOW *item_draw, string item);
 
 #endif // ITEMS_H
