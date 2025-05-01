@@ -72,6 +72,7 @@ int tutorial1(WINDOW *game_win)
             usleep(100000); // 100ms delay for animation
         }
 
+        line_y += 2;
         // Navigation arrow and escape message
         wattron(game_win, A_BOLD | COLOR_PAIR(3));
         print_animated_w(game_win, line_y++, L"ESC to exit  |  Continue ➡️");
