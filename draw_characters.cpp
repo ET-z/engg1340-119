@@ -16,7 +16,7 @@ void draw_dealer_single(WINDOW *dealer_draw)
 
   // Track progress of player
   ifstream fin;
-  string file = "10.txt";
+  string file = "9.txt";
   fin.open(file);
 
   if (fin.fail())
