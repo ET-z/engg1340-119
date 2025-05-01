@@ -154,9 +154,9 @@ int game(WINDOW *game_win)
 		if (!rounds.empty())
 		{
 			int shell_height = 2;
-			int shell_width = 6;
+			int shell_width = 9;
 			int shells_per_row = 1;
-			int start_y = 4;
+			int start_y = 3;
 			int start_x = (bullet_table_width - (shells_per_row * shell_width)) / 2;
 
 			printCentered(bullets_table, "Shells", 1);
