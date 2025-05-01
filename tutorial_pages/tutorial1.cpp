@@ -2,24 +2,24 @@
 #include <vector>
 #include <string>
 #include <locale.h>
-#include <cwchar>       // for wide strings
-#include <unistd.h>     // for usleep
+#include <cwchar>             // for wide strings
+#include <unistd.h>           // for usleep
 #include <ncursesw/ncurses.h> // wide-character ncurses
 #include "../game.h"
 
 int tutorial1(WINDOW *game_win)
 {
-    setlocale(LC_ALL, "");  // use for emoji
+    setlocale(LC_ALL, ""); // use for emoji
 
     int HEIGHT, WIDTH;
     getmaxyx(game_win, HEIGHT, WIDTH);
 
     start_color();
     init_pair(1, COLOR_YELLOW, COLOR_BLACK); // Title
-    init_pair(2, COLOR_WHITE, COLOR_BLACK); 
-    
+    init_pair(2, COLOR_WHITE, COLOR_BLACK);
+
     int ch;
-    
+
     std::vector<std::wstring> lines = {
         L"🎮 Buckshot Roulette: Tutorial",
         L"",
@@ -31,12 +31,10 @@ int tutorial1(WINDOW *game_win)
         L"Each round could be a blank... or a live shot.",
         L"",
         L"🎯 Goal: Survive and outlast the dealer.",
-        L"Each shootout has 9 rounds. If one of you reaches 0 HP, game over."
-    };
+        L"Each shootout has 9 rounds. If one of you reaches 0 HP, game over."};
 
     // Menu loop
     while (true)
-
     {
         wclear(game_win);
         box(game_win, 0, 0);
@@ -47,17 +45,23 @@ int tutorial1(WINDOW *game_win)
             int x = (WIDTH - lines[i].length()) / 2;
 
             // Title gets a special color
-            if (i == 0) {
+            if (i == 0)
+            {
                 wattron(game_win, COLOR_PAIR(1) | A_BOLD);
-            } else {
+            }
+            else
+            {
                 wattron(game_win, COLOR_PAIR(2) | A_BOLD);
             }
 
             mvwaddwstr(game_win, line_y, x, lines[i].c_str());
 
-            if (i == 0) {
+            if (i == 0)
+            {
                 wattroff(game_win, COLOR_PAIR(1) | A_BOLD);
-            } else {
+            }
+            else
+            {
                 wattroff(game_win, COLOR_PAIR(2) | A_BOLD);
             }
 
@@ -67,22 +71,21 @@ int tutorial1(WINDOW *game_win)
         }
 
         // Navigation arrow and escape message
-        std::wstring arrow = L"→";
-        mvwaddwstr(game_win, HEIGHT - 3, WIDTH - 6, arrow.c_str());
-        std::wstring escape = L"Press ESC to return";
-        mvwaddwstr(game_win, HEIGHT - 3, 2, escape.c_str());
+        print_animated_w(game_win, line_y++, L"➡️ Continue  |  ESC to exit");
 
         wrefresh(game_win);
 
         ch = wgetch(game_win);
-        if (ch == KEY_RIGHT) {
+        if (ch == KEY_RIGHT)
+        {
             tutorial2(game_win);
             break;
-        } else if (ch == 27) {
+        }
+        else if (ch == 27)
+        {
             return 1;
         }
     }
 
     return 0;
-
 }
