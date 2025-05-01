@@ -25,7 +25,10 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(FLAGS) -c $< -o $@
 
-run: $(TARGET)
+setup:
+	mkdir -p dealer_animation player_animation tutorial_pages
+
+run: $(TARGET) setup
 	./$(TARGET)
 
 clean:
