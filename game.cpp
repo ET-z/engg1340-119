@@ -173,6 +173,18 @@ int game(WINDOW *game_win)
 
 		wrefresh(bullets_table);
 
+		if (currentRound == 0 && animCount == 0)
+		{
+			// Add random items to inevntories
+			random_items(&dealer_item_texts);
+			random_items(&player_item_texts);
+
+			// Display live and blank
+			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
+			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
+			wrefresh(game_win);
+		}
+
 		for (int i = 0; i < 2; i++)
 			for (int j = 0; j < 4; j++)
 			{
@@ -200,17 +212,6 @@ int game(WINDOW *game_win)
 		int remainingBlankShells = count(rounds.begin() + currentRound, rounds.end(), false);
 		string liveText = "Live shells: " + to_string(remainingLiveShells);
 		string blankText = "Blank shells: " + to_string(remainingBlankShells);
-
-		if (currentRound == 0 && animCount == 0)
-		{
-			// Add random items to inevntories
-			random_items(&dealer_item_texts);
-			random_items(&player_item_texts);
-			// Display live and blank
-			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
-			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
-			wrefresh(game_win);
-		}
 
 		draw_player(player_draw);
 		if (animCount == 0)
