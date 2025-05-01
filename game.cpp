@@ -153,9 +153,9 @@ int game(WINDOW *game_win)
 		// Draw shell boxes in bullets table ifbullets not empty
 		if (!rounds.empty())
 		{
-			int shell_height = 3;
+			int shell_height = 2;
 			int shell_width = 6;
-			int shells_per_row = 3;
+			int shells_per_row = 1;
 			int start_y = 4;
 			int start_x = (bullet_table_width - (shells_per_row * shell_width)) / 2;
 
