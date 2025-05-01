@@ -164,8 +164,8 @@ int game(WINDOW *game_win)
 			{
 				int row = (i - currentRound) / shells_per_row;
 				int col = (i - currentRound) % shells_per_row;
-				int y = start_y + (row * (shell_height + 1));
-				int x = start_x + (col * (shell_width + 1));
+				int y = start_y + (row * shell_height);
+				int x = start_x + (col * shell_width);
 
 				// Draw box for each shell
 				for (int h = 0; h < shell_height; h++)
