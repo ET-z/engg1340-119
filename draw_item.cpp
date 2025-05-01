@@ -113,6 +113,7 @@ string get_item_description(string item)
 void draw_item(WINDOW *item_draw, string item)
 {
     // initialize colorpair
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
     init_pair(5, COLOR_YELLOW, COLOR_BLACK);
     init_pair(6, COLOR_CYAN, COLOR_BLACK);
     init_pair(7, COLOR_RED, COLOR_BLACK);
