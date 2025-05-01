@@ -25,7 +25,7 @@ void dealerDumb(WINDOW *game_win, int &playerHealth)
     else
     {
         printCentere(game_win, "[Dumb AI] Dealer shot blank.", 25);
-        napms(2000);
+        napms(3000);
     }
 }
 
@@ -35,13 +35,13 @@ void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell)
     if (currentShell)
     {
         printCentere(game_win, "[Scope-Aware AI] Dealer knows it's live! Attacking.", 25);
-        napms(2000);
+        napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
     }
     else
     {
         printCentere(game_win, "[Scope-Aware AI] Dealer knows it's blank. Skipping.", 25);
-        napms(2000);
+        napms(3000);
     }
 }
 
@@ -52,19 +52,19 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int dealerHealth, int 
     if (dealerHealth < 20 && risk > 0.6)
     {
         printCentere(game_win, "[Risk-Aware AI] Dealer too weak, skipped shooting.", 25);
-        napms(2000);
+        napms(3000);
         return;
     }
     if (risk > 0.4 || rand() % 2 == 1)
     {
         printCentere(game_win, "[Risk-Aware AI] Dealer decided to shoot.", 25);
-        napms(2000);
+        napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
     }
     else
     {
         printCentere(game_win, "[Risk-Aware AI] Dealer skipped shooting.", 25);
-        napms(2000);
+        napms(3000);
     }
 }
 
@@ -76,7 +76,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int dealerHealth, bool cur
     if (playerHealth <= 20 && (currentShell || risk > 0.5))
     {
         printCentere(game_win, "[Smart AI] Player weak, Dealer tries to finish!", 25);
-        napms(2000);
+        napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
         return;
     }
@@ -84,20 +84,20 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int dealerHealth, bool cur
     if (dealerHealth <= 20 && risk > 0.5)
     {
         printCentere(game_win, "[Smart AI] Dealer avoids risky shooting.", 25);
-        napms(2000);
+        napms(3000);
         return;
     }
 
     if (currentShell || risk > 0.5 || rand() % 2 == 1)
     {
         printCentere(game_win, "[Smart AI] Dealer attacked smartly.", 25);
-        napms(2000);
+        napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
     }
     else
     {
         printCentere(game_win, "[Smart AI] Dealer skipped.", 25);
-        napms(2000);
+        napms(3000);
     };
 }
 
