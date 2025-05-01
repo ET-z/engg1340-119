@@ -113,7 +113,7 @@ string get_item_description(string item)
 void draw_item(WINDOW *item_draw, string item)
 {
     // initialize colorpair
-    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(5, COLOR_YELLOW, COLOR_BLACK);
     int start_y = 1;
     int start_x = 1;
     // Draw dealer items in dealer inventory windows
