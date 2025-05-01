@@ -7,7 +7,7 @@
 #include "draw_healthbar.h"
 using namespace std;
 
-void draw_dealer_single(WINDOW *player_draw)
+void draw_dealer_single(WINDOW *dealer_draw)
 {
   int HEIGHT, WIDTH;
   getmaxyx(dealer_draw, HEIGHT, WIDTH);
