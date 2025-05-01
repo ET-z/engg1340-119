@@ -39,7 +39,7 @@ int tutorial2(WINDOW *game_win)
         vector<wstring> lines = {
             L"- s → Shoot yourself 💥",
             L"- o → Shoot the dealer 🎯",
-            L"- e → Use an item 🧪",
+            L"- e → Use an item ✍️",
             L"- Arrow keys → Navigate inventory ↕️",
             L"- ENTER or SPACE → Confirm action ✅",
         };
