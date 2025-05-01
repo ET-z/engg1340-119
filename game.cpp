@@ -280,6 +280,7 @@ int game(WINDOW *game_win)
 		case 'E':
 			itemPicked = true;
 			mvwprintw(player_items[selectedRow][selectedCol], 1, 1, "Picked");
+			player_item_texts[selectedRow][selectedCol] = "";
 			wrefresh(player_items[selectedRow][selectedCol]);
 			break;
 

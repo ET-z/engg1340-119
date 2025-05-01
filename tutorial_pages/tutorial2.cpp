@@ -37,8 +37,8 @@ int tutorial2(WINDOW *game_win)
         // 🤍 Body text: Moves
         int y = 4;
         vector<wstring> lines = {
-            L"- s → Shoot yourself 💥",
-            L"- o → Shoot the dealer 🎯",
+            L"- 1 → Shoot yourself 💥",
+            L"- 2 → Shoot the dealer 🎯",
             L"- e → Use an item ✍️",
             L"- Arrow keys → Navigate inventory ↕️",
             L"- ENTER or SPACE → Confirm action ✅",
@@ -58,10 +58,10 @@ int tutorial2(WINDOW *game_win)
 
         // 🤍 Body text: Items
         vector<wstring> items = {
-            L"- Cigarette → +1 HP 🚬",
+            L"- Apple → +20 HP 🍎",
             L"- Knife → Double your damage🔪",
-            L"- Beer → Discard and see the next shell 🍺",
-            L"- Scope → See if the next shell is live 🔎",
+            L"- Beer → Discard the current shell 🍺",
+            L"- Magnifying Glass → See if the next shell is live 🔎",
             L"- Handcuff → Skip the dealer's turn ⛓️",
             L"- To pick up item: press E/e"};
         wattron(game_win, COLOR_PAIR(3));
