@@ -18,6 +18,7 @@ int tutorial1(WINDOW *game_win)
     start_color();
     init_pair(1, COLOR_YELLOW, COLOR_BLACK); // Title
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
+    init_pair(3, COLOR_WHITE, COLOR_BLACK); // Body
 
     int ch;
 
@@ -72,7 +73,9 @@ int tutorial1(WINDOW *game_win)
         }
 
         // Navigation arrow and escape message
-        print_animated_w(game_win, line_y++, L"➡️ Continue  |  ESC to exit");
+        wattron(game_win, A_BOLD | COLOR_PAIR(3));
+        print_animated_w(game_win, line_y++, L"ESC to exit | ➡️ Continue");
+        wattroff(game_win, A_BOLD | COLOR_PAIR(3));
 
         wrefresh(game_win);
 
