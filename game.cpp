@@ -154,7 +154,7 @@ int game(WINDOW *game_win)
 			int start_y = 4;
 			int start_x = (bullet_table_width - (shells_per_row * shell_width)) / 2;
 
-			printCentered(bullet_table, "Shells", 1);
+			printCentered(bullets_table, "Shells", 1);
 			for (size_t i = currentRound; i < rounds.size(); i++)
 			{
 				int row = (i - currentRound) / shells_per_row;
