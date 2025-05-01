@@ -8,6 +8,8 @@
 #include "player.h"
 #include "dealerAI.h"
 #include "items.h"
+#include <ctime>
+
 extern DealerAILevel currentDealerAILevel;
 using namespace std;
 
@@ -183,6 +185,7 @@ int game(WINDOW *game_win)
 		{
 			// Add random items to inevntories
 			random_items(&dealer_item_texts);
+			srand(time(0) + 1);
 			random_items(&player_item_texts);
 
 			// Display live and blank
