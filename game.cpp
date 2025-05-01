@@ -210,8 +210,6 @@ int game(WINDOW *game_win)
 
 		mvwprintw(game_win, 1, (WIDTH - 18) / 2, "Press ESC to pause");
 
-		draw_player(player_draw);
-
 		if (currentRound == 0)
 		{
 			int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
@@ -221,8 +219,13 @@ int game(WINDOW *game_win)
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
 			wrefresh(game_win);
+		}
+
+		draw_player(player_draw);
+		if (animCount == 0)
+		{
 			draw_dealer(dealer_draw);
-			napms(5000);
+			npos(5000);
 			// Delete the live and blank display after aybe 5-6 seconds (including dealer animation time)
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%*s", liveText.length(), "");
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%*s", blankText.length(), "");
@@ -395,6 +398,7 @@ int game(WINDOW *game_win)
 				for (char c : shellString)
 					rounds.push_back(c == '1');
 				currentRound = 0;
+				animCount = 0;
 				printCentered(game_win, "Reloading...", 9);
 				napms(2000);
 				wrefresh(game_win);
