@@ -304,7 +304,7 @@ int game(WINDOW *game_win)
 						if (result)
 						{
 							dealerHealth = max(dealerHealth - 20, 0);
-							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 25);
+							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
 							napms(2000);
 							playerTurn = false;
 							// Add refresh and delay before dealer's move
@@ -315,7 +315,7 @@ int game(WINDOW *game_win)
 						}
 						else
 						{
-							printCentered(game_win, "Oops! Blank! Your turn ends.", 25);
+							printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
 							napms(2000);
 							playerTurn = false;
 							// Add refresh and delay before dealer's move
@@ -331,7 +331,7 @@ int game(WINDOW *game_win)
 						if (result)
 						{
 							playerHealth = max(playerHealth - 20, 0);
-							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 25);
+							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
 							napms(2000);
 							playerTurn = false;
 							// Add refresh and delay before dealer's move
@@ -342,7 +342,7 @@ int game(WINDOW *game_win)
 						}
 						else
 						{
-							printCentered(game_win, "Blank! Lucky! Shoot again.", 25);
+							printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
 							napms(2000);
 							playerTurn = true;
 							// Player's turn again so no delay
