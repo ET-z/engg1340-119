@@ -218,6 +218,7 @@ int game(WINDOW *game_win)
 			string blankText = "Blank shells: " + to_string(remainingBlankShells);
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
+			wrefresh(game_win);
 		}
 
 		draw_player(player_draw);
