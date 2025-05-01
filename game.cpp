@@ -313,6 +313,11 @@ int game(WINDOW *game_win)
 							printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
 							napms(2000);
 							playerTurn = false;
+							// Add refresh and delay before dealer's move
+							wclear(game_win);
+							box(game_win, 0, 0);
+							wrefresh(game_win);
+							napms(1000);
 						}
 					}
 					else if (action == '2')
