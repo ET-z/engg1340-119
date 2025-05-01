@@ -160,9 +160,9 @@ int game(WINDOW *game_win)
 				if (i == selectedRow && j == selectedCol)
 					wattron(player_items[i][j], A_REVERSE);
 				box(player_items[i][j], 0, 0);
-				draw_item(player_items[i][j], player_item_texts[i][j]);
 				if (i == selectedRow && j == selectedCol)
 					wattroff(player_items[i][j], A_REVERSE);
+				draw_item(player_items[i][j], player_item_texts[i][j]);
 				wrefresh(player_items[i][j]);
 			}
 
