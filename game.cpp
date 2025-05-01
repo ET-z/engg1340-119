@@ -73,7 +73,7 @@ int game(WINDOW *game_win)
 	player_item_texts[0][3] = "knife";
 	player_item_texts[1][0] = "apple";
 	player_item_texts[1][1] = "beer";
-	player_item_texts[1][2] = "magnifying";
+	player_item_texts[1][2] = "magnifyingGlass";
 	player_item_texts[1][3] = "handcuff";
 
 	int player_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;

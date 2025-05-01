@@ -77,7 +77,7 @@ void draw_beer(WINDOW *items_draw, int y, int x)
         "`-=====-'"};
     for (size_t i = 0; i < art.size(); i++)
     {
-        mvwprintw(items_draw, y + i, x, "%s", art[i].c_str());
+        mvwprintw(items_draw, y + i, x + 2, "%s", art[i].c_str());
     }
 }
 
