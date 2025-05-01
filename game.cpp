@@ -10,8 +10,6 @@
 extern DealerAILevel currentDealerAILevel;
 using namespace std;
 
-vector<bool> rounds;
-
 // Declare healthbar
 void healthbar(WINDOW *bar, int health);
 
@@ -146,12 +144,20 @@ int game(WINDOW *game_win)
 		mvwprintw(game_win, 1, (WIDTH - 18) / 2, "Press ESC to pause");
 		draw_player(player_draw);
 		if (animCount == 0)
+		{
 			draw_dealer(dealer_draw);
+		}
 		else
+		{
 			draw_dealer_single(dealer_draw);
+		}
 
 		wrefresh(game_win);
 		animCount += 1;
+		if (animCount > 100)
+		{
+			animCount = 1;
+		}
 
 		ch = wgetch(game_win);
 
