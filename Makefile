@@ -10,24 +10,22 @@ SRCS = main.cpp \
         tutorial_pages/tutorial1.cpp \
         tutorial_pages/tutorial2.cpp \
         tutorial_pages/tutorial3.cpp \
-	draw_healthbar.cpp \
-	dealerAI.cpp
+				draw_healthbar.cpp \
+				dealerAI.cpp \
+				draw_item.cpp
  
 OBJS = $(SRCS:.cpp=.o)
  
 TARGET = main
 ARCHIVE = main.tgz
  
-all: setup $(TARGET)
+all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CXX) $(FLAGS) $^ -o $@ $(ENGFLAG)
 
 %.o: %.cpp
 	$(CXX) $(FLAGS) -c $< -o $@
-
-setup:
-	mkdir -p dealer_animation player_animation tutorial_pages
 
 run: $(TARGET)
 	./$(TARGET)
