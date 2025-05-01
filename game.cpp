@@ -156,7 +156,7 @@ int game(WINDOW *game_win)
 			int shell_height = 2;
 			int shell_width = 9;
 			int shells_per_row = 1;
-			int start_y = 1;
+			int start_y = 2;
 			int start_x = (bullet_table_width - (shells_per_row * shell_width)) / 2;
 
 			printCentered(bullets_table, "Shells", 1);
