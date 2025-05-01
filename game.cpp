@@ -151,7 +151,7 @@ int game(WINDOW *game_win)
 			draw_dealer_single(dealer_draw);
 
 		wrefresh(game_win);
-		count += 1;
+		animCount += 1;
 
 		ch = wgetch(game_win);
 
