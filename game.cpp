@@ -210,12 +210,14 @@ int game(WINDOW *game_win)
 
 		mvwprintw(game_win, 1, (WIDTH - 18) / 2, "Press ESC to pause");
 
+		// Bullet info
+		int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
+		int remainingBlankShells = count(rounds.begin() + currentRound, rounds.end(), false);
+		string liveText = "Live shells: " + to_string(remainingLiveShells);
+		string blankText = "Blank shells: " + to_string(remainingBlankShells);
+
 		if (currentRound == 0)
 		{
-			int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
-			int remainingBlankShells = count(rounds.begin() + currentRound, rounds.end(), false);
-			string liveText = "Live shells: " + to_string(remainingLiveShells);
-			string blankText = "Blank shells: " + to_string(remainingBlankShells);
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
 			wrefresh(game_win);
