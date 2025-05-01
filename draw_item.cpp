@@ -56,7 +56,7 @@ void draw_magnifying_glass(WINDOW *items_draw, int y, int x)
     vector<string> art = {
         "         .-\"\"-.  ",
         " _______/      \\  ",
-        "|_______         ; ",
+        "|_______        ; ",
         "        \\      /  ",
         "         '-..-'"};
     for (size_t i = 0; i < art.size(); i++)
