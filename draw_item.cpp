@@ -113,18 +113,18 @@ string get_item_description(string item)
 void draw_item(WINDOW *item_draw, string item)
 {
     // initialize colorpair
-    init_pair(1, COLOR_WHITE, COLOR_BLACK);
     init_pair(5, COLOR_YELLOW, COLOR_BLACK);
     init_pair(6, COLOR_CYAN, COLOR_BLACK);
     init_pair(7, COLOR_RED, COLOR_BLACK);
+    init_pair(8, COLOR_WHITE, COLOR_BLACK);
     int start_y = 1;
     int start_x = 1;
     // Draw dealer items in dealer inventory windows
     if (item == "handcuff")
     {
-        wattron(item_draw, COLOR_PAIR(1));
+        wattron(item_draw, COLOR_PAIR(8));
         draw_handcuff(item_draw, start_y, start_x);
-        wattroff(item_draw, COLOR_PAIR(1));
+        wattroff(item_draw, COLOR_PAIR(8));
     }
     else if (item == "apple")
     {
@@ -134,9 +134,9 @@ void draw_item(WINDOW *item_draw, string item)
     }
     else if (item == "knife")
     {
-        wattron(item_draw, COLOR_PAIR(1));
+        wattron(item_draw, COLOR_PAIR(8));
         draw_knife(item_draw, start_y, start_x);
-        wattroff(item_draw, COLOR_PAIR(1));
+        wattroff(item_draw, COLOR_PAIR(8));
     }
     else if (item == "magnifyingGlass")
     {
