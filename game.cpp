@@ -132,6 +132,11 @@ int game(WINDOW *game_win)
 	int currentRound = 0;
 	bool playerTurn = true;
 
+	// generate bullets before game starts
+	string initialShells = gen.getShells();
+	for (char c : initialShells)
+		rounds.push_back(c == '1');
+
 	healthbar(player_health, playerHealth);
 	healthbar(dealer_health, dealerHealth);
 
