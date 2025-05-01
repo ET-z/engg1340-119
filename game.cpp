@@ -33,6 +33,7 @@ int game(WINDOW *game_win)
 
 	// Color pair
 	init_pair(1, COLOR_WHITE, COLOR_BLUE);
+	init_pair(2, COLOR_MAGENTA, COLOR_BLUE);
 
 	int ch;
 
@@ -168,6 +169,7 @@ int game(WINDOW *game_win)
 				int x = start_x + (col * shell_width);
 
 				// Draw box for each shell
+				wattron(bullets_table, COLOR_PAIR(2));
 				for (int h = 0; h < shell_height; h++)
 				{
 					mvwaddch(bullets_table, y + h, x, ACS_VLINE);
@@ -183,6 +185,7 @@ int game(WINDOW *game_win)
 				mvwaddch(bullets_table, y, x + shell_width - 1, ACS_URCORNER);
 				mvwaddch(bullets_table, y + shell_height - 1, x, ACS_LLCORNER);
 				mvwaddch(bullets_table, y + shell_height - 1, x + shell_width - 1, ACS_LRCORNER);
+				wattroff(bullets_table, COLOR_PAIR(2));
 			}
 		}
 
