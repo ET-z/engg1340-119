@@ -216,7 +216,7 @@ int game(WINDOW *game_win)
 		string liveText = "Live shells: " + to_string(remainingLiveShells);
 		string blankText = "Blank shells: " + to_string(remainingBlankShells);
 
-		if (currentRound == 0)
+		if (currentRound == 0 && animCount == 0)
 		{
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
