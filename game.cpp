@@ -227,8 +227,8 @@ int game(WINDOW *game_win)
 		if (animCount == 0)
 		{
 			draw_dealer(dealer_draw);
-			napms(500);
-			// Delete the live and blank display after aybe 5-6 seconds (including dealer animation time)
+			napms(2000);
+			// Delete the live and blank display after aybe 4-5 seconds (including dealer animation time)
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%*s", liveText.length(), "");
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%*s", blankText.length(), "");
 			wrefresh(game_win);
