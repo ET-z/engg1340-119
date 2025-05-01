@@ -11,19 +11,21 @@
 
 using namespace std;
 
-int tutorial2(WINDOW *game_win) {
+int tutorial2(WINDOW *game_win)
+{
     setlocale(LC_ALL, "");
     int HEIGHT, WIDTH;
     getmaxyx(game_win, HEIGHT, WIDTH);
     start_color();
 
     // Color pairs
-    init_pair(1, COLOR_WHITE, COLOR_BLUE);    // (Optional)
-    init_pair(2, COLOR_YELLOW, COLOR_BLACK);  // Titles
-    init_pair(3, COLOR_WHITE, COLOR_BLACK);   // Body
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);   // (Optional)
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK); // Titles
+    init_pair(3, COLOR_WHITE, COLOR_BLACK);  // Body
 
     int ch;
-    while (true) {
+    while (true)
+    {
         werase(game_win);
         box(game_win, 0, 0);
 
@@ -42,7 +44,8 @@ int tutorial2(WINDOW *game_win) {
             L"- ENTER or SPACE → Confirm action ✅",
         };
         wattron(game_win, COLOR_PAIR(3));
-        for (const auto &line : lines) {
+        for (const auto &line : lines)
+        {
             print_animated_w(game_win, y++, line);
         }
         wattroff(game_win, COLOR_PAIR(3));
@@ -60,10 +63,10 @@ int tutorial2(WINDOW *game_win) {
             L"- Beer → Discard and see the next shell 🍺",
             L"- Scope → See if the next shell is live 🔎",
             L"- Handcuff → Skip the dealer's turn ⛓️",
-            L"- To pick up item: press E/e"
-        };
+            L"- To pick up item: press E/e"};
         wattron(game_win, COLOR_PAIR(3));
-        for (const auto &item : items) {
+        for (const auto &item : items)
+        {
             print_animated_w(game_win, y++, item);
         }
         wattroff(game_win, COLOR_PAIR(3));
@@ -77,13 +80,18 @@ int tutorial2(WINDOW *game_win) {
         wrefresh(game_win);
         ch = wgetch(game_win);
 
-        if (ch == KEY_RIGHT) {
+        if (ch == KEY_RIGHT)
+        {
             tutorial3(game_win);
             break;
-        } else if (ch == KEY_LEFT) {
+        }
+        else if (ch == KEY_LEFT)
+        {
             tutorial1(game_win);
             break;
-        } else if (ch == 27) { // ESC
+        }
+        else if (ch == 27)
+        { // ESC
             return 1;
         }
     }

@@ -7,6 +7,51 @@
 #include "draw_healthbar.h"
 using namespace std;
 
+void draw_dealer_single(WINDOW *player_draw)
+{
+  int HEIGHT, WIDTH;
+  getmaxyx(dealer_draw, HEIGHT, WIDTH);
+  // Color pair (This is white text on a blue background)
+  init_pair(1, COLOR_RED, COLOR_BLACK);
+
+  // Track progress of player
+  ifstream fin;
+  string file = "dealer_animation/10.txt";
+  fin.open(file);
+
+  if (fin.fail())
+  {
+    exit(1);
+  }
+  vector<string> dealer;
+  string line;
+  while (getline(fin, line))
+  {
+    dealer.push_back(line);
+  }
+  fin.close();
+
+  // Calculate starting position to center the dealer
+  int start_y = 0;
+  int start_x = (WIDTH - dealer[0].length()) / 2;
+
+  // Set the color pair for the dealer
+  wattron(dealer_draw, COLOR_PAIR(1));
+
+  // Draw each row of the dealer
+  for (size_t i = 0; i < dealer.size(); i++)
+  {
+    mvwprintw(dealer_draw, start_y + i, start_x, "%s", dealer[i].c_str());
+  }
+
+  wrefresh(dealer_draw);
+
+  // Turn off the color pair
+  wattroff(dealer_draw, COLOR_PAIR(1));
+
+  return;
+}
+
 void draw_dealer(WINDOW *dealer_draw)
 {
   int HEIGHT, WIDTH;
