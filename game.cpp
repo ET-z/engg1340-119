@@ -33,7 +33,7 @@ int game(WINDOW *game_win)
 
 	// Color pair
 	init_pair(1, COLOR_WHITE, COLOR_BLUE);
-	init_pair(2, COLOR_MAGENTA, COLOR_BLUE);
+	init_pair(2, COLOR_BLACK, COLOR_MAGENTA);
 
 	int ch;
 
