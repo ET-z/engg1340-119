@@ -382,12 +382,6 @@ int game(WINDOW *game_win)
 									 remainingLiveShells, remainingTotalShells, currentDealerAILevel);
 					playerTurn = true;
 				}
-
-				if (playerHealth <= 0 || dealerHealth <= 0)
-				{
-					inGame = false;
-					break;
-				}
 			}
 
 			if (currentRound >= rounds.size())
@@ -399,7 +393,7 @@ int game(WINDOW *game_win)
 				currentRound = 0;
 				animCount = 0;
 				printCentered(game_win, "Reloading...", 9);
-				napms(200);
+				napms(500);
 				wrefresh(game_win);
 			}
 			break;
