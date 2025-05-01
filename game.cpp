@@ -173,6 +173,12 @@ int game(WINDOW *game_win)
 
 		wrefresh(bullets_table);
 
+		// Bullet info
+		int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
+		int remainingBlankShells = count(rounds.begin() + currentRound, rounds.end(), false);
+		string liveText = "Live shells: " + to_string(remainingLiveShells);
+		string blankText = "Blank shells: " + to_string(remainingBlankShells);
+
 		if (currentRound == 0 && animCount == 0)
 		{
 			// Add random items to inevntories
@@ -206,12 +212,6 @@ int game(WINDOW *game_win)
 			}
 
 		mvwprintw(game_win, 1, (WIDTH - 18) / 2, "Press ESC to pause");
-
-		// Bullet info
-		int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
-		int remainingBlankShells = count(rounds.begin() + currentRound, rounds.end(), false);
-		string liveText = "Live shells: " + to_string(remainingLiveShells);
-		string blankText = "Blank shells: " + to_string(remainingBlankShells);
 
 		draw_player(player_draw);
 		if (animCount == 0)
