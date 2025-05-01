@@ -144,11 +144,12 @@ int game(WINDOW *game_win)
 			}
 
 		mvwprintw(game_win, 1, (WIDTH - 18) / 2, "Press ESC to pause");
+		draw_player(player_draw);
 		if (animCount == 0)
-			draw_player(player_draw);
-		else
-
 			draw_dealer(dealer_draw);
+		else
+			draw_dealer_single(dealer_draw);
+
 		wrefresh(game_win);
 
 		ch = wgetch(game_win);
