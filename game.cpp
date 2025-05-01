@@ -219,6 +219,11 @@ int game(WINDOW *game_win)
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
 			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
 			wrefresh(game_win);
+			// Only show the live and blank for 2-3 seconds?
+			napms(3000);
+			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%*s", liveText.length(), "");
+			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%*s", blankText.length(), "");
+			wrefresh(game_win);
 		}
 
 		draw_player(player_draw);
