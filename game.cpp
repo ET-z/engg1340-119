@@ -209,6 +209,15 @@ int game(WINDOW *game_win)
 			}
 
 		mvwprintw(game_win, 1, (WIDTH - 18) / 2, "Press ESC to pause");
+
+		if (currentRound == 0)
+		{
+			int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
+			int remainingBlankShells = count(rounds.begin() + currentRound, rounds.end(), false);
+			mvwprintw(game_win, 5, x_center, "Live shells: %d", remainingLiveShells);
+			mvwprintw(game_win, 6, x_center, "Blank shells: %d", remainingBlankShells);
+		}
+
 		draw_player(player_draw);
 		if (animCount == 0)
 		{
