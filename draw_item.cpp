@@ -110,7 +110,7 @@ string get_item_description(string item)
     }
 }
 
-void draw_item(WINODW *item_draw, string item)
+void draw_item(WINDOW *item_draw, string item)
 {
     // initialize colorpair
     init_pair(3, COLOR_GREEN, COLOR_BLACK);
