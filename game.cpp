@@ -330,7 +330,6 @@ int game(WINDOW *game_win)
 							wclear(game_win);
 							box(game_win, 0, 0);
 							wrefresh(game_win);
-							napms(1000);
 						}
 						else
 						{
@@ -341,7 +340,6 @@ int game(WINDOW *game_win)
 							wclear(game_win);
 							box(game_win, 0, 0);
 							wrefresh(game_win);
-							napms(1000);
 						}
 					}
 					else if (action == '2')
@@ -357,7 +355,6 @@ int game(WINDOW *game_win)
 							wclear(game_win);
 							box(game_win, 0, 0);
 							wrefresh(game_win);
-							napms(1000);
 						}
 						else
 						{
