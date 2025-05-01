@@ -214,8 +214,10 @@ int game(WINDOW *game_win)
 		{
 			int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
 			int remainingBlankShells = count(rounds.begin() + currentRound, rounds.end(), false);
-			mvwprintw(game_win, 5, WIDTH / 2 - "Live shells: 0".length() / 2, "Live shells: %d", remainingLiveShells);
-			mvwprintw(game_win, 6, WIDTH / 2 - "Blank shells: 0".length() / 2, remainingBlankShells);
+			string liveText = "Live shells: " + to_string(remainingLiveShells);
+			string blankText = "Blank shells: " + to_string(remainingBlankShells);
+			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
+			mvwprintw(game_win, 6, WIDTH / 2 - blankText.length() / 2, "%s", blankText.c_str());
 		}
 
 		draw_player(player_draw);
