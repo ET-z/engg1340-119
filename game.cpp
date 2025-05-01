@@ -324,6 +324,13 @@ int game(WINDOW *game_win)
 						{
 							dealerHealth = max(dealerHealth - 20, 0);
 							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
+							if (dealerHealth <= 0)
+							{
+								printCentered(game_win, "Game Over! You win!", 7);
+								napms(3000);
+								inGame = false;
+								break;
+							}
 							napms(3000);
 							playerTurn = false;
 							// Add refresh and delay before dealer's move
@@ -349,6 +356,13 @@ int game(WINDOW *game_win)
 						{
 							playerHealth = max(playerHealth - 20, 0);
 							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
+							if (playerHealth <= 0)
+							{
+								printCentered(game_win, "Game Over! Dealer wins!", 7);
+								napms(3000);
+								inGame = false;
+								break;
+							}
 							napms(3000);
 							playerTurn = false;
 							// Add refresh and delay before dealer's move
@@ -361,17 +375,8 @@ int game(WINDOW *game_win)
 							printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
 							napms(3000);
 							playerTurn = true;
-							// Player's turn again so no delay
 						}
 					}
-				}
-
-				if (playerHealth <= 0 || dealerHealth <= 0)
-				{
-					printCentered(game_win, "Game Over!", 7);
-					napms(3000);
-					inGame = false;
-					break;
 				}
 
 				if (!playerTurn)
@@ -380,6 +385,11 @@ int game(WINDOW *game_win)
 					int remainingTotalShells = rounds.size() - currentRound;
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
 									 remainingLiveShells, remainingTotalShells, currentDealerAILevel);
+					if (playerHealth <= 0)
+					{
+						inGame = false;
+						break;
+					}
 					playerTurn = true;
 				}
 			}

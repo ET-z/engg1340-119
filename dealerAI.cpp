@@ -22,6 +22,13 @@ void dealerDumb(WINDOW *game_win, int &playerHealth)
         printCentere(game_win, "[Dumb AI] Dealer shot live!", 25);
         napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
+        // check if players health has dropped to 0 or below
+        if (playerHealth <= 0)
+        {
+            printCentere(game_win, "Game Over! Dealer wins!", 26);
+            napms(3000);
+            return;
+        }
     }
     else
     {
@@ -38,6 +45,13 @@ void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell)
         printCentere(game_win, "[Scope-Aware AI] Dealer knows it's live! Attacking.", 25);
         napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
+        // check if players health has dropped to 0 or below
+        if (playerHealth <= 0)
+        {
+            printCentere(game_win, "Game Over! Dealer wins!", 26);
+            napms(3000);
+            return;
+        }
     }
     else
     {
@@ -61,6 +75,13 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int dealerHealth, int 
         printCentere(game_win, "[Risk-Aware AI] Dealer decided to shoot.", 25);
         napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
+        // check if players health has dropped to 0 or below
+        if (playerHealth <= 0)
+        {
+            printCentere(game_win, "Game Over! Dealer wins!", 26);
+            napms(3000);
+            return;
+        }
     }
     else
     {
@@ -79,6 +100,13 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int dealerHealth, bool cur
         printCentere(game_win, "[Smart AI] Player weak, Dealer tries to finish!", 25);
         napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
+        // check if players health has dropped to 0 or below
+        if (playerHealth <= 0)
+        {
+            printCentere(game_win, "Game Over! Dealer wins!", 26);
+            napms(3000);
+            return;
+        }
         return;
     }
 
@@ -94,6 +122,13 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int dealerHealth, bool cur
         printCentere(game_win, "[Smart AI] Dealer attacked smartly.", 25);
         napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
+        // check if players health has dropped to 0 or below
+        if (playerHealth <= 0)
+        {
+            printCentere(game_win, "Game Over! Dealer wins!", 26);
+            napms(3000);
+            return;
+        }
     }
     else
     {
