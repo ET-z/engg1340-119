@@ -7,6 +7,7 @@
 #include "draw_healthbar.h"
 #include "player.h"
 #include "dealerAI.h"
+#include "items.h"
 extern DealerAILevel currentDealerAILevel;
 using namespace std;
 
@@ -40,6 +41,17 @@ int game(WINDOW *game_win)
 
 	// Dealer's inventory
 	vector<vector<WINDOW *>> dealer_items(2, vector<WINDOW *>(4));
+	vector<vector<string>> dealer_item_texts(2, vector<string>(4));
+	// Initialize dealer items
+	dealer_item_texts[0][0] = "Knife";
+	dealer_item_texts[0][1] = "Magnifying";
+	dealer_item_texts[0][2] = "Handcuff";
+	dealer_item_texts[0][3] = "Apple";
+	dealer_item_texts[1][0] = "Beer";
+	dealer_item_texts[1][1] = "Knife";
+	dealer_item_texts[1][2] = "Apple";
+	dealer_item_texts[1][3] = "Beer";
+
 	int dealer_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
 	int dealer_start_x = 1;
 	for (int i = 0; i < 2; i++)
@@ -53,6 +65,17 @@ int game(WINDOW *game_win)
 	}
 	// Player's inventory
 	vector<vector<WINDOW *>> player_items(2, vector<WINDOW *>(4));
+	vector<vector<string>> player_item_texts(2, vector<string>(4));
+	// Initialize player items
+	player_item_texts[0][0] = "Magnifying";
+	player_item_texts[0][1] = "Handcuff";
+	player_item_texts[0][2] = "Beer";
+	player_item_texts[0][3] = "Knife";
+	player_item_texts[1][0] = "Apple";
+	player_item_texts[1][1] = "Beer";
+	player_item_texts[1][2] = "Magnifying";
+	player_item_texts[1][3] = "Handcuff";
+
 	int player_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
 	int player_start_x = WIDTH - 4 * inventory_width - 1;
 	for (int i = 0; i < 2; i++)
@@ -127,6 +150,7 @@ int game(WINDOW *game_win)
 			for (int j = 0; j < 4; j++)
 			{
 				box(dealer_items[i][j], 0, 0);
+				mvwprintw(dealer_items[i][j], 1, 1, "%s", dealer_item_texts[i][j].c_str());
 				wrefresh(dealer_items[i][j]);
 			}
 
@@ -136,6 +160,7 @@ int game(WINDOW *game_win)
 				if (i == selectedRow && j == selectedCol)
 					wattron(player_items[i][j], A_REVERSE);
 				box(player_items[i][j], 0, 0);
+				mvwprintw(player_items[i][j], 1, 1, "%s", player_item_texts[i][j].c_str());
 				if (i == selectedRow && j == selectedCol)
 					wattroff(player_items[i][j], A_REVERSE);
 				wrefresh(player_items[i][j]);

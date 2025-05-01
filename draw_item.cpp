@@ -40,8 +40,8 @@ void draw_apple(WINDOW *items_draw, int y, int x)
 void draw_knife(WINDOW *items_draw, int y, int x)
 {
     vector<string> art = {
-        "emmmmmm~~~~~~~~~~oT",
-        "\"\"\"\"\"|          |",
+        "emmmmmm~~~~~~~~~oT",
+        "\"\"\"\"\"|      |",
         "      |          |",
         "      `----------'"};
     for (size_t i = 0; i < art.size(); i++)
@@ -109,6 +109,7 @@ string get_item_description(string item)
         return "unknown item";
     }
 }
+
 void draw_dealer_Items(Player &dealer, const std::vector<std::vector<WINDOW *>> &dealerWindows)
 {
     // initialize colorpair
@@ -168,6 +169,7 @@ void draw_dealer_Items(Player &dealer, const std::vector<std::vector<WINDOW *>> 
         wrefresh(dealerWindows[row][col]);
     }
 }
+
 void draw_player_Items(Player &player, const std::vector<std::vector<WINDOW *>> &playerWindows)
 {
     // initialize colorpair

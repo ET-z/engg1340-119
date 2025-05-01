@@ -71,6 +71,11 @@
     "type_traits": "cpp",
     "utility": "cpp",
     "format": "cpp",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "chrono": "cpp",
+    "functional": "cpp",
+    "stop_token": "cpp",
+    "text_encoding": "cpp",
+    "thread": "cpp"
   }
 }
