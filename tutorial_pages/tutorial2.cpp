@@ -74,7 +74,7 @@ int tutorial2(WINDOW *game_win)
         // Navigation
         y += 2;
         wattron(game_win, A_BOLD | COLOR_PAIR(3));
-        print_animated_w(game_win, y++, L"⬅️ Back  |  ➡️ Continue  |  ESC to exit");
+        print_animated_w(game_win, y++, L"⬅️ Back  |  ESC to exit  |  Continue ➡️");
         wattroff(game_win, A_BOLD | COLOR_PAIR(3));
 
         wrefresh(game_win);

@@ -74,7 +74,7 @@ int tutorial1(WINDOW *game_win)
 
         // Navigation arrow and escape message
         wattron(game_win, A_BOLD | COLOR_PAIR(3));
-        print_animated_w(game_win, line_y++, L"ESC to exit | ➡️ Continue");
+        print_animated_w(game_win, line_y++, L"ESC to exit  |  Continue ➡️");
         wattroff(game_win, A_BOLD | COLOR_PAIR(3));
 
         wrefresh(game_win);
