@@ -307,6 +307,11 @@ int game(WINDOW *game_win)
 							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
 							napms(2000);
 							playerTurn = false;
+							// Add refresh and delay before dealer's move
+							wclear(game_win);
+							box(game_win, 0, 0);
+							wrefresh(game_win);
+							napms(1000);
 						}
 						else
 						{
@@ -329,6 +334,11 @@ int game(WINDOW *game_win)
 							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
 							napms(2000);
 							playerTurn = false;
+							// Add refresh and delay before dealer's move
+							wclear(game_win);
+							box(game_win, 0, 0);
+							wrefresh(game_win);
+							napms(1000);
 						}
 						else
 						{
