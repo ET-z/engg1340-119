@@ -116,7 +116,6 @@ void draw_item(WINDOW *item_draw, string item)
     init_pair(5, COLOR_YELLOW, COLOR_BLACK);
     init_pair(6, COLOR_CYAN, COLOR_BLACK);
     init_pair(7, COLOR_RED, COLOR_BLACK);
-    init_pair(7, COLOR_CYAN, COLOR_BLACK);
     int start_y = 1;
     int start_x = 1;
     // Draw dealer items in dealer inventory windows
