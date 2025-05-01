@@ -16,7 +16,7 @@ void draw_dealer_single(WINDOW *dealer_draw)
 
   // Track progress of player
   ifstream fin;
-  string file = "dealer_animation/9.txt";
+  string file = "dealer_animation/0.txt";
   fin.open(file);
 
   if (fin.fail())
