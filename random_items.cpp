@@ -9,9 +9,9 @@
 
 using namespace std;
 
-void random_items(vector<vector<string>> *inventory)
+void random_items(vector<vector<string>> *inventory, int seed_offset = 0)
 {
-  srand(time(0));
+  srand(time(0) + seed_offset);
   vector<string> items = {"magnifyingGlass", "handcuff", "beer", "knife", "apple"};
   int inserted = 0;
 

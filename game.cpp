@@ -184,9 +184,8 @@ int game(WINDOW *game_win)
 		if (currentRound == 0 && animCount == 0)
 		{
 			// Add random items to inevntories
-			random_items(&dealer_item_texts);
-			srand(time(0) + 1);
-			random_items(&player_item_texts);
+			random_items(&dealer_item_texts, 0);
+			random_items(&player_item_texts, 1);
 
 			// Display live and blank
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
