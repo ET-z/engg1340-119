@@ -6,6 +6,7 @@
 #include <unistd.h>           // for usleep
 #include <ncursesw/ncurses.h> // wide-character ncurses
 #include "../game.h"
+#include "tutorial_utils.h"
 
 int tutorial1(WINDOW *game_win)
 {
