@@ -144,6 +144,42 @@ int game(WINDOW *game_win)
 		healthbar(player_health, playerHealth);
 		healthbar(dealer_health, dealerHealth);
 		box(bullets_table, 0, 0);
+
+		// Draw shell boxes in bullets table ifbullets not empty
+		if (!rounds.empty())
+		{
+			int shell_height = 3;
+			int shell_width = 6;
+			int shells_per_row = 3;
+			int start_y = 2;
+			int start_x = (bullet_table_width - (shells_per_row * shell_width)) / 2;
+
+			for (size_t i = currentRound; i < rounds.size(); i++)
+			{
+				int row = (i - currentRound) / shells_per_row;
+				int col = (i - currentRound) % shells_per_row;
+				int y = start_y + (row * (shell_height + 1));
+				int x = start_x + (col * (shell_width + 1));
+
+				// Draw box for each shell
+				for (int h = 0; h < shell_height; h++)
+				{
+					mvwaddch(bullets_table, y + h, x, ACS_VLINE);
+					mvwaddch(bullets_table, y + h, x + shell_width - 1, ACS_VLINE);
+				}
+				for (int w = 0; w < shell_width; w++)
+				{
+					mvwaddch(bullets_table, y, x + w, ACS_HLINE);
+					mvwaddch(bullets_table, y + shell_height - 1, x + w, ACS_HLINE);
+				}
+				// Add corners
+				mvwaddch(bullets_table, y, x, ACS_ULCORNER);
+				mvwaddch(bullets_table, y, x + shell_width - 1, ACS_URCORNER);
+				mvwaddch(bullets_table, y + shell_height - 1, x, ACS_LLCORNER);
+				mvwaddch(bullets_table, y + shell_height - 1, x + shell_width - 1, ACS_LRCORNER);
+			}
+		}
+
 		wrefresh(bullets_table);
 
 		for (int i = 0; i < 2; i++)
@@ -226,7 +262,7 @@ int game(WINDOW *game_win)
 		case 'e':
 		case 'E':
 			itemPicked = true;
-			mvwprintw(player_items[selectedRow][selectedCol], 1, 1, "Picked");
+			mvwprintw(player_item_texts[selectedRow][selectedCol], 1, 1, "Picked");
 			break;
 
 		case 10:
