@@ -20,6 +20,7 @@ void dealerDumb(WINDOW *game_win, int &playerHealth)
     if (rand() % 2 == 1)
     {
         printCentere(game_win, "[Dumb AI] Dealer shot live!", 25);
+        napms(3000);
         playerHealth = std::max(playerHealth - 20, 0);
     }
     else
