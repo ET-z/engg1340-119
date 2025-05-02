@@ -24,6 +24,7 @@ void dealerDumb(WINDOW *game_win, int &playerHealth, bool &currentShell, int &de
         napms(3000);
         playerHealth = std::max(playerHealth - dealerDamage, 0);
         dealerDamage = 20;
+        dealerTurn = false;
         // check if players health has dropped to 0 or below
         if (playerHealth <= 0)
         {
@@ -35,6 +36,7 @@ void dealerDumb(WINDOW *game_win, int &playerHealth, bool &currentShell, int &de
     else
     {
         printCentere(game_win, "[Dumb AI] Dealer shot blank.", 25);
+        dealerTurn = false;
         napms(3000);
         return;
     }
