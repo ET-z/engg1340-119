@@ -108,6 +108,7 @@ int game(WINDOW *game_win)
 	// Game state variables and initiate players, shells
 	int selectedRow = 0, selectedCol = 0;
 	bool itemPicked = false;
+	string pickedItemText = "";
 	Player player("ENGG1340", 100, true);
 	Opponent AI("S1mple", 100, false);
 	int playerHealth = player.health;
@@ -134,6 +135,12 @@ int game(WINDOW *game_win)
 		healthbar(player_health, playerHealth);
 		healthbar(dealer_health, dealerHealth);
 		box(bullets_table, 0, 0);
+
+		// Display picked item if one is picked
+		if (itemPicked && !pickedItemText.empty())
+		{
+			mvwprintw(game_win, 7, (WIDTH - pickedItemText.length()) / 2, pickedItemText.c_str());
+		}
 
 		// Draw shell boxes in bullets table ifbullets not empty
 		if (!rounds.empty())
@@ -278,12 +285,14 @@ int game(WINDOW *game_win)
 
 		case 'e':
 		case 'E':
-			itemPicked = true;
-			mvwprintw(game_win, 5, (WIDTH - player_item_texts[selectedRow][selectedCol].length()) / 2,
-								player_item_texts[selectedRow][selectedCol].c_str());
-			player_item_texts[selectedRow][selectedCol] = "";
-			wrefresh(game_win);
-			wrefresh(player_items[selectedRow][selectedCol]);
+			if (!player_item_texts[selectedRow][selectedCol].empty())
+			{
+				itemPicked = true;
+				pickedItemText = player_item_texts[selectedRow][selectedCol];
+				player_item_texts[selectedRow][selectedCol] = "";
+				wrefresh(game_win);
+				wrefresh(player_items[selectedRow][selectedCol]);
+			}
 			break;
 
 		case 10:
@@ -292,6 +301,7 @@ int game(WINDOW *game_win)
 			{
 				playerHealth = min(playerHealth + 1, 100);
 				itemPicked = false;
+				pickedItemText = "";
 			}
 			else
 			{
