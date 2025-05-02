@@ -71,6 +71,8 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
     if (dealerHealth < 20 && risk > 0.6)
     {
         printCentere(game_win, "[Risk-Aware AI] Dealer too weak, decided to shoot you.", 25);
+        wclear(game_win);
+        napms(2000);
         if (currentShell)
         {
             printCentere(game_win, "[Risk-Aware AI] Dealer shot live!", 25);
@@ -95,7 +97,8 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
     else
     {
         printCentere(game_win, "[Risk-Aware AI] Dealer decided to shoot himself", 25);
-        napms(3000);
+        wclear(game_win);
+        napms(2000);
         if (currentShell)
         {
             printCentere(game_win, "[Risk-Aware AI] Dealer shot live!", 25);
@@ -126,7 +129,8 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
     if (playerHealth <= 20 && (risk > 0.5))
     {
         printCentere(game_win, "[Smart AI] Player weak, Dealer tries to finish!", 25);
-        napms(3000);
+        wclear(game_win);
+        napms(2000);
         if (currentShell)
         {
             printCentere(game_win, "[Smart AI] Dealer shot live!", 25);
@@ -152,6 +156,8 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
     else if (dealerHealth <= 20 && risk > 0.5)
     {
         printCentere(game_win, "[Smart AI] Dealer avoids risky shooting himself.", 25);
+        wclear(game_win);
+        napms(2000);
         if (currentShell)
         {
             printCentere(game_win, "[Smart AI] Dealer shot live!", 25);
@@ -178,6 +184,8 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
     else
     {
         printCentere(game_win, "[Smart AI] Dealer shoots himself!", 25);
+        wclear(game_win);
+        napms(2000);
         if (currentShell)
         {
             printCentere(game_win, "[Smart AI] Dealer shot live!", 25);
