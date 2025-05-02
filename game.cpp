@@ -436,53 +436,72 @@ int game(WINDOW *game_win)
 					int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
 					int remainingTotalShells = rounds.size() - currentRound;
 
-					// Dealer uses random items
-					srand(time(0) + 1);
-					int randomNumberItems = rand() % 3 + 1;
-					int Y = 27;
-					for (int i = 0; i < randomNumberItems; i++)
+					// Check if dealer has any items before trying to use them
+					bool hasItems = false;
+					for (const auto &row : dealer_item_texts)
 					{
-						pair<int, int> coords = use_random_item(&dealer_item_texts);
-						if (coords.first != -1 && coords.second != -1)
+						for (const auto &item : row)
 						{
-							string item = dealer_item_texts[coords.first][coords.second];
-							if (item == "apple" && dealerHealth <= 100)
+							if (!item.empty())
 							{
-								dealerPicked = "Dealer ate an apple";
-								if (dealerHealth + 20 <= 100)
-									dealerHealth += 20;
-								dealer_item_texts[coords.first][coords.second] = "";
-							}
-							else if (item == "knife")
-							{
-								dealerPicked = "Dealer will now deal double damage";
-								dealerDamage = 40;
-								dealer_item_texts[coords.first][coords.second] = "";
-							}
-							else if (item == "magnifyingGlass")
-							{
-								dealerPicked = "";
-								dealer_item_texts[coords.first][coords.second] = "";
-							}
-							else if (item == "beer")
-							{
-								bool result = rounds[currentRound++];
-								dealerPicked = "Dealer discarded of a shell";
-								dealer_item_texts[coords.first][coords.second] = "";
-							}
-							else if (item == "handcuff")
-							{
-								dealerPicked = "";
-								dealer_item_texts[coords.first][coords.second] = "";
+								hasItems = true;
+								break;
 							}
 						}
-						if (!dealerPicked.empty())
+						if (hasItems)
+							break;
+					}
+
+					// Dealer uses random items only if they have any
+					if (hasItems)
+					{
+						srand(time(0) + 1);
+						int randomNumberItems = rand() % 3 + 1;
+						int Y = 27;
+						for (int i = 0; i < randomNumberItems; i++)
 						{
-							mvwprintw(game_win, Y + i, (WIDTH - dealerPicked.length()) / 2, dealerPicked.c_str());
+							pair<int, int> coords = use_random_item(&dealer_item_texts);
+							if (coords.first != -1 && coords.second != -1)
+							{
+								string item = dealer_item_texts[coords.first][coords.second];
+								if (item == "apple" && dealerHealth <= 100)
+								{
+									dealerPicked = "Dealer ate an apple";
+									if (dealerHealth + 20 <= 100)
+										dealerHealth += 20;
+									dealer_item_texts[coords.first][coords.second] = "";
+								}
+								else if (item == "knife")
+								{
+									dealerPicked = "Dealer will now deal double damage";
+									dealerDamage = 40;
+									dealer_item_texts[coords.first][coords.second] = "";
+								}
+								else if (item == "magnifyingGlass")
+								{
+									dealerPicked = "Dealer threw away an item";
+									dealer_item_texts[coords.first][coords.second] = "";
+								}
+								else if (item == "beer")
+								{
+									bool result = rounds[currentRound++];
+									dealerPicked = "Dealer discarded of a shell";
+									dealer_item_texts[coords.first][coords.second] = "";
+								}
+								else if (item == "handcuff")
+								{
+									dealerPicked = "Dealer threw away an item";
+									dealer_item_texts[coords.first][coords.second] = "";
+								}
+							}
+							if (!dealerPicked.empty())
+							{
+								mvwprintw(game_win, Y + i * 2, (WIDTH - dealerPicked.length()) / 2, dealerPicked.c_str());
+							}
+							wrefresh(game_win);
+							wrefresh(dealer_items[coords.first][coords.second]);
+							napms(2000);
 						}
-						wrefresh(game_win);
-						wrefresh(dealer_items[coords.first][coords.second]);
-						napms(2000);
 					}
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
