@@ -32,8 +32,8 @@ int tutorial3(WINDOW *game_win)
         // Dealer info
         int y = 4;
         std::vector<std::wstring> dealer_lines = {
-            L"Dumb AI - The dealer will always shoot at you on their turn.",
-            L"Risk-Aware AI - Calculates risk carefully...",
+            L"Dumb AI - The aggressive dealer will always shoot at you on their turn...",
+            L"Random AI - Loves the thrill of the game and doesn't care of the outcome...",
             L"Smart AI - Calculates risk and analyzes health...",
         };
         wattron(game_win, COLOR_PAIR(3));

@@ -135,17 +135,22 @@ int main()
       wclear(game_win);
       box(game_win, 0, 0);
 
-      int x_center_1 = (WIDTH - 21) / 2;
-      int x_center_2 = (WIDTH - 22) / 2;
-      int x_center_3 = (WIDTH - 27) / 2;
-      int x_center_4 = (WIDTH - 22) / 2;
+      string text1 = "Choose Difficulty:";
+      string text2 = "[1] (Dumb AI)";
+      string text3 = "[2] (Random AI)";
+      string text4 = "[3] (Smart AI)";
+
+      int x_center_1 = (WIDTH - text1.length()) / 2;
+      int x_center_2 = (WIDTH - text2.length()) / 2;
+      int x_center_3 = (WIDTH - text3.length()) / 2;
+      int x_center_4 = (WIDTH - text4.length()) / 2;
 
       int y_center = HEIGHT / 2 - 2;
 
-      mvwprintw(game_win, y_center, x_center_1, "Choose Difficulty:");
-      mvwprintw(game_win, y_center + 5, x_center_2, "[1] (Dumb AI)");
-      mvwprintw(game_win, y_center + 8, x_center_3, "[2] (Random AI)");
-      mvwprintw(game_win, y_center + 7, x_center_4, "[3] (Smart AI)");
+      mvwprintw(game_win, y_center, x_center_1, text1.c_str());
+      mvwprintw(game_win, y_center + 2, x_center_2, text2.c_str());
+      mvwprintw(game_win, y_center + 3, x_center_3, text3.c_str());
+      mvwprintw(game_win, y_center + 4, x_center_4, text4.c_str());
 
       wrefresh(game_win);
 
