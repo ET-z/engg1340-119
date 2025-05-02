@@ -279,7 +279,8 @@ int game(WINDOW *game_win)
 		case 'e':
 		case 'E':
 			itemPicked = true;
-			mvwprintw(game_win, 5, WIDTH / 2 - player_item_texts[selectedRow][selectedCol].length(), player_item_texts[selectedRow][selectedCol].c_str());
+			mvwprintw(game_win, 5, (WIDTH - player_item_texts[selectedRow][selectedCol].length()) / 2,
+								player_item_texts[selectedRow][selectedCol].c_str());
 			player_item_texts[selectedRow][selectedCol] = "";
 			wrefresh(game_win);
 			wrefresh(player_items[selectedRow][selectedCol]);
