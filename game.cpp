@@ -442,6 +442,7 @@ int game(WINDOW *game_win)
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
 									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn);
+					playerTurn = true;
 					if (playerHealth <= 0)
 					{
 						inGame = false;
