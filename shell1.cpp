@@ -31,7 +31,7 @@ private:
     }
 
 public:
-    ShellGenerator(int t = 9, int mn = 2, int mx = 6)
+    ShellGenerator(int t = 9, int mn = 2, int mx = 5)
         : total(t), minLive(mn), maxLive(mx)
     {
         srand(time(0));
