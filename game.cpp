@@ -531,14 +531,16 @@ int game(WINDOW *game_win)
 					{
 						dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
 										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage, dealerTurn);
+						continue;
 					}
-					dealerTurn = true;
 					playerTurn = true;
 					if (playerHealth <= 0)
 					{
 						inGame = false;
 						break;
 					}
+					dealerTurn = true;
+					continue;
 				}
 			}
 
