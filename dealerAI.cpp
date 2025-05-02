@@ -136,7 +136,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool &c
 
     if (risk > 0.5)
     {
-        printCentere(game_win, "[Smart AI] Dealer wants blood!", 25);
+        printCentere(game_win, "[Smart AI] Dealer wants blood! He shoots you.", 25);
         wclear(game_win);
         box(game_win, 0, 0);
         napms(2000);
