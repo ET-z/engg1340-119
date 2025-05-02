@@ -4,7 +4,7 @@
 #include <locale.h>
 #include <cwchar>
 #include <unistd.h>
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include "../game.h"
 #include "tutorial_utils.h"
 using namespace std;
