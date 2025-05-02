@@ -373,8 +373,7 @@ int game(WINDOW *game_win)
 							break;
 						}
 						napms(3000);
-						if (!handcuffAlreadyUsed)
-							playerTurn = false;
+						playerTurn = false;
 						// Add refresh and delay before dealer's move
 						wclear(game_win);
 						box(game_win, 0, 0);
@@ -385,8 +384,7 @@ int game(WINDOW *game_win)
 						printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
 						napms(3000);
 						playerDamage = 20;
-						if (!handcuffAlreadyUsed)
-							playerTurn = false;
+						playerTurn = false;
 						// Add refresh and delay before dealer's move
 						wclear(game_win);
 						box(game_win, 0, 0);
@@ -409,8 +407,7 @@ int game(WINDOW *game_win)
 							break;
 						}
 						napms(3000);
-						if (!handcuffAlreadyUsed)
-							playerTurn = false;
+						playerTurn = false;
 						// Add refresh and delay before dealer's move
 						wclear(game_win);
 						box(game_win, 0, 0);
