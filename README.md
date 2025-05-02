@@ -1,7 +1,7 @@
 # engg1340-119 - Buckshot Roulette
 
 > [!CAUTION]
-> The game does not run on MacOS!
+> The game does not run on MacOS due to lack of wide-character version of ncurses!
 
 ---
 
