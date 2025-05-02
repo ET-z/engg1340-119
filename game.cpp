@@ -456,14 +456,19 @@ int game(WINDOW *game_win)
 
 					// Check if dealer has any items before trying to use them
 					bool hasItems = false;
+					int itemCount = 0;
 					for (const auto &row : dealer_item_texts)
 					{
 						for (const auto &item : row)
 						{
-							if (!item.empty() && item.length() > 2)
+							if (!item.empty())
 							{
-								hasItems = true;
-								break;
+								itemCount++;
+								if (itemCount > 2)
+								{
+									hasItems = true;
+									break;
+								}
 							}
 						}
 						if (hasItems)
