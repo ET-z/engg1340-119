@@ -385,10 +385,7 @@ int game(WINDOW *game_win)
 						playerDamage = 20;
 						if (dealerHealth <= 0)
 						{
-							printCentered(game_win, "Game Over! You win!", 7);
-							napms(3000);
-							inGame = false;
-							break;
+							continue;
 						}
 						napms(3000);
 						playerTurn = false;
@@ -419,10 +416,7 @@ int game(WINDOW *game_win)
 						printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
 						if (playerHealth <= 0)
 						{
-							printCentered(game_win, "Game Over! Dealer wins!", 7);
-							napms(3000);
-							inGame = false;
-							break;
+							continue;
 						}
 						napms(3000);
 						playerTurn = false;
