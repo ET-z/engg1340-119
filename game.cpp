@@ -118,6 +118,7 @@ int game(WINDOW *game_win)
 	vector<bool> rounds;
 	int currentRound = 0;
 	bool playerTurn = true;
+	bool handcuffAlreadyUser = false;
 
 	// generate bullets before game starts
 	string initialShells = gen.getShells();
@@ -319,6 +320,11 @@ int game(WINDOW *game_win)
 					pickedItemText = "You discarded of a shell";
 					player_item_texts[selectedRow][selectedCol] = "";
 				}
+				else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
+				{
+					itmePicked = true;
+					handcuffAlreadyUser = true;
+				}
 				wrefresh(game_win);
 				wrefresh(player_items[selectedRow][selectedCol]);
 			}
@@ -331,9 +337,16 @@ int game(WINDOW *game_win)
 				playerHealth = min(playerHealth + 1, 100);
 				itemPicked = false;
 				pickedItemText = "";
+				wclear(game_win);
+				box(game_win, 0, 0);
+				wrefresh(game_win);
+				printCentere(game_win, "Dealer has skipped their turn!", 26);
+				napms(3000);
+				continue;
 			}
 			else
 			{
+				pickedItemText = "";
 				if (rounds.empty() || currentRound >= rounds.size())
 				{
 					string shellStr = gen.getShells();
@@ -419,6 +432,7 @@ int game(WINDOW *game_win)
 
 				if (!playerTurn)
 				{
+					handcuffAlreadyUser = false;
 					int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
 					int remainingTotalShells = rounds.size() - currentRound;
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
