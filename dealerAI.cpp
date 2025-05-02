@@ -17,6 +17,13 @@ void printCentere(WINDOW *win, const std::string &message, int y_center)
 // Dumb AI: Always attack
 void dealerDumb(WINDOW *game_win, int &playerHealth)
 {
+    srand(time(0) + 1);
+    int randomNumberItems = rand() % 3;
+    for (int i = 0; i < randomNumberItems)
+    {
+        use_random_item
+    }
+
     if (rand() % 2 == 1)
     {
         printCentere(game_win, "[Dumb AI] Dealer shot live!", 25);
