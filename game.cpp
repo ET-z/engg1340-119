@@ -351,18 +351,14 @@ int game(WINDOW *game_win)
 
 			if (playerTurn)
 			{
-				if (dealerTurn)
-				{
-					playerTurn = false;
-					dealerTurn = false;
-				}
 				if (action == '1')
 				{
 					bool result = rounds[currentRound++];
 					if (result)
 					{
 						dealerHealth = max(dealerHealth - playerDamage, 0);
-						printCentered(game_win, "A live shell! Dealer takes " + to_string(playerDamage) + " damage.", 6);
+						string damageMessage = "A live shell! Dealer takes " + to_string(playerDamage) + " damage.";
+						printCentered(game_win, damageMessage, 6);
 						playerDamage = 20;
 						if (dealerHealth <= 0)
 						{
@@ -437,12 +433,12 @@ int game(WINDOW *game_win)
 					int remainingTotalShells = rounds.size() - currentRound;
 
 					// Dealer uses random items
-					srand(time(0) + 1);
-					int randomNumberItems = rand() % 3;
-					for (int i = 0; i < randomNumberItems; i++)
-					{
-						string pickedItem = use_random_item(&dealer_item_texts);
-					}
+					// srand(time(0) + 1);
+					// int randomNumberItems = rand() % 3;
+					// for (int i = 0; i < randomNumberItems; i++)
+					// {
+					// 	string pickedItem = use_random_item(&dealer_item_texts);
+					// }
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
 									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerTurn);
