@@ -16,7 +16,7 @@ void printCentere(WINDOW *win, const std::string &message, int y_center)
 }
 
 // Dumb AI: Always attack
-void dealerDumb(WINDOW *game_win, int &playerHealth, bool currentShell, int &dealerDamage)
+void dealerDumb(WINDOW *game_win, int &playerHealth, bool &currentShell, int &dealerDamage)
 {
     if (currentShell)
     {
@@ -66,13 +66,13 @@ void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell, in
 }
 
 // Risk-Aware AI: Attack only if risk is reasonable
-void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int liveCount, int totalShells, bool currentShell, bool &playerTurn, int &dealerDamage, bool &dealerTurn)
+void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int &liveCount, int &totalShells, bool &currentShell, bool &playerTurn, int &dealerDamage, bool &dealerTurn)
 {
     srand(time(0));
     int risk = rand() % 2;
     if (risk == 1)
     {
-        printCentere(game_win, "[Random AI] Decided to shoot you.", 25);
+        printCentere(game_win, "[Random AI] Dealer decided to shoot you.", 25);
         wclear(game_win);
         box(game_win, 0, 0);
         napms(2000);
@@ -130,7 +130,7 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
 }
 
 // Smart AI: Combines risk and blood state
-void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, bool &playerTurn, int &dealerDamage, bool &dealerTurn)
+void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool &currentShell, int &liveCount, int &totalShells, bool &playerTurn, int &dealerDamage, bool &dealerTurn)
 {
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
 
@@ -226,7 +226,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
     }
 }
 
-void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, DealerAILevel aiLevel, bool &playerTurn, int &dealerDamage, bool &dealerTurn)
+void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool &currentShell, int &liveCount, int &totalShells, DealerAILevel aiLevel, bool &playerTurn, int &dealerDamage, bool &dealerTurn)
 {
     switch (aiLevel)
     {
