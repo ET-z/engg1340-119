@@ -107,7 +107,6 @@ int game(WINDOW *game_win)
 
 	// Game state variables and initiate players, shells
 	int selectedRow = 0, selectedCol = 0;
-	bool itemPicked = false;
 	string pickedItemText = "";
 	Player player("ENGG1340", 100, true);
 	Opponent AI("S1mple", 100, false);
@@ -289,20 +288,17 @@ int game(WINDOW *game_win)
 		case 'E':
 			if (!player_item_texts[selectedRow][selectedCol].empty() && pickedItemText == "")
 			{
-				itemPicked = true;
 				if (player_item_texts[selectedRow][selectedCol] == "apple" && playerHealth <= 100)
 				{
 					pickedItemText = "You ate an apple";
 					player_item_texts[selectedRow][selectedCol] = "";
 					playerHealth += 20;
-					itemPicked = false;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "knife")
 				{
 					pickedItemText = "You will now deal double damage";
 					player_item_texts[selectedRow][selectedCol] = "";
 					playerDamage = 40;
-					itemPicked = false;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "magnifyingGlass")
 				{
@@ -312,18 +308,15 @@ int game(WINDOW *game_win)
 						pickedItemText = "The current shell is: " + bulletType;
 						player_item_texts[selectedRow][selectedCol] = "";
 					}
-					itemPicked = false;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "beer")
 				{
 					bool result = rounds[currentRound++];
 					pickedItemText = "You discarded of a shell";
 					player_item_texts[selectedRow][selectedCol] = "";
-					itemPicked = false;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
 				{
-					itemPicked = false;
 					pickedItemText = "Dealer's turn will be skipped";
 					player_item_texts[selectedRow][selectedCol] = "";
 					handcuffAlreadyUsed = true;
