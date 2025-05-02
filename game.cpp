@@ -442,7 +442,7 @@ int game(WINDOW *game_win)
 					{
 						for (const auto &item : row)
 						{
-							if (!item.empty())
+							if (!item.empty() && item.length() > 2)
 							{
 								hasItems = true;
 								break;
@@ -456,7 +456,7 @@ int game(WINDOW *game_win)
 					if (hasItems)
 					{
 						srand(time(0) + 1);
-						int randomNumberItems = rand() % 3 + 1;
+						int randomNumberItems = rand() % 2 + 1;
 						int Y = 27;
 						for (int i = 0; i < randomNumberItems; i++)
 						{
