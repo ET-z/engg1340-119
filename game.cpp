@@ -472,12 +472,12 @@ int game(WINDOW *game_win)
 								dealerPicked = "";
 								dealer_item_texts[coords.first][coords.second] = "";
 							}
-							wrefresh(game_win);
-							wrefresh(dealer_items[coords.first][coords.second]);
 							if (!dealerPicked.empty())
 							{
 								mvwprintw(game_win, 25, (WIDTH - dealerPicked.length()) / 2, dealerPicked.c_str());
 							}
+							wrefresh(game_win);
+							wrefresh(dealer_items[coords.first][coords.second]);
 							napms(2000);
 						}
 					}
