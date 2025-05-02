@@ -335,6 +335,7 @@ int game(WINDOW *game_win)
 
 		case 10:
 		case ' ':
+		{
 			pickedItemText = "";
 			if (rounds.empty() || currentRound >= rounds.size())
 			{
@@ -454,8 +455,10 @@ int game(WINDOW *game_win)
 				printCentered(game_win, "Reloading...", 9);
 				napms(500);
 				wrefresh(game_win);
+				break;
 			}
-			break;
+		}
+		break;
 
 		default:
 			mvwprintw(game_win, 1, 2, "Unknown key: ch = %d", ch);
