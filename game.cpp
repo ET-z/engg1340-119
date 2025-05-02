@@ -288,7 +288,7 @@ int game(WINDOW *game_win)
 
 		case 'e':
 		case 'E':
-			if (!player_item_texts[selectedRow][selectedCol].empty() && pickedItemText == "")
+			if (!player_item_texts[selectedRow][selectedCol].empty())
 			{
 				if (player_item_texts[selectedRow][selectedCol] == "apple" && playerHealth <= 100)
 				{
