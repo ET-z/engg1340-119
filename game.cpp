@@ -141,7 +141,7 @@ int game(WINDOW *game_win)
 		// Display picked item if one is picked
 		if (!pickedItemText.empty())
 		{
-			mvwprintw(game_win, 7, (WIDTH - pickedItemText.length()) / 2, pickedItemText.c_str());
+			mvwprintw(game_win, 14, (WIDTH - pickedItemText.length()) / 2, pickedItemText.c_str());
 		}
 
 		// Draw shell boxes in bullets table ifbullets not empty
