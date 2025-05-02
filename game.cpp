@@ -322,7 +322,7 @@ int game(WINDOW *game_win)
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
 				{
-					itmePicked = true;
+					itemPicked = true;
 					handcuffAlreadyUser = true;
 				}
 				wrefresh(game_win);
@@ -340,7 +340,7 @@ int game(WINDOW *game_win)
 				wclear(game_win);
 				box(game_win, 0, 0);
 				wrefresh(game_win);
-				printCentere(game_win, "Dealer has skipped their turn!", 26);
+				printCentered(game_win, "Dealer has skipped their turn!", 26);
 				napms(3000);
 				continue;
 			}
