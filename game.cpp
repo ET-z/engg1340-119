@@ -117,7 +117,6 @@ int game(WINDOW *game_win)
 	vector<bool> rounds;
 	int currentRound = 0;
 	bool playerTurn = true;
-	bool dealerTurn = false;
 	bool handcuffAlreadyUsed = false;
 
 	// generate bullets before game starts
@@ -441,7 +440,7 @@ int game(WINDOW *game_win)
 					// }
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
-									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerTurn);
+									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn);
 					if (playerHealth <= 0)
 					{
 						inGame = false;

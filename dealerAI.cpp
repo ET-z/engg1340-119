@@ -62,7 +62,7 @@ void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell)
 }
 
 // Risk-Aware AI: Attack only if risk is reasonable
-void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int liveCount, int totalShells, bool currentShell, bool &playerTurn, bool &dealerTurn)
+void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int liveCount, int totalShells, bool currentShell, bool &playerTurn)
 {
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
     if (dealerHealth < 20 && risk > 0.6)
@@ -107,14 +107,13 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
         else
         {
             printCentere(game_win, "[Risk-Aware AI] Dealer shot blank!", 25);
-            dealerTurn = true; // Keep it dealer's turn
             napms(3000);
         }
     }
 }
 
 // Smart AI: Combines risk and blood state
-void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, bool &playerTurn, bool &dealerTurn)
+void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, bool &playerTurn)
 {
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
 
@@ -185,14 +184,13 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         else
         {
             printCentere(game_win, "[Smart AI] Dealer shot blank!", 25);
-            dealerTurn = true; // Keep it dealer's turn
             napms(3000);
         }
         return;
     }
 }
 
-void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, DealerAILevel aiLevel, bool &playerTurn, bool &dealerTurn)
+void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, DealerAILevel aiLevel, bool &playerTurn)
 {
     switch (aiLevel)
     {
@@ -203,10 +201,10 @@ void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool curre
         dealerScopeAware(game_win, playerHealth, currentShell);
         break;
     case RISK_AWARE:
-        dealerRiskAware(game_win, playerHealth, dealerHealth, liveCount, totalShells, currentShell, playerTurn, dealerTurn);
+        dealerRiskAware(game_win, playerHealth, dealerHealth, liveCount, totalShells, currentShell, playerTurn);
         break;
     case SMART:
-        dealerSmart(game_win, playerHealth, dealerHealth, currentShell, liveCount, totalShells, playerTurn, dealerTurn);
+        dealerSmart(game_win, playerHealth, dealerHealth, currentShell, liveCount, totalShells, playerTurn);
         break;
     }
     wrefresh(game_win);
