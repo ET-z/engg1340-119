@@ -1,4 +1,7 @@
-# engg1340-119 - Platformer Game
+# engg1340-119 - Buckshot Roulette
+
+> [!CAUTION]
+> The game does not run on MacOS!
 
 ---
 
@@ -13,24 +16,31 @@
 
 ---
 
-## Todo:
-
-- [x] Menu
-- [ ] Game Intro
-- [ ] Tutorial
-- [ ]
-
----
-
-## For Players:
+## Introduction
 
 > Long last, we arrive at the final showdown.
 > No more defibrillators.
 > No more blood transfusions.
 > Now, me and you, we are dancing on the edge of life and death.
 
+Buckshot Roulette is a popular online game.
+
+---
+
+## How to run the game
+
+To compile the game and immediately run it, enter the following command into your Linux terminal:
+
+```
+make run
+```
+
 > [!CAUTION]
 > Make sure your terminal is big enough to run the game!
+
+---
+
+## How to play the game
 
 > [!NOTE]
 > For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
@@ -44,24 +54,34 @@
 
 ## About our project
 
+### Random events
+
+- Showcase random event functions and explain them
+
+### Data structure for storin data / Dynamic memory management
+
+- Showcase our use of vectors and windows, etc.
+
 ### File I/O
+
+- Talk about how our game utilizes file I/O for ASCII
 
 ```
      AAAAAAA       AAAAAAA
     AA    AS          AA   AA
    AA   AM              AZ  AA
    A   A                 A   A
-  A   A                 A  ZA
-   AA  AA              AA   A
-    A   AAAAAAAAAAAAAA   WA
-    AA                 AA
-    AA                 AA
-    AA                 AA
-    NA  AAAA     AAAA  A
-    A  AAAAAA   IAAAAA A
-    A   AAAA     AAAA AA
-      AA             AA
-        AAAAAAAAAAAAA
+  AZ  A                 A  ZA
+   AA  AA              AA   AA
+    AW   AAAAAAAAAAAAAA   WA
+      AA                 AA
+      AA                 AA
+      AA                 AA
+      AA  AAAA     AAAA  AA
+      A  AAAAAA   AAAAAA  A
+      AA  AAAA     AAAA AA
+        AA             AA
+          AAAAAAAAAAAAA
 ```
 
 ```
@@ -71,8 +91,8 @@
     YKK       SKOSPQKZS       GSSG
     EKS        KSWASUK        KLONK
    MPU         KSJBSSK        SY SS
- XDFS S       RVLJCHSKW        MAAAAA
- AASEAERNSSSWUKSCCCCPSKKPSP SAABR  TAS
+  XDFS S       RVLJCHSKW      MAAAAA
+ AASEAERNSSSWUKSCCCCPSKKPSP SAABR TAS
  S    KJAEIFRSN KCCACSTWSSDAAI      K
  M    X  WKIJFDO      IJOCG Z KCS  TS
  GJ SE  CQS   ZRLGQMLMRT  X MCSZ   OS
