@@ -5,7 +5,6 @@
 #include <cwchar>
 #include <unistd.h>
 #include <ncursesw/ncurses.h>
-
 #include "../game.h"
 #include "tutorial_utils.h"
 
