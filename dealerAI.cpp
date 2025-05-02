@@ -17,7 +17,6 @@ void printCentere(WINDOW *win, const std::string &message, int y_center)
 // Dumb AI: Always attack
 void dealerDumb(WINDOW *game_win, int &playerHealth, bool currentShell)
 {
-
     if (currentShell)
     {
         printCentere(game_win, "[Dumb AI] Dealer shot live!", 25);
@@ -35,6 +34,7 @@ void dealerDumb(WINDOW *game_win, int &playerHealth, bool currentShell)
     {
         printCentere(game_win, "[Dumb AI] Dealer shot blank.", 25);
         napms(3000);
+        return;
     }
 }
 
@@ -58,6 +58,7 @@ void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell)
     {
         printCentere(game_win, "[Scope-Aware AI] Dealer knows it's blank. Skipping.", 25);
         napms(3000);
+        return;
     }
 }
 
@@ -85,6 +86,7 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
         {
             printCentere(game_win, "[Risk-Aware AI] Delear shot blank!", 25);
             napms(3000);
+            return;
         }
     }
     else
@@ -108,6 +110,7 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
         {
             printCentere(game_win, "[Risk-Aware AI] Dealer shot blank!", 25);
             napms(3000);
+            return;
         }
     }
 }
@@ -138,6 +141,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         {
             printCentere(game_win, "[Smart AI] Delear shot blank!", 25);
             napms(3000);
+            return;
         }
         return;
     }
@@ -161,6 +165,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         {
             printCentere(game_win, "[Smart AI] Delear shot blank!", 25);
             napms(3000);
+            return;
         }
         napms(3000);
         return;
@@ -185,6 +190,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         {
             printCentere(game_win, "[Smart AI] Dealer shot blank!", 25);
             napms(3000);
+            return;
         }
         return;
     }
