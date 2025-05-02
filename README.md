@@ -5,7 +5,7 @@
 ## Members:
 
 - @ET-z **Enkhtushig Zolzaya** - 3036294578
-- @DuskNova **Name** -
+- @DuskNova **Tianhong Gao** - 3036459300
 - @tmng **Tran Minh Nguyen** - 3036384892
 - @tue-nhi **Nguyen Tue Nhi** - 3036364517
 - @kk212371 **Name** Kong Tianxi - 3036392461
