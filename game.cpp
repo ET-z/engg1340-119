@@ -113,6 +113,7 @@ int game(WINDOW *game_win)
 	Opponent AI("S1mple", 100, false);
 	int playerHealth = player.health;
 	int dealerHealth = AI.health;
+	int playerDamage = 20;
 	ShellGenerator gen;
 	vector<bool> rounds;
 	int currentRound = 0;
@@ -289,6 +290,14 @@ int game(WINDOW *game_win)
 			{
 				itemPicked = true;
 				pickedItemText = "Picked item: " + player_item_texts[selectedRow][selectedCol];
+				if (player_item_texts[selectedRow][selectedCol] == "apple" && playerHealth <= 100)
+				{
+					playerHealth += 20;
+				}
+				else if (player_item_texts[selectedRow][selectedCol] == "knife")
+				{
+					playerDamage = 40;
+				}
 				player_item_texts[selectedRow][selectedCol] = "";
 				wrefresh(game_win);
 				wrefresh(player_items[selectedRow][selectedCol]);
@@ -328,7 +337,8 @@ int game(WINDOW *game_win)
 						bool result = rounds[currentRound++];
 						if (result)
 						{
-							dealerHealth = max(dealerHealth - 20, 0);
+							dealerHealth = max(dealerHealth - playerDamage, 0);
+							playerDamage = 20;
 							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
 							if (dealerHealth <= 0)
 							{
@@ -348,6 +358,7 @@ int game(WINDOW *game_win)
 						{
 							printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
 							napms(3000);
+							playerDamage = 20;
 							playerTurn = false;
 							// Add refresh and delay before dealer's move
 							wclear(game_win);
@@ -360,7 +371,8 @@ int game(WINDOW *game_win)
 						bool result = rounds[currentRound++];
 						if (result)
 						{
-							playerHealth = max(playerHealth - 20, 0);
+							playerHealth = max(playerHealth - playerDamage, 0);
+							playerDamage = 20;
 							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
 							if (playerHealth <= 0)
 							{
