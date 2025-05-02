@@ -133,6 +133,24 @@ int game(WINDOW *game_win)
 	// Main loop
 	while (inGame)
 	{
+		// Check health status at the start of each loop
+		if (playerHealth <= 0)
+		{
+			wclear(game_win);
+			printCentered(game_win, "Game Over! Dealer wins!", 25);
+			napms(3000);
+			inGame = false;
+			break;
+		}
+		else if (dealerHealth <= 0)
+		{
+			wclear(game_win);
+			printCentered(game_win, "Game Over! You win!", 25);
+			napms(3000);
+			inGame = false;
+			break;
+		}
+
 		wclear(game_win);
 		box(game_win, 0, 0);
 		healthbar(player_health, playerHealth);
