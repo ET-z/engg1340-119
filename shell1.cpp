@@ -31,18 +31,17 @@ private:
     }
 
 public:
-    ShellGenerator(int t = 9, int mn = 1, int mx = 5)
+    ShellGenerator(int t = 9, int mn = 2, int mx = 6)
         : total(t), minLive(mn), maxLive(mx)
     {
         srand(time(0));
         validateParams();
         generate();
     }
-
-    void display()
+      void display()
     {
         int max_y, max_x;
-        getmaxyx(stdscr, max_y, max_x);
+          getmaxyx(stdscr, max_y, max_x);
 
         vector<string> content = {
             "Shell Game:",
