@@ -109,9 +109,8 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
         {
             printCentere(game_win, "[Random AI] Dealer shot live!", 25);
             napms(3000);
-            dealerTurn = false;
             dealerHealth = std::max(dealerHealth - 20, 0);
-            // check if players health has dropped to 0 or below
+            playerTurn = true; // Give turn to player after shooting self with live
             if (dealerHealth <= 0)
             {
                 printCentere(game_win, "Game Over! You win!", 26);
@@ -121,9 +120,9 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
         }
         else
         {
-            printCentere(game_win, "[Random AI] Dealer shot blank!", 25);
-            dealerTurn = true;
+            printCentere(game_win, "[Random AI] Dealer shot blank! Gets another turn!", 25);
             napms(3000);
+            playerTurn = false; // Keep dealer's turn if blank
             return;
         }
     }
@@ -206,8 +205,8 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
             printCentere(game_win, "[Smart AI] Dealer shot live!", 25);
             napms(3000);
             dealerTurn = false;
+            playerTurn = true; // Give turn to player after shooting self with live
             dealerHealth = std::max(dealerHealth - 20, 0);
-            // check if players health has dropped to 0 or below
             if (dealerHealth <= 0)
             {
                 printCentere(game_win, "Game Over! You wins", 26);
@@ -217,9 +216,10 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         }
         else
         {
-            printCentere(game_win, "[Smart AI] Dealer shot blank!", 25);
+            printCentere(game_win, "[Smart AI] Dealer shot blank! Gets another turn!", 25);
             napms(3000);
             dealerTurn = true;
+            playerTurn = false; // Keep dealer's turn if blank
             return;
         }
         return;
