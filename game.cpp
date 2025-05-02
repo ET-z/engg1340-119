@@ -526,9 +526,12 @@ int game(WINDOW *game_win)
 							napms(2000);
 						}
 					}
-
-					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
-									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage);
+					bool dealerTurn = true;
+					while (dealerTurn = true)
+					{
+						dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
+										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage, dealerTurn);
+					}
 					playerTurn = true;
 					if (playerHealth <= 0)
 					{

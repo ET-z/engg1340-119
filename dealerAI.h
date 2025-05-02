@@ -11,6 +11,6 @@ enum DealerAILevel
     SMART
 };
 
-void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, DealerAILevel aiLevel, bool &playerTurn, int &dealerDamage);
+void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, DealerAILevel aiLevel, bool &playerTurn, int &dealerDamage, bool &dealerTurn);
 
 #endif
