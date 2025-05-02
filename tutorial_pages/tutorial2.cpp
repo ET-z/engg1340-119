@@ -37,11 +37,11 @@ int tutorial2(WINDOW *game_win)
         // 🤍 Body text: Moves
         int y = 4;
         vector<wstring> lines = {
+            L"- e → Use an item ✍️",
+            L"- ENTER or SPACE → Initiate an action (1 or 2) ✅",
             L"- 1 → Shoot yourself 💥",
             L"- 2 → Shoot the dealer 🎯",
-            L"- e → Use an item ✍️",
             L"- Arrow keys → Navigate inventory ↕️",
-            L"- ENTER or SPACE → Confirm action ✅",
         };
         wattron(game_win, COLOR_PAIR(3));
         for (const auto &line : lines)
