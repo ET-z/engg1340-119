@@ -368,7 +368,7 @@ int game(WINDOW *game_win)
 						{
 							dealerHealth = max(dealerHealth - playerDamage, 0);
 							playerDamage = 20;
-							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
+							printCentered(game_win, "A live shell! Dealer takes " + to_string(playerDamage) + " damage.", 6);
 							if (dealerHealth <= 0)
 							{
 								printCentered(game_win, "Game Over! You win!", 7);
