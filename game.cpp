@@ -385,6 +385,7 @@ int game(WINDOW *game_win)
 						playerDamage = 20;
 						if (dealerHealth <= 0)
 						{
+							napms(2000);
 							continue;
 						}
 						napms(3000);
@@ -416,6 +417,7 @@ int game(WINDOW *game_win)
 						printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
 						if (playerHealth <= 0)
 						{
+							napms(2000);
 							continue;
 						}
 						napms(3000);
