@@ -143,7 +143,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         }
         else
         {
-            printCentere(game_win, "[Smart AI] Delear shot blank!", 25);
+            printCentere(game_win, "[Smart AI] Dealer shot blank!", 25);
             napms(3000);
             return;
         }

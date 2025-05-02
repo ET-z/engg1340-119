@@ -33,7 +33,6 @@ int tutorial3(WINDOW *game_win)
         int y = 4;
         std::vector<std::wstring> dealer_lines = {
             L"Dumb AI - The dealer will always shoot at you on their turn.",
-            L"Scope Aware AI - Knows what the current shell is, but does not shoot himself.",
             L"Risk-Aware AI - Calculates risk carefully...",
             L"Smart AI - Calculates risk and analyzes health...",
         };
