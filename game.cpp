@@ -323,6 +323,8 @@ int game(WINDOW *game_win)
 				else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
 				{
 					itemPicked = true;
+					pickedItemText = "Dealer's turn will be skipped";
+					player_item_texts[selectedRow][selectedCol] = "";
 					handcuffAlreadyUser = true;
 				}
 				wrefresh(game_win);
@@ -334,15 +336,8 @@ int game(WINDOW *game_win)
 		case ' ':
 			if (itemPicked)
 			{
-				playerHealth = min(playerHealth + 1, 100);
 				itemPicked = false;
 				pickedItemText = "";
-				wclear(game_win);
-				box(game_win, 0, 0);
-				wrefresh(game_win);
-				printCentered(game_win, "Dealer has skipped their turn!", 26);
-				napms(3000);
-				continue;
 			}
 			else
 			{
@@ -432,7 +427,16 @@ int game(WINDOW *game_win)
 
 				if (!playerTurn)
 				{
-					handcuffAlreadyUser = false;
+					if (handcuffAlreadyUser)
+					{
+						handcuffAlreadyUser = false;
+						wclear(game_win);
+						box(game_win, 0, 0);
+						wrefresh(game_win);
+						printCentered(game_win, "Dealer has skipped their turn!", 26);
+						napms(3000);
+						continue;
+					}
 					int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
 					int remainingTotalShells = rounds.size() - currentRound;
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
