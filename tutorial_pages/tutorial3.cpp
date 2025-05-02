@@ -32,8 +32,10 @@ int tutorial3(WINDOW *game_win)
         // Dealer info
         int y = 4;
         std::vector<std::wstring> dealer_lines = {
-            L"- The dealer will always shoot at you on their turn.",
-            L"- You can disrupt their turn using items like Handcuffs.",
+            L"Dumb AI - The dealer will always shoot at you on their turn.",
+            L"Scope Aware AI - Knows what the current shell is, but does not shoot himself.",
+            L"Risk-Aware AI - Calculates risk carefully...",
+            L"Smart AI - Calculates risk and analyzes health...",
         };
         wattron(game_win, COLOR_PAIR(3));
         for (const auto &line : dealer_lines)

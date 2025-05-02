@@ -245,7 +245,14 @@ int game(WINDOW *game_win)
 			animCount = 1;
 		}
 
-		ch = wgetch(game_win);
+		if (playerTurn)
+		{
+			ch = wgetch(game_win);
+		}
+		else
+		{
+			ch = ' ';
+		}
 
 		switch (ch)
 		{
@@ -429,7 +436,7 @@ int game(WINDOW *game_win)
 					int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
 					int remainingTotalShells = rounds.size() - currentRound;
 
-					// Dlear uses random items
+					// Dealer uses random items
 					srand(time(0) + 1);
 					int randomNumberItems = rand() % 3;
 					for (int i = 0; i < randomNumberItems; i++)
@@ -438,13 +445,12 @@ int game(WINDOW *game_win)
 					}
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
-									 remainingLiveShells, remainingTotalShells, currentDealerAILevel);
+									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn);
 					if (playerHealth <= 0)
 					{
 						inGame = false;
 						break;
 					}
-					playerTurn = true;
 				}
 			}
 
