@@ -134,9 +134,9 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool &c
 {
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
 
-    if (playerHealth <= 20 && (risk > 0.5))
+    if (risk > 0.5)
     {
-        printCentere(game_win, "[Smart AI] Player weak, Dealer tries to finish!", 25);
+        printCentere(game_win, "[Smart AI] Dealer wants blood!", 25);
         wclear(game_win);
         box(game_win, 0, 0);
         napms(2000);
@@ -162,37 +162,6 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool &c
             napms(3000);
             return;
         }
-        return;
-    }
-    else if (dealerHealth <= 20 && risk > 0.5)
-    {
-        printCentere(game_win, "[Smart AI] Dealer avoids risky shooting himself.", 25);
-        wclear(game_win);
-        box(game_win, 0, 0);
-        napms(2000);
-        if (currentShell)
-        {
-            printCentere(game_win, "[Smart AI] Dealer shot live!", 25);
-            napms(3000);
-            dealerTurn = false;
-            playerHealth = std::max(playerHealth - dealerDamage, 0);
-            dealerDamage = 20;
-            // check if players health has dropped to 0 or below
-            if (playerHealth <= 0)
-            {
-                printCentere(game_win, "Game Over! Dealer wins!", 26);
-                napms(3000);
-                return;
-            }
-        }
-        else
-        {
-            printCentere(game_win, "[Smart AI] Delear shot blank!", 25);
-            dealerTurn = false;
-            napms(3000);
-            return;
-        }
-        napms(3000);
         return;
     }
     else
