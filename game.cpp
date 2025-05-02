@@ -418,6 +418,7 @@ int game(WINDOW *game_win)
 					if (handcuffAlreadyUsed)
 					{
 						handcuffAlreadyUsed = false;
+						playerTurn = true;
 						wclear(game_win);
 						box(game_win, 0, 0);
 						wrefresh(game_win);
