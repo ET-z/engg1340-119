@@ -321,7 +321,6 @@ int game(WINDOW *game_win)
 					pickedItemText = "Dealer's turn will be skipped";
 					player_item_texts[selectedRow][selectedCol] = "";
 					handcuffAlreadyUsed = true;
-					playerTurn = true;
 				}
 				wrefresh(game_win);
 				wrefresh(player_items[selectedRow][selectedCol]);
