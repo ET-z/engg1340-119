@@ -25,6 +25,8 @@
 
 Buckshot Roulette is a popular online game.
 
+- Explain rules of the game, etc.
+
 ---
 
 ## How to run the game
@@ -103,3 +105,11 @@ make run
        WCSOSBFS        WMCOQCSU
            SUBAAACCAAAAAGRS
 ```
+
+## Disclaimers / Additional information
+
+> [!CAUTION]
+> Due to the game not being able to run on MacOS,
+> developers on the system had to commit and push every miniscule change,
+> then pull the remote repository to the linux server to debug.
+> Thus, there are so many commits without proper descriptions.
