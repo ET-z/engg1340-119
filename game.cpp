@@ -441,7 +441,7 @@ int game(WINDOW *game_win)
 
 					// Dealer uses random items
 					srand(time(0) + 1);
-					int randomNumberItems = rand() % 3;
+					int randomNumberItems = rand() % 2;
 					for (int i = 0; i < randomNumberItems; i++)
 					{
 						string dealerPicked = use_random_item(&dealer_item_texts);
