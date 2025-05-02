@@ -181,7 +181,6 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
                 napms(3000);
                 return;
             }
-            playerTurn = true; // Give turn to player after taking damage
         }
         else
         {
