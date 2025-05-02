@@ -15,13 +15,14 @@ void printCentere(WINDOW *win, const std::string &message, int y_center)
 }
 
 // Dumb AI: Always attack
-void dealerDumb(WINDOW *game_win, int &playerHealth, bool currentShell)
+void dealerDumb(WINDOW *game_win, int &playerHealth, bool currentShell, int &dealerDamage)
 {
     if (currentShell)
     {
         printCentere(game_win, "[Dumb AI] Dealer shot live!", 25);
         napms(3000);
-        playerHealth = std::max(playerHealth - 20, 0);
+        playerHealth = std::max(playerHealth - dealerDamage, 0);
+        dealerDamage = 20;
         // check if players health has dropped to 0 or below
         if (playerHealth <= 0)
         {
@@ -39,13 +40,14 @@ void dealerDumb(WINDOW *game_win, int &playerHealth, bool currentShell)
 }
 
 // Scope-Aware AI: If dealer knows the shell, act accordingly
-void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell)
+void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell, int &dealerDamage)
 {
     if (currentShell)
     {
         printCentere(game_win, "[Scope-Aware AI] Dealer knows it's live! Attacking.", 25);
         napms(3000);
-        playerHealth = std::max(playerHealth - 20, 0);
+        playerHealth = std::max(playerHealth - dealerDamage, 0);
+        dealerDamage = 20;
         // check if players health has dropped to 0 or below
         if (playerHealth <= 0)
         {
@@ -63,7 +65,7 @@ void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell)
 }
 
 // Risk-Aware AI: Attack only if risk is reasonable
-void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int liveCount, int totalShells, bool currentShell, bool &playerTurn)
+void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int liveCount, int totalShells, bool currentShell, bool &playerTurn, int &dealerDamage)
 {
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
     if (dealerHealth < 20 && risk > 0.6)
@@ -73,7 +75,8 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
         {
             printCentere(game_win, "[Risk-Aware AI] Dealer shot live!", 25);
             napms(3000);
-            playerHealth = std::max(playerHealth - 20, 0);
+            playerHealth = std::max(playerHealth - dealerDamage, 0);
+            dealerDamage = 20;
             // check if players health has dropped to 0 or below
             if (playerHealth <= 0)
             {
@@ -116,7 +119,7 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
 }
 
 // Smart AI: Combines risk and blood state
-void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, bool &playerTurn)
+void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, bool &playerTurn, int &dealerDamage)
 {
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
 
@@ -128,7 +131,8 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         {
             printCentere(game_win, "[Smart AI] Dealer shot live!", 25);
             napms(3000);
-            playerHealth = std::max(playerHealth - 20, 0);
+            playerHealth = std::max(playerHealth - dealerDamage, 0);
+            dealerDamage = 20;
             // check if players health has dropped to 0 or below
             if (playerHealth <= 0)
             {
@@ -152,7 +156,8 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         {
             printCentere(game_win, "[Smart AI] Dealer shot live!", 25);
             napms(3000);
-            playerHealth = std::max(playerHealth - 20, 0);
+            playerHealth = std::max(playerHealth - dealerDamage, 0);
+            dealerDamage = 20;
             // check if players health has dropped to 0 or below
             if (playerHealth <= 0)
             {
@@ -196,21 +201,21 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
     }
 }
 
-void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, DealerAILevel aiLevel, bool &playerTurn)
+void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool currentShell, int liveCount, int totalShells, DealerAILevel aiLevel, bool &playerTurn, int &dealerDamage)
 {
     switch (aiLevel)
     {
     case DUMB:
-        dealerDumb(game_win, playerHealth, currentShell);
+        dealerDumb(game_win, playerHealth, currentShell, dealerDamage);
         break;
     case SCOPE_AWARE:
-        dealerScopeAware(game_win, playerHealth, currentShell);
+        dealerScopeAware(game_win, playerHealth, currentShell, dealerDamage);
         break;
     case RISK_AWARE:
-        dealerRiskAware(game_win, playerHealth, dealerHealth, liveCount, totalShells, currentShell, playerTurn);
+        dealerRiskAware(game_win, playerHealth, dealerHealth, liveCount, totalShells, currentShell, playerTurn, dealerDamage);
         break;
     case SMART:
-        dealerSmart(game_win, playerHealth, dealerHealth, currentShell, liveCount, totalShells, playerTurn);
+        dealerSmart(game_win, playerHealth, dealerHealth, currentShell, liveCount, totalShells, playerTurn, dealerDamage);
         break;
     }
     wrefresh(game_win);

@@ -114,6 +114,7 @@ int game(WINDOW *game_win)
 	int playerHealth = player.health;
 	int dealerHealth = AI.health;
 	int playerDamage = 20;
+	int dealerDamage = 20;
 	ShellGenerator gen;
 	vector<bool> rounds;
 	int currentRound = 0;
@@ -489,7 +490,7 @@ int game(WINDOW *game_win)
 					}
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
-									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn);
+									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage);
 					playerTurn = true;
 					if (playerHealth <= 0)
 					{
