@@ -107,7 +107,6 @@ int game(WINDOW *game_win)
 
 	// Game state variables and initiate players, shells
 	int selectedRow = 0, selectedCol = 0;
-	bool itemPicked = false;
 	string pickedItemText = "";
 	Player player("ENGG1340", 100, true);
 	Opponent AI("S1mple", 100, false);
@@ -302,7 +301,6 @@ int game(WINDOW *game_win)
 					pickedItemText = "You will now deal double damage";
 					player_item_texts[selectedRow][selectedCol] = "";
 					playerDamage = 40;
-					itemPicked = false;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "magnifyingGlass")
 				{
@@ -312,18 +310,15 @@ int game(WINDOW *game_win)
 						pickedItemText = "The current shell is: " + bulletType;
 						player_item_texts[selectedRow][selectedCol] = "";
 					}
-					itemPicked = false;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "beer")
 				{
 					bool result = rounds[currentRound++];
 					pickedItemText = "You discarded of a shell";
 					player_item_texts[selectedRow][selectedCol] = "";
-					itemPicked = true;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
 				{
-					itemPicked = true;
 					pickedItemText = "Dealer's turn will be skipped";
 					player_item_texts[selectedRow][selectedCol] = "";
 					handcuffAlreadyUser = true;
@@ -335,142 +330,134 @@ int game(WINDOW *game_win)
 
 		case 10:
 		case ' ':
-			if (itemPicked)
+			pickedItemText = "";
+			if (rounds.empty() || currentRound >= rounds.size())
 			{
-				itemPicked = false;
-				pickedItemText = "";
+				string shellStr = gen.getShells();
+				rounds.clear();
+				for (char c : shellStr)
+					rounds.push_back(c == '1');
+				currentRound = 0;
 			}
-			else
+
+			int x_center = (WIDTH - 56) / 2;
+
+			mvwprintw(game_win, 5, x_center, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
+
+			wrefresh(game_win);
+			int action = wgetch(game_win);
+
+			if (playerTurn)
 			{
-				pickedItemText = "";
-				if (rounds.empty() || currentRound >= rounds.size())
+				if (action == '1')
 				{
-					string shellStr = gen.getShells();
-					rounds.clear();
-					for (char c : shellStr)
-						rounds.push_back(c == '1');
-					currentRound = 0;
-				}
-
-				int x_center = (WIDTH - 56) / 2;
-
-				mvwprintw(game_win, 5, x_center, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
-
-				wrefresh(game_win);
-				int action = wgetch(game_win);
-
-				if (playerTurn)
-				{
-					if (action == '1')
+					bool result = rounds[currentRound++];
+					if (result)
 					{
-						bool result = rounds[currentRound++];
-						if (result)
+						dealerHealth = max(dealerHealth - playerDamage, 0);
+						playerDamage = 20;
+						printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
+						if (dealerHealth <= 0)
 						{
-							dealerHealth = max(dealerHealth - playerDamage, 0);
-							playerDamage = 20;
-							printCentered(game_win, "A live shell! Dealer takes 20 damage.", 6);
-							if (dealerHealth <= 0)
-							{
-								printCentered(game_win, "Game Over! You win!", 7);
-								napms(3000);
-								inGame = false;
-								break;
-							}
+							printCentered(game_win, "Game Over! You win!", 7);
 							napms(3000);
-							playerTurn = false;
-							// Add refresh and delay before dealer's move
-							wclear(game_win);
-							box(game_win, 0, 0);
-							wrefresh(game_win);
+							inGame = false;
+							break;
 						}
-						else
-						{
-							printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
-							napms(3000);
-							playerDamage = 20;
-							playerTurn = false;
-							// Add refresh and delay before dealer's move
-							wclear(game_win);
-							box(game_win, 0, 0);
-							wrefresh(game_win);
-						}
-					}
-					else if (action == '2')
-					{
-						bool result = rounds[currentRound++];
-						if (result)
-						{
-							playerHealth = max(playerHealth - playerDamage, 0);
-							playerDamage = 20;
-							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
-							if (playerHealth <= 0)
-							{
-								printCentered(game_win, "Game Over! Dealer wins!", 7);
-								napms(3000);
-								inGame = false;
-								break;
-							}
-							napms(3000);
-							playerTurn = false;
-							// Add refresh and delay before dealer's move
-							wclear(game_win);
-							box(game_win, 0, 0);
-							wrefresh(game_win);
-						}
-						else
-						{
-							printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
-							napms(3000);
-							playerTurn = true;
-						}
-					}
-				}
-
-				if (!playerTurn)
-				{
-					if (handcuffAlreadyUser)
-					{
-						handcuffAlreadyUser = false;
+						napms(3000);
+						playerTurn = false;
+						// Add refresh and delay before dealer's move
 						wclear(game_win);
 						box(game_win, 0, 0);
 						wrefresh(game_win);
-						printCentered(game_win, "Dealer has skipped their turn!", 26);
-						napms(3000);
-						continue;
 					}
-					int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
-					int remainingTotalShells = rounds.size() - currentRound;
-					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
-									 remainingLiveShells, remainingTotalShells, currentDealerAILevel);
-					if (playerHealth <= 0)
+					else
 					{
-						inGame = false;
-						break;
+						printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
+						napms(3000);
+						playerDamage = 20;
+						playerTurn = false;
+						// Add refresh and delay before dealer's move
+						wclear(game_win);
+						box(game_win, 0, 0);
+						wrefresh(game_win);
 					}
-					playerTurn = true;
+				}
+				else if (action == '2')
+				{
+					bool result = rounds[currentRound++];
+					if (result)
+					{
+						playerHealth = max(playerHealth - playerDamage, 0);
+						playerDamage = 20;
+						printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
+						if (playerHealth <= 0)
+						{
+							printCentered(game_win, "Game Over! Dealer wins!", 7);
+							napms(3000);
+							inGame = false;
+							break;
+						}
+						napms(3000);
+						playerTurn = false;
+						// Add refresh and delay before dealer's move
+						wclear(game_win);
+						box(game_win, 0, 0);
+						wrefresh(game_win);
+					}
+					else
+					{
+						printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
+						napms(3000);
+						playerTurn = true;
+					}
 				}
 			}
 
-			if (currentRound >= rounds.size())
+			if (!playerTurn)
 			{
-				string shellString = gen.getShells();
-				rounds.clear();
-				for (char c : shellString)
-					rounds.push_back(c == '1');
-				currentRound = 0;
-				animCount = 0;
-				printCentered(game_win, "Reloading...", 9);
-				napms(500);
-				wrefresh(game_win);
+				if (handcuffAlreadyUser)
+				{
+					handcuffAlreadyUser = false;
+					wclear(game_win);
+					box(game_win, 0, 0);
+					wrefresh(game_win);
+					printCentered(game_win, "Dealer has skipped their turn!", 26);
+					napms(3000);
+					continue;
+				}
+				int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
+				int remainingTotalShells = rounds.size() - currentRound;
+				dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
+								 remainingLiveShells, remainingTotalShells, currentDealerAILevel);
+				if (playerHealth <= 0)
+				{
+					inGame = false;
+					break;
+				}
+				playerTurn = true;
 			}
-			break;
+		}
 
-		default:
-			mvwprintw(game_win, 1, 2, "Unknown key: ch = %d", ch);
+		if (currentRound >= rounds.size())
+		{
+			string shellString = gen.getShells();
+			rounds.clear();
+			for (char c : shellString)
+				rounds.push_back(c == '1');
+			currentRound = 0;
+			animCount = 0;
+			printCentered(game_win, "Reloading...", 9);
+			napms(500);
 			wrefresh(game_win);
-			break;
-		} // end switch
-	} // end while
+		}
+		break;
+
+	default:
+		mvwprintw(game_win, 1, 2, "Unknown key: ch = %d", ch);
+		wrefresh(game_win);
+		break;
+	} // end switch
 
 	delwin(game_win);
 	endwin();
