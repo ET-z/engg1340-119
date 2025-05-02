@@ -138,7 +138,7 @@ int game(WINDOW *game_win)
 		box(bullets_table, 0, 0);
 
 		// Display picked item if one is picked
-		if (itemPicked && !pickedItemText.empty())
+		if (!pickedItemText.empty())
 		{
 			mvwprintw(game_win, 7, (WIDTH - pickedItemText.length()) / 2, pickedItemText.c_str());
 		}
@@ -298,7 +298,7 @@ int game(WINDOW *game_win)
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "knife")
 				{
-					pickedItemText = "You will not deal double damage";
+					pickedItemText = "You will now deal double damage";
 					player_item_texts[selectedRow][selectedCol] = "";
 					playerDamage = 40;
 					itemPicked = false;
