@@ -143,9 +143,9 @@ int main()
       int y_center = HEIGHT / 2 - 2;
 
       mvwprintw(game_win, y_center, x_center_1, "Choose Difficulty:");
-      mvwprintw(game_win, y_center + 2, x_center_2, "[1] (Dumb AI)");
-      mvwprintw(game_win, y_center + 3, x_center_3, "[2] (Random AI)");
-      mvwprintw(game_win, y_center + 4, x_center_4, "[3] (Smart AI)");
+      mvwprintw(game_win, y_center + 5, x_center_2, "[1] (Dumb AI)");
+      mvwprintw(game_win, y_center + 8, x_center_3, "[2] (Random AI)");
+      mvwprintw(game_win, y_center + 7, x_center_4, "[3] (Smart AI)");
 
       wrefresh(game_win);
 
