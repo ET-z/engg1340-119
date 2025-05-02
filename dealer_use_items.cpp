@@ -11,15 +11,32 @@ using namespace std;
 
 string use_random_item(vector<vector<string>> *inventory)
 {
-  srand(time(0));
+  // Count non-empty slots
+  int total_items = 0;
+  for (int i = 0; i < 2; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      if (!(*inventory)[i][j].empty())
+      {
+        total_items++;
+      }
+    }
+  }
+
+  if (total_items == 0)
+  {
+    return ""; // Return empty string if no items
+  }
+
+  // Select random item
   while (true)
   {
     int randomRow = rand() % 2;
-    int randomCol = rand() % 5;
-    if ((*inventory)[randomRow][randomCol] == "")
+    int randomCol = rand() % 4;
+    if (!(*inventory)[randomRow][randomCol].empty())
     {
-      continue;
+      return (*inventory)[randomRow][randomCol];
     }
-    return (*inventory)[randomRow][randomCol];
   }
 }

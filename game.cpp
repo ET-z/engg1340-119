@@ -108,6 +108,7 @@ int game(WINDOW *game_win)
 	// Game state variables and initiate players, shells
 	int selectedRow = 0, selectedCol = 0;
 	string pickedItemText = "";
+	string dealerPicked = "";
 	Player player("ENGG1340", 100, true);
 	Opponent AI("S1mple", 100, false);
 	int playerHealth = player.health;
@@ -141,6 +142,11 @@ int game(WINDOW *game_win)
 		if (!pickedItemText.empty())
 		{
 			mvwprintw(game_win, 14, (WIDTH - pickedItemText.length()) / 2, pickedItemText.c_str());
+		}
+
+		if (!dealerPicked.empty())
+		{
+			mvwprintw(game_win, 18, (WIDTH - dealerPicked.length()) / 2, dealerPicked.c_str());
 		}
 
 		string playerTurnstring = "Player turn? " + to_string(playerTurn);
@@ -433,12 +439,54 @@ int game(WINDOW *game_win)
 					int remainingTotalShells = rounds.size() - currentRound;
 
 					// Dealer uses random items
-					// srand(time(0) + 1);
-					// int randomNumberItems = rand() % 3;
-					// for (int i = 0; i < randomNumberItems; i++)
-					// {
-					// 	string pickedItem = use_random_item(&dealer_item_texts);
-					// }
+					srand(time(0) + 1);
+					int randomNumberItems = rand() % 3;
+					for (int i = 0; i < randomNumberItems; i++)
+					{
+						string dealerPicked = use_random_item(&dealer_item_texts);
+						if (dealerPicked == "apple" && playerHealth <= 100)
+						{
+							dealerPicked = "Dealer ate an apple";
+							dealerHealth += 20;
+						}
+						else if (player_item_texts[selectedRow][selectedCol] == "knife")
+						{
+							dealerPicked = "Dealer will now deal double damage";
+							dealerDamage = 40;
+						}
+						else if (player_item_texts[selectedRow][selectedCol] == "magnifyingGlass")
+						{
+							dealerPicked = "";
+						}
+						else if (player_item_texts[selectedRow][selectedCol] == "beer")
+						{
+							bool result = rounds[currentRound++];
+							dealerPicked = "Dealer discarded of a shell";
+						}
+						else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
+						{
+							dealerPicked = "";
+						}
+						// Loop through inventory of dealer to clear the item.
+						for (int i = 0; i < 2; i++)
+						{
+							bool found = false;
+							for (int j = 0; j < 4; j++)
+							{
+								if (dealer_item_texts[i][j] == dealerPicked)
+								{
+									dealer_item_texts[i][j] = "";
+									found = true;
+									break;
+								}
+							}
+							if (found)
+								break;
+						}
+						wrefresh(game_win);
+						wrefresh(player_items[selectedRow][selectedCol]);
+						napms(2000);
+					}
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
 									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn);
