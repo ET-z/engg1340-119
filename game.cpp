@@ -432,7 +432,7 @@ int game(WINDOW *game_win)
 					// Dlear uses random items
 					srand(time(0) + 1);
 					int randomNumberItems = rand() % 3;
-					for (int i = 0; i < randomNumberItems)
+					for (int i = 0; i < randomNumberItems; i++)
 					{
 						string pickedItem = use_random_item(&dealer_item_texts);
 					}
