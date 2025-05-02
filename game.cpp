@@ -285,10 +285,10 @@ int game(WINDOW *game_win)
 
 		case 'e':
 		case 'E':
-			if (!player_item_texts[selectedRow][selectedCol].empty())
+			if (!player_item_texts[selectedRow][selectedCol].empty() && pickedItemText == "")
 			{
 				itemPicked = true;
-				pickedItemText = player_item_texts[selectedRow][selectedCol];
+				pickedItemText = "Picked item: " + player_item_texts[selectedRow][selectedCol];
 				player_item_texts[selectedRow][selectedCol] = "";
 				wrefresh(game_win);
 				wrefresh(player_items[selectedRow][selectedCol]);
