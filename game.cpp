@@ -319,6 +319,7 @@ int game(WINDOW *game_win)
 					bool result = rounds[currentRound++];
 					pickedItemText = "You discarded of a shell";
 					player_item_texts[selectedRow][selectedCol] = "";
+					itemPicked = true;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
 				{
