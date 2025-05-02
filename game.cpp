@@ -340,6 +340,7 @@ int game(WINDOW *game_win)
 		case ' ':
 		{
 			pickedItemText = "";
+			dealerPicked = "";
 			if (rounds.empty() || currentRound >= rounds.size())
 			{
 				string shellStr = gen.getShells();
