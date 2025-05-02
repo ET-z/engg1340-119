@@ -296,7 +296,8 @@ int game(WINDOW *game_win)
 				{
 					pickedItemText = "You ate an apple";
 					player_item_texts[selectedRow][selectedCol] = "";
-					playerHealth += 20;
+					if (playerHealth + 20 <= 100)
+						playerHealth += 20;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "knife")
 				{
@@ -448,7 +449,8 @@ int game(WINDOW *game_win)
 							if (item == "apple" && dealerHealth <= 100)
 							{
 								dealerPicked = "Dealer ate an apple";
-								dealerHealth += 20;
+								if (dealerHealth + 20 <= 100)
+									dealerHealth += 20;
 								dealer_item_texts[coords.first][coords.second] = "";
 							}
 							else if (item == "knife")
