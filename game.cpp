@@ -118,7 +118,7 @@ int game(WINDOW *game_win)
 	vector<bool> rounds;
 	int currentRound = 0;
 	bool playerTurn = true;
-	bool handcuffAlreadyUser = false;
+	bool handcuffAlreadyUsed = false;
 
 	// generate bullets before game starts
 	string initialShells = gen.getShells();
@@ -326,7 +326,7 @@ int game(WINDOW *game_win)
 					itemPicked = false;
 					pickedItemText = "Dealer's turn will be skipped";
 					player_item_texts[selectedRow][selectedCol] = "";
-					handcuffAlreadyUser = true;
+					handcuffAlreadyUsed = true;
 				}
 				wrefresh(game_win);
 				wrefresh(player_items[selectedRow][selectedCol]);
@@ -335,102 +335,94 @@ int game(WINDOW *game_win)
 
 		case 10:
 		case ' ':
-			if (itemPicked)
+			pickedItemText = "";
+			if (rounds.empty() || currentRound >= rounds.size())
 			{
-				itemPicked = false;
-				pickedItemText = "";
+				string shellStr = gen.getShells();
+				rounds.clear();
+				for (char c : shellStr)
+					rounds.push_back(c == '1');
+				currentRound = 0;
 			}
-			else
+
+			int x_center = (WIDTH - 56) / 2;
+
+			mvwprintw(game_win, 5, x_center, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
+
+			wrefresh(game_win);
+			int action = wgetch(game_win);
+
+			if (playerTurn)
 			{
-				pickedItemText = "";
-				if (rounds.empty() || currentRound >= rounds.size())
+				if (action == '1')
 				{
-					string shellStr = gen.getShells();
-					rounds.clear();
-					for (char c : shellStr)
-						rounds.push_back(c == '1');
-					currentRound = 0;
-				}
-
-				int x_center = (WIDTH - 56) / 2;
-
-				mvwprintw(game_win, 5, x_center, "Choose your action: [1] Shoot Dealer  [2] Shoot Yourself");
-
-				wrefresh(game_win);
-				int action = wgetch(game_win);
-
-				if (playerTurn)
-				{
-					if (action == '1')
+					bool result = rounds[currentRound++];
+					if (result)
 					{
-						bool result = rounds[currentRound++];
-						if (result)
+						dealerHealth = max(dealerHealth - playerDamage, 0);
+						printCentered(game_win, "A live shell! Dealer takes " + to_string(playerDamage) + " damage.", 6);
+						playerDamage = 20;
+						if (dealerHealth <= 0)
 						{
-							dealerHealth = max(dealerHealth - playerDamage, 0);
-							playerDamage = 20;
-							printCentered(game_win, "A live shell! Dealer takes " + to_string(playerDamage) + " damage.", 6);
-							if (dealerHealth <= 0)
-							{
-								printCentered(game_win, "Game Over! You win!", 7);
-								napms(3000);
-								inGame = false;
-								break;
-							}
+							printCentered(game_win, "Game Over! You win!", 7);
 							napms(3000);
-							playerTurn = false;
-							// Add refresh and delay before dealer's move
-							wclear(game_win);
-							box(game_win, 0, 0);
-							wrefresh(game_win);
+							inGame = false;
+							break;
 						}
-						else
-						{
-							printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
-							napms(3000);
-							playerDamage = 20;
-							playerTurn = false;
-							// Add refresh and delay before dealer's move
-							wclear(game_win);
-							box(game_win, 0, 0);
-							wrefresh(game_win);
-						}
+						napms(3000);
+						playerTurn = false;
+						// Add refresh and delay before dealer's move
+						wclear(game_win);
+						box(game_win, 0, 0);
+						wrefresh(game_win);
 					}
-					else if (action == '2')
+					else
 					{
-						bool result = rounds[currentRound++];
-						if (result)
+						printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
+						napms(3000);
+						playerDamage = 20;
+						playerTurn = false;
+						// Add refresh and delay before dealer's move
+						wclear(game_win);
+						box(game_win, 0, 0);
+						wrefresh(game_win);
+					}
+				}
+				else if (action == '2')
+				{
+					bool result = rounds[currentRound++];
+					if (result)
+					{
+						playerHealth = max(playerHealth - playerDamage, 0);
+						playerDamage = 20;
+						printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
+						if (playerHealth <= 0)
 						{
-							playerHealth = max(playerHealth - playerDamage, 0);
-							playerDamage = 20;
-							printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
-							if (playerHealth <= 0)
-							{
-								printCentered(game_win, "Game Over! Dealer wins!", 7);
-								napms(3000);
-								inGame = false;
-								break;
-							}
+							printCentered(game_win, "Game Over! Dealer wins!", 7);
 							napms(3000);
-							playerTurn = false;
-							// Add refresh and delay before dealer's move
-							wclear(game_win);
-							box(game_win, 0, 0);
-							wrefresh(game_win);
+							inGame = false;
+							break;
 						}
-						else
-						{
-							printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
-							napms(3000);
-							playerTurn = true;
-						}
+						napms(3000);
+						playerTurn = false;
+						// Add refresh and delay before dealer's move
+						wclear(game_win);
+						box(game_win, 0, 0);
+						wrefresh(game_win);
+					}
+					else
+					{
+						printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
+						napms(3000);
+						playerTurn = true;
 					}
 				}
 
 				if (!playerTurn)
 				{
-					if (handcuffAlreadyUser)
+					if (handcuffAlreadyUsed)
 					{
-						handcuffAlreadyUser = false;
+						handcuffAlreadyUsed = false;
 						wclear(game_win);
 						box(game_win, 0, 0);
 						wrefresh(game_win);
