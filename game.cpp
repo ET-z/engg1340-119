@@ -145,11 +145,6 @@ int game(WINDOW *game_win)
 			mvwprintw(game_win, 14, (WIDTH - pickedItemText.length()) / 2, pickedItemText.c_str());
 		}
 
-		if (!dealerPicked.empty())
-		{
-			mvwprintw(game_win, 18, (WIDTH - dealerPicked.length()) / 2, dealerPicked.c_str());
-		}
-
 		string playerTurnstring = "Player turn? " + to_string(playerTurn);
 		mvwprintw(game_win, 3, (WIDTH - playerTurnstring.length()) / 2, playerTurnstring.c_str());
 		// Draw shell boxes in bullets table ifbullets not empty
@@ -478,7 +473,11 @@ int game(WINDOW *game_win)
 								dealer_item_texts[coords.first][coords.second] = "";
 							}
 							wrefresh(game_win);
-							wrefresh(player_items[selectedRow][selectedCol]);
+							wrefresh(dealer_item_texts[coords.first][coords.second]);
+							if (!dealerPicked.empty())
+							{
+								mvwprintw(game_win, 25, (WIDTH - dealerPicked.length()) / 2, dealerPicked.c_str());
+							}
 							napms(2000);
 						}
 					}
