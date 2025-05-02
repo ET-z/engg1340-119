@@ -16,10 +16,10 @@ string use_random_item(vector<vector<string>> *inventory)
   {
     int randomRow = rand() % 2;
     int randomCol = rand() % 5;
-    if (inventory[randomRow][randomCol] == "")
+    if ((*inventory)[randomRow][randomCol] == "")
     {
       continue;
     }
-    return inventory[randomRow][randomCol];
+    return (*inventory)[randomRow][randomCol];
   }
 }
