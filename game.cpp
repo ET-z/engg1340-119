@@ -117,6 +117,7 @@ int game(WINDOW *game_win)
 	vector<bool> rounds;
 	int currentRound = 0;
 	bool playerTurn = true;
+	bool dealerTurn = false;
 	bool handcuffAlreadyUsed = false;
 
 	// generate bullets before game starts
@@ -245,14 +246,7 @@ int game(WINDOW *game_win)
 			animCount = 1;
 		}
 
-		if (playerTurn)
-		{
-			ch = wgetch(game_win);
-		}
-		else
-		{
-			ch = ' ';
-		}
+		ch = wgetch(game_win);
 
 		switch (ch)
 		{
@@ -357,6 +351,11 @@ int game(WINDOW *game_win)
 
 			if (playerTurn)
 			{
+				if (dealerTurn)
+				{
+					playerTurn = false;
+					dealerTurn = false;
+				}
 				if (action == '1')
 				{
 					bool result = rounds[currentRound++];
@@ -446,7 +445,7 @@ int game(WINDOW *game_win)
 					}
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
-									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn);
+									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerTurn);
 					if (playerHealth <= 0)
 					{
 						inGame = false;
