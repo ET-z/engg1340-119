@@ -138,7 +138,7 @@ int game(WINDOW *game_win)
 		if (playerHealth <= 0)
 		{
 			wclear(game_win);
-			printCentered(game_win, "Game Over! Dealer wins!", 25);
+			printCentered(game_win, "Game Over! Dealer wins!", 15);
 			napms(3000);
 			inGame = false;
 			break;
@@ -146,7 +146,7 @@ int game(WINDOW *game_win)
 		else if (dealerHealth <= 0)
 		{
 			wclear(game_win);
-			printCentered(game_win, "Game Over! You win!", 25);
+			printCentered(game_win, "Game Over! You win!", 15);
 			napms(3000);
 			inGame = false;
 			break;
