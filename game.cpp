@@ -120,6 +120,7 @@ int game(WINDOW *game_win)
 	int currentRound = 0;
 	bool playerTurn = true;
 	bool handcuffAlreadyUsed = false;
+	bool dealerTurn = true;
 
 	// generate bullets before game starts
 	string initialShells = gen.getShells();
@@ -526,12 +527,12 @@ int game(WINDOW *game_win)
 							napms(2000);
 						}
 					}
-					bool dealerTurn = true;
 					while (dealerTurn = true)
 					{
 						dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
 										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage, dealerTurn);
 					}
+					dealerTurn = true;
 					playerTurn = true;
 					if (playerHealth <= 0)
 					{
