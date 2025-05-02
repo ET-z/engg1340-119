@@ -6,10 +6,11 @@
 #include <ctime>
 #include <iterator>
 #include <ncurses.h>
+#include <utility>
 
 using namespace std;
 
-string use_random_item(vector<vector<string>> *inventory)
+pair<int, int> use_random_item(vector<vector<string>> *inventory)
 {
   // Count non-empty slots
   int total_items = 0;
@@ -26,7 +27,7 @@ string use_random_item(vector<vector<string>> *inventory)
 
   if (total_items == 0)
   {
-    return ""; // Return empty string if no items
+    return make_pair(-1, -1); // Return if no items
   }
 
   // Select random item
@@ -36,7 +37,7 @@ string use_random_item(vector<vector<string>> *inventory)
     int randomCol = rand() % 4;
     if (!(*inventory)[randomRow][randomCol].empty())
     {
-      return (*inventory)[randomRow][randomCol];
+      return make_pair(randomRow, randomCol);
     }
   }
 }

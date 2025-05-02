@@ -444,49 +444,42 @@ int game(WINDOW *game_win)
 					int randomNumberItems = rand() % 2;
 					for (int i = 0; i < randomNumberItems; i++)
 					{
-						string dealerPicked = use_random_item(&dealer_item_texts);
-						if (dealerPicked == "apple" && playerHealth <= 100)
+						pair<int, int> coords = use_random_item(&dealer_item_texts);
+						if (coords.first != -1 && coords.second != -1)
 						{
-							dealerPicked = "Dealer ate an apple";
-							dealerHealth += 20;
-						}
-						else if (player_item_texts[selectedRow][selectedCol] == "knife")
-						{
-							dealerPicked = "Dealer will now deal double damage";
-							dealerDamage = 40;
-						}
-						else if (player_item_texts[selectedRow][selectedCol] == "magnifyingGlass")
-						{
-							dealerPicked = "";
-						}
-						else if (player_item_texts[selectedRow][selectedCol] == "beer")
-						{
-							bool result = rounds[currentRound++];
-							dealerPicked = "Dealer discarded of a shell";
-						}
-						else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
-						{
-							dealerPicked = "";
-						}
-						// Loop through inventory of dealer to clear the item.
-						for (int i = 0; i < 2; i++)
-						{
-							bool found = false;
-							for (int j = 0; j < 4; j++)
+							string item = dealer_item_texts[coords.first][coords.second];
+							if (item == "apple" && dealerHealth <= 100)
 							{
-								if (dealer_item_texts[i][j] == dealerPicked)
-								{
-									dealer_item_texts[i][j] = "";
-									found = true;
-									break;
-								}
+								dealerPicked = "Dealer ate an apple";
+								dealerHealth += 20;
+								dealer_item_texts[coords.first][coords.second] = "";
 							}
-							if (found)
-								break;
+							else if (item == "knife")
+							{
+								dealerPicked = "Dealer will now deal double damage";
+								dealerDamage = 40;
+								dealer_item_texts[coords.first][coords.second] = "";
+							}
+							else if (item == "magnifyingGlass")
+							{
+								dealerPicked = "";
+								dealer_item_texts[coords.first][coords.second] = "";
+							}
+							else if (item == "beer")
+							{
+								bool result = rounds[currentRound++];
+								dealerPicked = "Dealer discarded of a shell";
+								dealer_item_texts[coords.first][coords.second] = "";
+							}
+							else if (item == "handcuff")
+							{
+								dealerPicked = "";
+								dealer_item_texts[coords.first][coords.second] = "";
+							}
+							wrefresh(game_win);
+							wrefresh(player_items[selectedRow][selectedCol]);
+							napms(2000);
 						}
-						wrefresh(game_win);
-						wrefresh(player_items[selectedRow][selectedCol]);
-						napms(2000);
 					}
 
 					dealerAI(game_win, playerHealth, dealerHealth, rounds[currentRound++],
