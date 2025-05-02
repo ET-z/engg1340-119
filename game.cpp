@@ -439,7 +439,7 @@ int game(WINDOW *game_win)
 					// Dealer uses random items
 					srand(time(0) + 1);
 					int randomNumberItems = rand() % 3 + 1;
-					int Y = 25;
+					int Y = 27;
 					for (int i = 0; i < randomNumberItems; i++)
 					{
 						pair<int, int> coords = use_random_item(&dealer_item_texts);
