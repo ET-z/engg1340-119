@@ -143,8 +143,8 @@ int game(WINDOW *game_win)
 		{
 			mvwprintw(game_win, 14, (WIDTH - pickedItemText.length()) / 2, pickedItemText.c_str());
 		}
-		string playerTurnstring = to_string(playerTurn)
-				mvwprintw(game_win, 3, (WIDTH - playerTurnstring.length()) / 2, playerTurnstring.c_str());
+		string playerTurnstring = to_string(playerTurn);
+		mvwprintw(game_win, 3, (WIDTH - playerTurnstring.length()) / 2, playerTurnstring.c_str());
 		// Draw shell boxes in bullets table ifbullets not empty
 		if (!rounds.empty())
 		{
