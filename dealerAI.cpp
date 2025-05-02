@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <string>
 #include <algorithm>
+#include <random>
 
 void printCentere(WINDOW *win, const std::string &message, int y_center)
 {
@@ -67,17 +68,17 @@ void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell, in
 // Risk-Aware AI: Attack only if risk is reasonable
 void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int liveCount, int totalShells, bool currentShell, bool &playerTurn, int &dealerDamage)
 {
-    float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
-    if (dealerHealth < 20 && risk > 0.6)
+    srand(time(0));
+    int risk = rand() % 2;
+    if (risk == 1)
     {
-        printCentere(game_win, "[Risk-Aware AI] Dealer too weak, decided to shoot you.", 25);
+        printCentere(game_win, "[Random AI] Decided to shoot you.", 25);
         wclear(game_win);
         box(game_win, 0, 0);
-        wrefresh(game_win);
         napms(2000);
         if (currentShell)
         {
-            printCentere(game_win, "[Risk-Aware AI] Dealer shot live!", 25);
+            printCentere(game_win, "[Random AI] Dealer shot live!", 25);
             napms(3000);
             playerHealth = std::max(playerHealth - dealerDamage, 0);
             dealerDamage = 20;
@@ -91,21 +92,20 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
         }
         else
         {
-            printCentere(game_win, "[Risk-Aware AI] Delear shot blank!", 25);
+            printCentere(game_win, "[Random AI] Dealer shot blank!", 25);
             napms(3000);
             return;
         }
     }
     else
     {
-        printCentere(game_win, "[Risk-Aware AI] Dealer decided to shoot himself", 25);
+        printCentere(game_win, "[Random AI] Dealer decided to shoot himself", 25);
         wclear(game_win);
         box(game_win, 0, 0);
-        wrefresh(game_win);
         napms(2000);
         if (currentShell)
         {
-            printCentere(game_win, "[Risk-Aware AI] Dealer shot live!", 25);
+            printCentere(game_win, "[Random AI] Dealer shot live!", 25);
             napms(3000);
             dealerHealth = std::max(dealerHealth - 20, 0);
             // check if players health has dropped to 0 or below
@@ -118,7 +118,7 @@ void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int
         }
         else
         {
-            printCentere(game_win, "[Risk-Aware AI] Dealer shot blank!", 25);
+            printCentere(game_win, "[Random AI] Dealer shot blank!", 25);
             napms(3000);
             return;
         }
@@ -135,7 +135,6 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         printCentere(game_win, "[Smart AI] Player weak, Dealer tries to finish!", 25);
         wclear(game_win);
         box(game_win, 0, 0);
-        wrefresh(game_win);
         napms(2000);
         if (currentShell)
         {
@@ -164,7 +163,6 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         printCentere(game_win, "[Smart AI] Dealer avoids risky shooting himself.", 25);
         wclear(game_win);
         box(game_win, 0, 0);
-        wrefresh(game_win);
         napms(2000);
         if (currentShell)
         {
@@ -194,7 +192,6 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool cu
         printCentere(game_win, "[Smart AI] Dealer shoots himself!", 25);
         wclear(game_win);
         box(game_win, 0, 0);
-        wrefresh(game_win);
         napms(2000);
         if (currentShell)
         {

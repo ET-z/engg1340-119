@@ -27,9 +27,8 @@ int main()
   {
     start_color();
   }
-  init_pair(1, COLOR_WHITE, COLOR_BLUE);   // Your menu highlight
-  init_pair(3, COLOR_GREEN, COLOR_BLACK);  // Health bar color
-
+  init_pair(1, COLOR_WHITE, COLOR_BLUE);  // Your menu highlight
+  init_pair(3, COLOR_GREEN, COLOR_BLACK); // Health bar color
 
   // Track progress of player
   ofstream fout;
@@ -62,7 +61,7 @@ int main()
     mvprintw(LINES / 2 + 5, (COLS - static_cast<int>(five.size())) / 2, "%s", five.c_str());
     refresh();
     getch();
-  }  
+  }
   int start_y = (LINES - HEIGHT) / 2;
   int start_x = (COLS - WIDTH) / 2;
   WINDOW *game_win = newwin(HEIGHT, WIDTH, start_y, start_x);
@@ -132,39 +131,38 @@ int main()
     // User input to pick menu item
     if (ch == 's' || ch == 'S') // Start
     {
-      
-	    wclear(game_win);
-	    box(game_win, 0, 0);
-	
-	    
-			int x_center_1 = (WIDTH - 21) / 2;	   
-			int x_center_2 = (WIDTH - 22) / 2;  
-			int x_center_3 = (WIDTH - 27) / 2;  
-			int x_center_4 = (WIDTH - 22) / 2;  
-			
-		
-			int y_center = HEIGHT / 2 - 2;  
-			
-		
-			mvwprintw(game_win, y_center, x_center_1, "Choose Difficulty:");
-			mvwprintw(game_win, y_center + 2, x_center_2, "[1] Easy (Dumb AI)");
-			mvwprintw(game_win, y_center + 3, x_center_3, "[2] Medium (Risk-Aware AI)");
-			mvwprintw(game_win, y_center + 4, x_center_4, "[3] Hard (Smart AI)");
-			
-			wrefresh(game_win);
-	
-	    
-	    int diff_ch = wgetch(game_win);
-	
-	    if (diff_ch == '1') currentDealerAILevel = DUMB;
-	    else if (diff_ch == '2') currentDealerAILevel = RISK_AWARE;
-	    else if (diff_ch == '3') currentDealerAILevel = SMART;
-	    else currentDealerAILevel = DUMB; 
-	    wclear(game_win);
-    	wrefresh(game_win);
-	    if (game(game_win)) 
-	        continue;
-	     
+
+      wclear(game_win);
+      box(game_win, 0, 0);
+
+      int x_center_1 = (WIDTH - 21) / 2;
+      int x_center_2 = (WIDTH - 22) / 2;
+      int x_center_3 = (WIDTH - 27) / 2;
+      int x_center_4 = (WIDTH - 22) / 2;
+
+      int y_center = HEIGHT / 2 - 2;
+
+      mvwprintw(game_win, y_center, x_center_1, "Choose Difficulty:");
+      mvwprintw(game_win, y_center + 2, x_center_2, "[1] (Dumb AI)");
+      mvwprintw(game_win, y_center + 3, x_center_3, "[2] (Random AI)");
+      mvwprintw(game_win, y_center + 4, x_center_4, "[3] (Smart AI)");
+
+      wrefresh(game_win);
+
+      int diff_ch = wgetch(game_win);
+
+      if (diff_ch == '1')
+        currentDealerAILevel = DUMB;
+      else if (diff_ch == '2')
+        currentDealerAILevel = RISK_AWARE;
+      else if (diff_ch == '3')
+        currentDealerAILevel = SMART;
+      else
+        currentDealerAILevel = DUMB;
+      wclear(game_win);
+      wrefresh(game_win);
+      if (game(game_win))
+        continue;
     }
     else if (ch == 'h' || ch == 'H')
     {
@@ -201,15 +199,15 @@ int main()
       }
       else if (current_selection == 2) // 2 = Quit
       {
-	delwin(game_win);
-	clear();
-	refresh();
+        delwin(game_win);
+        clear();
+        refresh();
         break;
       }
     }
   }
   // Clean up ncurses
-  
+
   refresh();
   endwin();
 
