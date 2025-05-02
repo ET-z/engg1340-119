@@ -330,6 +330,7 @@ int game(WINDOW *game_win)
 				}
 				wrefresh(game_win);
 				wrefresh(player_items[selectedRow][selectedCol]);
+				continue;
 			}
 			break;
 
