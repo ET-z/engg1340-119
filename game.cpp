@@ -288,13 +288,11 @@ int game(WINDOW *game_win)
 		case 'E':
 			if (!player_item_texts[selectedRow][selectedCol].empty() && pickedItemText == "")
 			{
-				itemPicked = true;
 				if (player_item_texts[selectedRow][selectedCol] == "apple" && playerHealth <= 100)
 				{
 					pickedItemText = "You ate an apple";
 					player_item_texts[selectedRow][selectedCol] = "";
 					playerHealth += 20;
-					itemPicked = false;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "knife")
 				{
@@ -437,27 +435,27 @@ int game(WINDOW *game_win)
 				}
 				playerTurn = true;
 			}
-		}
 
-		if (currentRound >= rounds.size())
-		{
-			string shellString = gen.getShells();
-			rounds.clear();
-			for (char c : shellString)
-				rounds.push_back(c == '1');
-			currentRound = 0;
-			animCount = 0;
-			printCentered(game_win, "Reloading...", 9);
-			napms(500);
+			if (currentRound >= rounds.size())
+			{
+				string shellString = gen.getShells();
+				rounds.clear();
+				for (char c : shellString)
+					rounds.push_back(c == '1');
+				currentRound = 0;
+				animCount = 0;
+				printCentered(game_win, "Reloading...", 9);
+				napms(500);
+				wrefresh(game_win);
+			}
+			break;
+
+		default:
+			mvwprintw(game_win, 1, 2, "Unknown key: ch = %d", ch);
 			wrefresh(game_win);
-		}
-		break;
-
-	default:
-		mvwprintw(game_win, 1, 2, "Unknown key: ch = %d", ch);
-		wrefresh(game_win);
-		break;
-	} // end switch
+			break;
+		} // end switch
+	} // end while
 
 	delwin(game_win);
 	endwin();
