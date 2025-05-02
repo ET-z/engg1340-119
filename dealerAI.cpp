@@ -16,7 +16,7 @@ void printCentere(WINDOW *win, const std::string &message, int y_center)
 }
 
 // Dumb AI: Always attack
-void dealerDumb(WINDOW *game_win, int &playerHealth, bool &currentShell, int &dealerDamage)
+void dealerDumb(WINDOW *game_win, int &playerHealth, bool &currentShell, int &dealerDamage, bool &dealerTurn)
 {
     if (currentShell)
     {
@@ -37,31 +37,6 @@ void dealerDumb(WINDOW *game_win, int &playerHealth, bool &currentShell, int &de
     {
         printCentere(game_win, "[Dumb AI] Dealer shot blank.", 25);
         dealerTurn = false;
-        napms(3000);
-        return;
-    }
-}
-
-// Scope-Aware AI: If dealer knows the shell, act accordingly
-void dealerScopeAware(WINDOW *game_win, int &playerHealth, bool currentShell, int &dealerDamage)
-{
-    if (currentShell)
-    {
-        printCentere(game_win, "[Scope-Aware AI] Dealer knows it's live! Attacking.", 25);
-        napms(3000);
-        playerHealth = std::max(playerHealth - dealerDamage, 0);
-        dealerDamage = 20;
-        // check if players health has dropped to 0 or below
-        if (playerHealth <= 0)
-        {
-            printCentere(game_win, "Game Over! Dealer wins!", 26);
-            napms(3000);
-            return;
-        }
-    }
-    else
-    {
-        printCentere(game_win, "[Scope-Aware AI] Dealer knows it's blank. Skipping.", 25);
         napms(3000);
         return;
     }
@@ -202,10 +177,7 @@ void dealerAI(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool &curr
     switch (aiLevel)
     {
     case DUMB:
-        dealerDumb(game_win, playerHealth, currentShell, dealerDamage);
-        break;
-    case SCOPE_AWARE:
-        dealerScopeAware(game_win, playerHealth, currentShell, dealerDamage);
+        dealerDumb(game_win, playerHealth, currentShell, dealerDamage, dealerTurn);
         break;
     case RISK_AWARE:
         dealerRiskAware(game_win, playerHealth, dealerHealth, liveCount, totalShells, currentShell, playerTurn, dealerDamage, dealerTurn);
