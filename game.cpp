@@ -289,16 +289,36 @@ int game(WINDOW *game_win)
 			if (!player_item_texts[selectedRow][selectedCol].empty() && pickedItemText == "")
 			{
 				itemPicked = true;
-				pickedItemText = "Picked item: " + player_item_texts[selectedRow][selectedCol];
 				if (player_item_texts[selectedRow][selectedCol] == "apple" && playerHealth <= 100)
 				{
+					pickedItemText = "You ate an apple";
+					player_item_texts[selectedRow][selectedCol] = "";
 					playerHealth += 20;
+					itemPicked = false;
 				}
 				else if (player_item_texts[selectedRow][selectedCol] == "knife")
 				{
+					pickedItemText = "You will not deal double damage";
+					player_item_texts[selectedRow][selectedCol] = "";
 					playerDamage = 40;
+					itemPicked = false;
 				}
-				player_item_texts[selectedRow][selectedCol] = "";
+				else if (player_item_texts[selectedRow][selectedCol] == "magnifyingGlass")
+				{
+					if (currentRound < rounds.size())
+					{
+						string bulletType = rounds[currentRound] ? "LIVE" : "BLANK";
+						pickedItemText = "The current shell is: " + bulletType;
+						player_item_texts[selectedRow][selectedCol] = "";
+					}
+					itemPicked = false;
+				}
+				else if (player_item_texts[selectedRow][selectedCol] == "beer")
+				{
+					bool result = rounds[currentRound++];
+					pickedItemText = "You discarded of a shell";
+					player_item_texts[selectedRow][selectedCol] = "";
+				}
 				wrefresh(game_win);
 				wrefresh(player_items[selectedRow][selectedCol]);
 			}
