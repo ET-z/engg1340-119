@@ -631,7 +631,5 @@ int game(WINDOW *game_win)
 
 	deleteGameWindows(windows);
 
-	delwin(game_win);
-	endwin();
-	return 0;
+	return 1;
 }
