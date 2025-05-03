@@ -46,12 +46,13 @@ int tutorial3(WINDOW *game_win)
         // ❤️ Health Info
         y += 1;
         wattron(game_win, A_BOLD | COLOR_PAIR(2));
-        print_animated_w(game_win, y++, L"Health Info ❤️:");
+        print_animated_w(game_win, y++, L"Additional Info ❤️:");
         wattroff(game_win, A_BOLD | COLOR_PAIR(2));
 
         std::vector<std::wstring> health_lines = {
             L"- You and the dealer start at 60 HP.",
             L"- A live round deals 20 damage.",
+            L"- The person that shoots themself with a blank bullet will recieve another turn.",
             L"- Reduce the dealer’s HP to 0 to win.",
         };
         wattron(game_win, COLOR_PAIR(3));
