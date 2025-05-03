@@ -46,6 +46,10 @@ make run
 
 ## How to play the game
 
+[Game Demo Video](https://drive.google.com/file/d/1VhLVCFyJbBi1P9p6hj48GKluZ5Yoxwpj/view)
+
+(Minor differences in the demo and actual game have been made)
+
 Refer to the tutorial (t) on the initial menu screen. GOAL: Outlast the dealer.
 
 Choose the difficulty of the AI when starting the game, there are 3 modes to be chosen from.
