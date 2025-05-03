@@ -58,9 +58,10 @@ Choose the difficulty of the AI when starting the game, there are 3 modes to be 
 
 ### Controls:
 
-    Use the arrow keys to navigate your inventory
-    E/e -> Pick up and use an item
-    Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
+- Use the arrow keys to navigate your inventory
+- E/e -> Pick up and use an item
+- Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
+- ESCAPE -> Pause the game
 
 > [!NOTE]
 > For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
