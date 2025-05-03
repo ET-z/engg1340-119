@@ -95,13 +95,90 @@ To pick up item: press E/e
 Our shell generation function utilize the rand(time(0)) function to generate a random seed. We use the random_shuffle function to generate a sequence of the shells.
 Our items are also randomly generated and placed.
 
+Pseudocode:
+FUNCTION InitializeRandomness:
+  Set the random seed using current time
+
+FUNCTION GenerateShells (total, minLive, maxLive):
+  numberOfLive = minLive + random_number_between(0, maxLive - minLive)
+  Create a list of 'total' shells
+  Fill 'numberOfLive' shells with 'Live'
+  Fill the rest with 'Blank'
+  Shuffle the list randomly
+  Return the list
+
+FUNCTION PickRandomItem (inventory):
+  Find all slots in inventory that are not empty
+  If no items, return "NoItemFound"
+  Choose a random slot index from the list of non-empty slots
+  Return the coordinates (row, col) of the chosen slot
+
+// In Game Loop:
+// On Reload:
+//   shells = GenerateShells(...)
+
 ### Data structure for storin data / Dynamic memory management
 
 Vectors to store items and shells as well as pointers are used (Working with ncurses requires initiating multiple WINDOW * pointers). The game window is properly cleared and deleted when you exit the game.
 
+Pseudocode:
+// Dynamic Memory with ncurses Windows (manual management)
+FUNCTION InitializeWindows:
+  CreateWindowPointer A  = CreateNCursesWindow(...) // Allocate memory for Window A
+  CreateWindowPointer B  = CreateNCursesWindow(...) // Allocate memory for Window B
+  Store A and B in a struct or list
+  Return struct/list
+
+FUNCTION DeleteWindows (structOrList):
+  FOR each WindowPointer in structOrList:
+    IF WindowPointer is not null:
+      DeleteNCursesWindow(WindowPointer) // Deallocate memory for the window
+      Set WindowPointer to null // Good practice
+
+// In Game Flow:
+  windowData = InitializeWindows() // Windows are created (memory allocated)
+  // ... use windows in windowData ...
+  DeleteWindows(windowData) // Windows are destroyed (memory deallocated)
+
 ### File I/O
 
 Drawing of the player and The Dealer is handled by the fin function, ASCII art of the characters are placed inside .txt files and drew to the screen row by row.
+
+Pseudocode:
+// At the start of the program:
+FUNCTION LoadCharacterArt:
+  playerArt = LoadContentFromFile("player_animation/player.txt")
+  dealerAnimations = EmptyList
+  FOR frameNumber from 0 to 9:
+    frameArt = LoadContentFromFile("dealer_animation/" + frameNumber + ".txt")
+    Add frameArt to dealerAnimations
+  Handle any errors during file loading (e.g., file not found)
+
+FUNCTION LoadContentFromFile (filename):
+  Open file with filename
+  IF file cannot be opened:
+    Display Error Message
+    Exit Program (or handle gracefully)
+  contentList = EmptyList
+  WHILE there are more lines in file:
+    Read a line
+    Add line to contentList
+  Close file
+  Return contentList
+
+// In Drawing Function (e.g., DrawPlayer):
+FUNCTION DrawPlayer (window, art):
+  // Use the 'art' list (loaded once) to draw on the window
+  FOR each line in art:
+    Draw line on window
+  Refresh window
+
+// In Game Loop:
+// Call drawing functions with the loaded art data:
+//   DrawPlayer(playerWindow, playerArt)
+//   // For dealer animation, select the correct frame based on animation state
+//   currentDealerFrame = GetDealerAnimationFrame(animationState)
+//   DrawDealer(dealerWindow, dealerAnimations[currentDealerFrame])
 
 ```
      AAAAAAA       AAAAAAA

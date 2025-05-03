@@ -597,6 +597,8 @@ int game(WINDOW *game_win)
 			break;
 		} // end switch
 	} // end while
+    
+    deleteGameWindows(windows);
 
 	delwin(game_win);
 	endwin();
