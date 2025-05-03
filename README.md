@@ -45,29 +45,30 @@ make run
 
 ## How to play the game
 
-Refer to the tutorial (t) on the initial menu screen.
-GOAL: Outlast the dealer. 
+Refer to the tutorial (t) on the initial menu screen. GOAL: Outlast the dealer. 
+
+
 Choose the difficulty of the AI when starting the game, there are 3 modes to be chosen from.
-    Dumb AI: Always shoots the player
-    Risk aware: if there is more than 40% chance of a live shell, it will shoot the player
-    Scope aware: knows the order of the shells and will act accordingly
+   > 1. Dumb AI: Always shoots the player
+   > 2. Risk aware: if there is more than 40% chance of a live shell, it will shoot the player
+   > 3. Scope aware: knows the order of the shells and will act accordingly
 Controls: 
-    Use the arrow keys to navigate your inventory
-    E/e -> Pick up and use an item
-    Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
+   > Use the arrow keys to navigate your inventory
+   > E/e -> Pick up and use an item
+   > Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
 
 
 
-> [!NOTE]
+[!NOTE]
 > For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
 
 ### Items
 
-Apple → +20 HP
-Knife → Double damage! (20 -> 40 damage)
-Beer → Discard the current shell
-Magnifying Glass → See if the next shell is live
-Handcuff → Skip the dealer's turn
+Apple → +20 HP\
+Knife → Double damage! (20 -> 40 damage)\
+Beer → Discard the current shell\
+Magnifying Glass → See if the next shell is live\
+Handcuff → Skip the dealer's turn\
 To pick up item: press E/e
 
 > [!TIP]
@@ -92,9 +93,9 @@ To pick up item: press E/e
 
 ### Random events
 
-Our shell generation function utilize the rand(time(0)) function to generate a random seed. We use the random_shuffle function to generate a sequence of the shells.
+Our shell generation function utilize the rand(time(0)) function to generate a random seed. We use the random_shuffle function to generate a sequence of the shells.\
 Our items are also randomly generated and placed.
-
+```
 Pseudocode:
 FUNCTION InitializeRandomness:
   Set the random seed using current time
@@ -116,11 +117,11 @@ FUNCTION PickRandomItem (inventory):
 // In Game Loop:
 // On Reload:
 //   shells = GenerateShells(...)
-
+```
 ### Data structure for storin data / Dynamic memory management
 
 Vectors to store items and shells as well as pointers are used (Working with ncurses requires initiating multiple WINDOW * pointers). The game window is properly cleared and deleted when you exit the game.
-
+```
 Pseudocode:
 // Dynamic Memory with ncurses Windows (manual management)
 FUNCTION InitializeWindows:
@@ -139,11 +140,11 @@ FUNCTION DeleteWindows (structOrList):
   windowData = InitializeWindows() // Windows are created (memory allocated)
   // ... use windows in windowData ...
   DeleteWindows(windowData) // Windows are destroyed (memory deallocated)
-
+```
 ### File I/O
 
 Drawing of the player and The Dealer is handled by the fin function, ASCII art of the characters are placed inside .txt files and drew to the screen row by row.
-
+```
 Pseudocode:
 // At the start of the program:
 FUNCTION LoadCharacterArt:
@@ -179,7 +180,7 @@ FUNCTION DrawPlayer (window, art):
 //   // For dealer animation, select the correct frame based on animation state
 //   currentDealerFrame = GetDealerAnimationFrame(animationState)
 //   DrawDealer(dealerWindow, dealerAnimations[currentDealerFrame])
-
+```
 ```
      AAAAAAA       AAAAAAA
     AA    AS          AA   AA
