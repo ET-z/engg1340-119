@@ -13,6 +13,104 @@
 extern DealerAILevel currentDealerAILevel;
 using namespace std;
 
+GameWindows initGameWindows(WINDOW * game_win){
+	GameWindows windows;// create an instance of our struct
+
+    int HEIGHT, WIDTH;
+	getmaxyx(game_win, HEIGHT, WIDTH);
+	
+    // Height + width for inventory item boxes
+	int inventory_height = 10, inventory_width = 20;
+
+	//Dealer's inventory
+    int dealer_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
+	int dealer_start_x = 1;
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			windows.dealer_items[i][j] = derwin(game_win, inventory_height, inventory_width,
+																	dealer_start_y + i * inventory_height,
+																	dealer_start_x + j * inventory_width);
+		}
+	}
+	//Player's inventory
+ 
+	int player_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
+	int player_start_x = WIDTH - 4 * inventory_width - 1;
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			windows.player_items[i][j] = derwin(game_win, inventory_height, inventory_width,
+																	player_start_y + i * inventory_height,
+																	player_start_x + j * inventory_width);
+		}
+	}
+
+	// Height and width for health bars
+	int health_height = 3, health_width = 72;
+
+	// Dealer health bar
+	int dealer_health_start_y = 1;
+	int dealer_health_start_x = 2;
+	windows.dealer_health = derwin(game_win, health_height, health_width, dealer_health_start_y, dealer_health_start_x);
+
+	// Player health bar
+	int player_health_start_y = 1;
+	int player_health_start_x = WIDTH - health_width - 2;
+	windows.player_health = derwin(game_win, health_height, health_width, player_health_start_y, player_health_start_x);
+
+	// Window dimensions
+	int draw_height = 19, draw_width = 60;
+
+	// Dealer draw window
+	int dealer_draw_start_y = 10;
+	int dealer_draw_start_x = 1;
+	windows.dealer_draw = derwin(game_win, draw_height, draw_width, dealer_draw_start_y, dealer_draw_start_x);
+
+	// Player draw window
+	int player_draw_start_y = 10;
+	int player_draw_start_x = WIDTH - draw_width - 1;
+	windows.player_draw = derwin(game_win, draw_height, draw_width, player_draw_start_y, player_draw_start_x);
+
+	// Bullet table
+	int bullet_table_height = 20, bullet_table_width = 30;
+	int bullets_start_y = HEIGHT - bullet_table_height - 1;
+	int bullets_start_x = (WIDTH - bullet_table_width) / 2;
+	windows.bullets_table = derwin(game_win, bullet_table_height, bullet_table_width, bullets_start_y, bullets_start_x);
+    
+    return windows;
+}
+
+void deleteGameWindows(GameWindows& windows) {
+    // Delete player inventory windows
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (windows.player_items[i][j]) { // Check if the pointer is not null
+                delwin(windows.player_items[i][j]);
+                windows.player_items[i][j] = nullptr; // Set to nullptr after deleting
+            }
+        }
+    }
+
+    // Delete dealer inventory windows
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 4; ++j) {
+             if (windows.dealer_items[i][j]) {
+                delwin(windows.dealer_items[i][j]);
+                windows.dealer_items[i][j] = nullptr;
+             }
+        }
+    }
+
+    // Delete other windows
+    if (windows.player_health) { delwin(windows.player_health); windows.player_health = nullptr; }
+    if (windows.dealer_health) { delwin(windows.dealer_health); windows.dealer_health = nullptr; }
+    if (windows.player_draw) { delwin(windows.player_draw); windows.player_draw = nullptr; }
+    if (windows.dealer_draw) { delwin(windows.dealer_draw); windows.dealer_draw = nullptr; }
+    if (windows.bullets_table) { delwin(windows.bullets_table); windows.bullets_table = nullptr;}
+}
 // Declare healthbar
 void healthbar(WINDOW *bar, int health);
 
@@ -30,81 +128,17 @@ void printCentered(WINDOW *win, const std::string &message, int y_center)
 int game(WINDOW *game_win)
 {
 	bool inGame = true;
-	int HEIGHT, WIDTH;
-	getmaxyx(game_win, HEIGHT, WIDTH);
 
 	// Color pair
 	init_pair(1, COLOR_WHITE, COLOR_BLUE);
 	init_pair(9, COLOR_MAGENTA, COLOR_BLACK);
 
 	int ch;
-
-	// Height + width for inventory item boxes
-	int inventory_height = 10, inventory_width = 20;
-
-	// Dealer's inventory
-	vector<vector<WINDOW *>> dealer_items(2, vector<WINDOW *>(4));
-	vector<vector<string>> dealer_item_texts(2, vector<string>(4, ""));
-
-	int dealer_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
-	int dealer_start_x = 1;
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			dealer_items[i][j] = derwin(game_win, inventory_height, inventory_width,
-																	dealer_start_y + i * inventory_height,
-																	dealer_start_x + j * inventory_width);
-		}
-	}
-	// Player's inventory
-	vector<vector<WINDOW *>> player_items(2, vector<WINDOW *>(4));
-	vector<vector<string>> player_item_texts(2, vector<string>(4, ""));
-
-	int player_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
-	int player_start_x = WIDTH - 4 * inventory_width - 1;
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			player_items[i][j] = derwin(game_win, inventory_height, inventory_width,
-																	player_start_y + i * inventory_height,
-																	player_start_x + j * inventory_width);
-		}
-	}
-
-	// Height and width for health bars
-	int health_height = 3, health_width = 72;
-
-	// Dealer health bar
-	int dealer_health_start_y = 1;
-	int dealer_health_start_x = 2;
-	WINDOW *dealer_health = derwin(game_win, health_height, health_width, dealer_health_start_y, dealer_health_start_x);
-
-	// Player health bar
-	int player_health_start_y = 1;
-	int player_health_start_x = WIDTH - health_width - 2;
-	WINDOW *player_health = derwin(game_win, health_height, health_width, player_health_start_y, player_health_start_x);
-
-	// Window dimensions
-	int draw_height = 19, draw_width = 60;
-
-	// Dealer draw window
-	int dealer_draw_start_y = 10;
-	int dealer_draw_start_x = 1;
-	WINDOW *dealer_draw = derwin(game_win, draw_height, draw_width, dealer_draw_start_y, dealer_draw_start_x);
-
-	// Player draw window
-	int player_draw_start_y = 10;
-	int player_draw_start_x = WIDTH - draw_width - 1;
-	WINDOW *player_draw = derwin(game_win, draw_height, draw_width, player_draw_start_y, player_draw_start_x);
-
-	// Bullet table
-	int bullet_table_height = 20, bullet_table_width = 30;
-	int bullets_start_y = HEIGHT - bullet_table_height - 1;
-	int bullets_start_x = (WIDTH - bullet_table_width) / 2;
-	WINDOW *bullets_table = derwin(game_win, bullet_table_height, bullet_table_width, bullets_start_y, bullets_start_x);
-
+    // init the GameWindows
+    int HEIGHT, WIDTH;
+	getmaxyx(game_win, HEIGHT, WIDTH);
+	      
+    GameWindows windows = initGameWindows(game_win);
 	// Game state variables and initiate players, shells
 	int selectedRow = 0, selectedCol = 0;
 	string pickedItemText = "";
@@ -127,8 +161,8 @@ int game(WINDOW *game_win)
 	for (char c : initialShells)
 		rounds.push_back(c == '1');
 
-	healthbar(player_health, playerHealth);
-	healthbar(dealer_health, dealerHealth);
+	healthbar(windows.player_health, playerHealth);
+	healthbar(windows.dealer_health, dealerHealth);
 
 	int animCount = 0;
 	// Main loop
@@ -154,9 +188,9 @@ int game(WINDOW *game_win)
 
 		wclear(game_win);
 		box(game_win, 0, 0);
-		healthbar(player_health, playerHealth);
-		healthbar(dealer_health, dealerHealth);
-		box(bullets_table, 0, 0);
+		healthbar(windows.player_health, playerHealth);
+		healthbar(windows.dealer_health, dealerHealth);
+		box(windows.bullets_table, 0, 0);
 
 		// Display picked item if one is picked
 		if (!pickedItemText.empty())
@@ -173,9 +207,9 @@ int game(WINDOW *game_win)
 			int shell_width = 9;
 			int shells_per_row = 1;
 			int start_y = 1;
-			int start_x = (bullet_table_width - (shells_per_row * shell_width)) / 2;
+			int start_x = (30 - (shells_per_row * shell_width)) / 2;
 
-			printCentered(bullets_table, "Shells", 0);
+			printCentered(windows.bullets_table, "Shells", 0);
 			for (size_t i = currentRound; i < rounds.size(); i++)
 			{
 				int row = (i - currentRound) / shells_per_row;
@@ -184,27 +218,27 @@ int game(WINDOW *game_win)
 				int x = start_x + (col * shell_width);
 
 				// Draw box for each shell
-				wattron(bullets_table, COLOR_PAIR(9));
+				wattron(windows.bullets_table, COLOR_PAIR(9));
 				for (int h = 0; h < shell_height; h++)
 				{
-					mvwaddch(bullets_table, y + h, x, ACS_VLINE);
-					mvwaddch(bullets_table, y + h, x + shell_width - 1, ACS_VLINE);
+					mvwaddch(windows.bullets_table, y + h, x, ACS_VLINE);
+					mvwaddch(windows.bullets_table, y + h, x + shell_width - 1, ACS_VLINE);
 				}
 				for (int w = 0; w < shell_width; w++)
 				{
-					mvwaddch(bullets_table, y, x + w, ACS_HLINE);
-					mvwaddch(bullets_table, y + shell_height - 1, x + w, ACS_HLINE);
+					mvwaddch(windows.bullets_table, y, x + w, ACS_HLINE);
+					mvwaddch(windows.bullets_table, y + shell_height - 1, x + w, ACS_HLINE);
 				}
 				// Add corners
-				mvwaddch(bullets_table, y, x, ACS_ULCORNER);
-				mvwaddch(bullets_table, y, x + shell_width - 1, ACS_URCORNER);
-				mvwaddch(bullets_table, y + shell_height - 1, x, ACS_LLCORNER);
-				mvwaddch(bullets_table, y + shell_height - 1, x + shell_width - 1, ACS_LRCORNER);
-				wattroff(bullets_table, COLOR_PAIR(9));
+				mvwaddch(windows.bullets_table, y, x, ACS_ULCORNER);
+				mvwaddch(windows.bullets_table, y, x + shell_width - 1, ACS_URCORNER);
+				mvwaddch(windows.bullets_table, y + shell_height - 1, x, ACS_LLCORNER);
+				mvwaddch(windows.bullets_table, y + shell_height - 1, x + shell_width - 1, ACS_LRCORNER);
+				wattroff(windows.bullets_table, COLOR_PAIR(9));
 			}
 		}
 
-		wrefresh(bullets_table);
+		wrefresh(windows.bullets_table);
 
 		// Bullet info
 		int remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
@@ -215,8 +249,8 @@ int game(WINDOW *game_win)
 		if (currentRound == 0 && animCount == 0)
 		{
 			// Add random items to inevntories
-			random_items(&dealer_item_texts, 0);
-			random_items(&player_item_texts, 1);
+			random_items(&windows.dealer_item_texts, 0);
+			random_items(&windows.player_item_texts, 1);
 
 			// Display live and blank
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%s", liveText.c_str());
@@ -227,29 +261,29 @@ int game(WINDOW *game_win)
 		for (int i = 0; i < 2; i++)
 			for (int j = 0; j < 4; j++)
 			{
-				box(dealer_items[i][j], 0, 0);
-				draw_item(dealer_items[i][j], dealer_item_texts[i][j]);
-				wrefresh(dealer_items[i][j]);
+				box(windows.dealer_items[i][j], 0, 0);
+				draw_item(windows.dealer_items[i][j], windows.dealer_item_texts[i][j]);
+				wrefresh(windows.dealer_items[i][j]);
 			}
 
 		for (int i = 0; i < 2; i++)
 			for (int j = 0; j < 4; j++)
 			{
 				if (i == selectedRow && j == selectedCol)
-					wattron(player_items[i][j], A_REVERSE);
-				box(player_items[i][j], 0, 0);
+					wattron(windows.player_items[i][j], A_REVERSE);
+				box(windows.player_items[i][j], 0, 0);
 				if (i == selectedRow && j == selectedCol)
-					wattroff(player_items[i][j], A_REVERSE);
-				draw_item(player_items[i][j], player_item_texts[i][j]);
-				wrefresh(player_items[i][j]);
+					wattroff(windows.player_items[i][j], A_REVERSE);
+				draw_item(windows.player_items[i][j], windows.player_item_texts[i][j]);
+				wrefresh(windows.player_items[i][j]);
 			}
 
 		mvwprintw(game_win, 1, (WIDTH - 18) / 2, "Press ESC to pause");
 
-		draw_player(player_draw);
+		draw_player(windows.player_draw);
 		if (animCount == 0)
 		{
-			draw_dealer(dealer_draw);
+			draw_dealer(windows.dealer_draw);
 			napms(2000);
 			// Delete the live and blank display after aybe 4-5 seconds (including dealer animation time)
 			mvwprintw(game_win, 5, WIDTH / 2 - liveText.length() / 2, "%*s", liveText.length(), "");
@@ -258,7 +292,7 @@ int game(WINDOW *game_win)
 		}
 		else
 		{
-			draw_dealer_single(dealer_draw);
+			draw_dealer_single(windows.dealer_draw);
 		}
 
 		wrefresh(game_win);
@@ -309,44 +343,44 @@ int game(WINDOW *game_win)
 
 		case 'e':
 		case 'E':
-			if (!player_item_texts[selectedRow][selectedCol].empty())
+			if (!windows.player_item_texts[selectedRow][selectedCol].empty())
 			{
-				if (player_item_texts[selectedRow][selectedCol] == "apple" && playerHealth <= 100)
+				if (windows.player_item_texts[selectedRow][selectedCol] == "apple" && playerHealth <= 100)
 				{
 					pickedItemText = "You ate an apple";
-					player_item_texts[selectedRow][selectedCol] = "";
+					windows.player_item_texts[selectedRow][selectedCol] = "";
 					if (playerHealth + 20 <= 100)
 						playerHealth += 20;
 				}
-				else if (player_item_texts[selectedRow][selectedCol] == "knife")
+				else if (windows.player_item_texts[selectedRow][selectedCol] == "knife")
 				{
 					pickedItemText = "You will now deal double damage";
-					player_item_texts[selectedRow][selectedCol] = "";
+					windows.player_item_texts[selectedRow][selectedCol] = "";
 					playerDamage = 40;
 				}
-				else if (player_item_texts[selectedRow][selectedCol] == "magnifyingGlass")
+				else if (windows.player_item_texts[selectedRow][selectedCol] == "magnifyingGlass")
 				{
 					if (currentRound < rounds.size())
 					{
 						string bulletType = rounds[currentRound] ? "LIVE" : "BLANK";
 						pickedItemText = "The current shell is: " + bulletType;
-						player_item_texts[selectedRow][selectedCol] = "";
+						windows.player_item_texts[selectedRow][selectedCol] = "";
 					}
 				}
-				else if (player_item_texts[selectedRow][selectedCol] == "beer")
+				else if (windows.player_item_texts[selectedRow][selectedCol] == "beer")
 				{
 					bool result = rounds[currentRound++];
 					pickedItemText = "You discarded of a shell";
-					player_item_texts[selectedRow][selectedCol] = "";
+					windows.player_item_texts[selectedRow][selectedCol] = "";
 				}
-				else if (player_item_texts[selectedRow][selectedCol] == "handcuff")
+				else if (windows.player_item_texts[selectedRow][selectedCol] == "handcuff")
 				{
 					pickedItemText = "Dealer's turn will be skipped";
-					player_item_texts[selectedRow][selectedCol] = "";
+					windows.player_item_texts[selectedRow][selectedCol] = "";
 					handcuffAlreadyUsed = true;
 				}
 				wrefresh(game_win);
-				wrefresh(player_items[selectedRow][selectedCol]);
+				wrefresh(windows.player_items[selectedRow][selectedCol]);
 				continue;
 			}
 			break;
@@ -454,7 +488,7 @@ int game(WINDOW *game_win)
 					// Check if dealer has any items before trying to use them
 					bool hasItems = false;
 					int itemCount = 0;
-					for (const auto &row : dealer_item_texts)
+					for (const auto &row : windows.dealer_item_texts)
 					{
 						for (const auto &item : row)
 						{
@@ -480,38 +514,38 @@ int game(WINDOW *game_win)
 						int Y = 27;
 						for (int i = 0; i < randomNumberItems; i++)
 						{
-							pair<int, int> coords = use_random_item(&dealer_item_texts);
+							pair<int, int> coords = use_random_item(&windows.dealer_item_texts);
 							if (coords.first != -1 && coords.second != -1)
 							{
-								string item = dealer_item_texts[coords.first][coords.second];
+								string item = windows.dealer_item_texts[coords.first][coords.second];
 								if (item == "apple" && dealerHealth <= 100)
 								{
 									dealerPicked = "Dealer ate an apple";
 									if (dealerHealth + 20 <= 100)
 										dealerHealth += 20;
-									dealer_item_texts[coords.first][coords.second] = "";
+									windows.dealer_item_texts[coords.first][coords.second] = "";
 								}
 								else if (item == "knife")
 								{
 									dealerPicked = "Dealer will now deal double damage";
 									dealerDamage = 40;
-									dealer_item_texts[coords.first][coords.second] = "";
+									windows.dealer_item_texts[coords.first][coords.second] = "";
 								}
 								else if (item == "magnifyingGlass")
 								{
 									dealerPicked = "Dealer threw away an item";
-									dealer_item_texts[coords.first][coords.second] = "";
+									windows.dealer_item_texts[coords.first][coords.second] = "";
 								}
 								else if (item == "beer")
 								{
 									bool result = rounds[currentRound++];
 									dealerPicked = "Dealer discarded of a shell";
-									dealer_item_texts[coords.first][coords.second] = "";
+									windows.dealer_item_texts[coords.first][coords.second] = "";
 								}
 								else if (item == "handcuff")
 								{
 									dealerPicked = "Dealer threw away an item";
-									dealer_item_texts[coords.first][coords.second] = "";
+									windows.dealer_item_texts[coords.first][coords.second] = "";
 								}
 							}
 							if (!dealerPicked.empty())
@@ -519,7 +553,7 @@ int game(WINDOW *game_win)
 								mvwprintw(game_win, Y + i * 2, (WIDTH - dealerPicked.length()) / 2, dealerPicked.c_str());
 							}
 							wrefresh(game_win);
-							wrefresh(dealer_items[coords.first][coords.second]);
+							wrefresh(windows.dealer_items[coords.first][coords.second]);
 							napms(2000);
 						}
 					}

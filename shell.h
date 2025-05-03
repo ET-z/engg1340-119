@@ -32,7 +32,7 @@ private:
     }
 
 public:
-    ShellGenerator(int t = 9, int mn = 1, int mx = 5) 
+    ShellGenerator(int t = 9, int mn = 3, int mx = 6) 
         : total(t), minLive(mn), maxLive(mx) {
         srand(time(0));
         validateParams();
