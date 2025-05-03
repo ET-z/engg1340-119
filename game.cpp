@@ -173,8 +173,6 @@ int game(WINDOW *game_win)
 	string dealerPicked = "";
 	Player player("ENGG1340", 100, true);
 	Opponent AI("S1mple", 100, false);
-	int playerHealth = player.health;
-	int dealerHealth = AI.health;
 	int playerDamage = 20;
 	int dealerDamage = 20;
 	ShellGenerator gen;
@@ -189,15 +187,15 @@ int game(WINDOW *game_win)
 	for (char c : initialShells)
 		rounds.push_back(c == '1');
 
-	healthbar(windows.player_health, playerHealth);
-	healthbar(windows.dealer_health, dealerHealth);
+	healthbar(windows.player_health, player.health);
+	healthbar(windows.dealer_health, AI.health);
 
 	int animCount = 0;
 	// Main loop
 	while (inGame)
 	{
 		// Check health status at the start of each loop
-		if (playerHealth <= 0)
+		if (player.health <= 0)
 		{
 			wclear(game_win);
 			printCentered(game_win, "Game Over! Dealer wins!", 15);
@@ -205,7 +203,7 @@ int game(WINDOW *game_win)
 			inGame = false;
 			break;
 		}
-		else if (dealerHealth <= 0)
+		else if (AI.health <= 0)
 		{
 			wclear(game_win);
 			printCentered(game_win, "Game Over! You win!", 15);
@@ -216,8 +214,8 @@ int game(WINDOW *game_win)
 
 		wclear(game_win);
 		box(game_win, 0, 0);
-		healthbar(windows.player_health, playerHealth);
-		healthbar(windows.dealer_health, dealerHealth);
+		healthbar(windows.player_health, player.health);
+		healthbar(windows.dealer_health, AI.health);
 		box(windows.bullets_table, 0, 0);
 
 		// Display picked item if one is picked
@@ -373,12 +371,12 @@ int game(WINDOW *game_win)
 		case 'E':
 			if (!windows.player_item_texts[selectedRow][selectedCol].empty())
 			{
-				if (windows.player_item_texts[selectedRow][selectedCol] == "apple" && playerHealth <= 100)
+				if (windows.player_item_texts[selectedRow][selectedCol] == "apple" && player.health <= 100)
 				{
 					pickedItemText = "You ate an apple";
 					windows.player_item_texts[selectedRow][selectedCol] = "";
-					if (playerHealth + 20 <= 100)
-						playerHealth += 20;
+					if (player.health + 20 <= 100)
+						player.health += 20;
 				}
 				else if (windows.player_item_texts[selectedRow][selectedCol] == "knife")
 				{
@@ -441,11 +439,11 @@ int game(WINDOW *game_win)
 					bool result = rounds[currentRound++];
 					if (result)
 					{
-						dealerHealth = max(dealerHealth - playerDamage, 0);
+						AI.health = max(AI.health - playerDamage, 0);
 						string damageMessage = "A live shell! Dealer takes " + to_string(playerDamage) + " damage.";
 						printCentered(game_win, damageMessage, 6);
 						playerDamage = 20;
-						if (dealerHealth <= 0)
+						if (AI.health <= 0)
 						{
 							napms(2000);
 							continue;
@@ -474,10 +472,10 @@ int game(WINDOW *game_win)
 					bool result = rounds[currentRound++];
 					if (result)
 					{
-						playerHealth = max(playerHealth - playerDamage, 0);
+						player.health = max(player.health - playerDamage, 0);
 						playerDamage = 20;
 						printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
-						if (playerHealth <= 0)
+						if (player.health <= 0)
 						{
 							napms(2000);
 							continue;
@@ -546,11 +544,11 @@ int game(WINDOW *game_win)
 							if (coords.first != -1 && coords.second != -1)
 							{
 								string item = windows.dealer_item_texts[coords.first][coords.second];
-								if (item == "apple" && dealerHealth <= 100)
+								if (item == "apple" && AI.health <= 100)
 								{
 									dealerPicked = "Dealer ate an apple";
-									if (dealerHealth + 20 <= 100)
-										dealerHealth += 20;
+									if (AI.health + 20 <= 100)
+										AI.health += 20;
 									windows.dealer_item_texts[coords.first][coords.second] = "";
 								}
 								else if (item == "knife")
@@ -586,16 +584,16 @@ int game(WINDOW *game_win)
 						}
 					}
 					bool currenShell = rounds[currentRound++];
-					dealerAI(game_win, playerHealth, dealerHealth, currenShell,
+					dealerAI(game_win, player.health, AI.health, currenShell,
 									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage, dealerTurn);
 					while (dealerTurn == true)
 					{
 						currenShell = rounds[currentRound++];
-						dealerAI(game_win, playerHealth, dealerHealth, currenShell,
+						dealerAI(game_win, player.health, AI.health, currenShell,
 										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage, dealerTurn);
 					}
 					playerTurn = true;
-					if (playerHealth <= 0)
+					if (player.health <= 0)
 					{
 						inGame = false;
 						break;
