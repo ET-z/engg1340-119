@@ -66,12 +66,17 @@ GameWindows initGameWindows(WINDOW *game_win)
 	// Dealer health bar
 	int dealer_health_start_y = 1;
 	int dealer_health_start_x = 2;
+	init_pair(2, COLOR_GREEN, COLOR_BLACK); // Initialize green color pair
+	wattron(game_win, COLOR_PAIR(2));
 	windows.dealer_health = derwin(game_win, health_height, health_width, dealer_health_start_y, dealer_health_start_x);
+	wattroff(game_win, COLOR_PAIR(2));
 
 	// Player health bar
 	int player_health_start_y = 1;
 	int player_health_start_x = WIDTH - health_width - 2;
+	wattron(game_win, COLOR_PAIR(2));
 	windows.player_health = derwin(game_win, health_height, health_width, player_health_start_y, player_health_start_x);
+	wattroff(game_win, COLOR_PAIR(2));
 
 	// Window dimensions
 	int draw_height = 19, draw_width = 60;
@@ -375,7 +380,7 @@ int game(WINDOW *game_win)
 			if (result == 0)
 				continue;
 			else if (result == 1)
-				inGame = false;
+				return 1;
 			else if (result == 2)
 			{
 				inGame = false;
@@ -624,13 +629,15 @@ int game(WINDOW *game_win)
 							napms(2000);
 						}
 					}
-					bool currenShell = rounds[currentRound++];
-					dealerAI(game_win, player.health, AI.health, currenShell,
+					bool currentShell = rounds[currentRound++];
+					dealerAI(game_win, player.health, AI.health, currentShell,
 									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, player.isTurn, AI.damage, AI.isTurn);
-					while (AI.isTurn == true)
+					while (AI.isTurn == true && currentRound < rounds.size())
 					{
-						currenShell = rounds[currentRound++];
-						dealerAI(game_win, player.health, AI.health, currenShell,
+						currentShell = rounds[currentRound++];
+						remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
+						remainingTotalShells = rounds.size() - currentRound;
+						dealerAI(game_win, player.health, AI.health, currentShell,
 										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, player.isTurn, AI.damage, AI.isTurn);
 					}
 					player.isTurn = true;
