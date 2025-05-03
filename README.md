@@ -67,10 +67,7 @@ Choose the difficulty of the AI when starting the game, there are 3 modes to be 
 
 ### Mechanics:
 
-- Use the arrow keys to navigate your inventory
-- E/e -> Pick up and use an item
-- Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
-- ESCAPE -> Pause the game
+- The dealer and the player will takes turns shooting bullets.
 
 ### Controls:
 

@@ -13,29 +13,30 @@
 extern DealerAILevel currentDealerAILevel;
 using namespace std;
 
-GameWindows initGameWindows(WINDOW * game_win){
-	GameWindows windows;// create an instance of our struct
+GameWindows initGameWindows(WINDOW *game_win)
+{
+	GameWindows windows; // create an instance of our struct
 
-    int HEIGHT, WIDTH;
+	int HEIGHT, WIDTH;
 	getmaxyx(game_win, HEIGHT, WIDTH);
-	
-    // Height + width for inventory item boxes
+
+	// Height + width for inventory item boxes
 	int inventory_height = 10, inventory_width = 20;
 
-	//Dealer's inventory
-    int dealer_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
+	// Dealer's inventory
+	int dealer_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
 	int dealer_start_x = 1;
 	for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 4; j++)
 		{
 			windows.dealer_items[i][j] = derwin(game_win, inventory_height, inventory_width,
-																	dealer_start_y + i * inventory_height,
-																	dealer_start_x + j * inventory_width);
+																					dealer_start_y + i * inventory_height,
+																					dealer_start_x + j * inventory_width);
 		}
 	}
-	//Player's inventory
- 
+	// Player's inventory
+
 	int player_start_y = HEIGHT - 2 * HEIGHT / 5 - 1;
 	int player_start_x = WIDTH - 4 * inventory_width - 1;
 	for (int i = 0; i < 2; i++)
@@ -43,8 +44,8 @@ GameWindows initGameWindows(WINDOW * game_win){
 		for (int j = 0; j < 4; j++)
 		{
 			windows.player_items[i][j] = derwin(game_win, inventory_height, inventory_width,
-																	player_start_y + i * inventory_height,
-																	player_start_x + j * inventory_width);
+																					player_start_y + i * inventory_height,
+																					player_start_x + j * inventory_width);
 		}
 	}
 
@@ -79,37 +80,64 @@ GameWindows initGameWindows(WINDOW * game_win){
 	int bullets_start_y = HEIGHT - bullet_table_height - 1;
 	int bullets_start_x = (WIDTH - bullet_table_width) / 2;
 	windows.bullets_table = derwin(game_win, bullet_table_height, bullet_table_width, bullets_start_y, bullets_start_x);
-    
-    return windows;
+
+	return windows;
 }
 
-void deleteGameWindows(GameWindows& windows) {
-    // Delete player inventory windows
-    for (int i = 0; i < 2; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            if (windows.player_items[i][j]) { // Check if the pointer is not null
-                delwin(windows.player_items[i][j]);
-                windows.player_items[i][j] = nullptr; // Set to nullptr after deleting
-            }
-        }
-    }
+void deleteGameWindows(GameWindows &windows)
+{
+	// Delete player inventory windows
+	for (int i = 0; i < 2; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (windows.player_items[i][j])
+			{ // Check if the pointer is not null
+				delwin(windows.player_items[i][j]);
+				windows.player_items[i][j] = nullptr; // Set to nullptr after deleting
+			}
+		}
+	}
 
-    // Delete dealer inventory windows
-    for (int i = 0; i < 2; ++i) {
-        for (int j = 0; j < 4; ++j) {
-             if (windows.dealer_items[i][j]) {
-                delwin(windows.dealer_items[i][j]);
-                windows.dealer_items[i][j] = nullptr;
-             }
-        }
-    }
+	// Delete dealer inventory windows
+	for (int i = 0; i < 2; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (windows.dealer_items[i][j])
+			{
+				delwin(windows.dealer_items[i][j]);
+				windows.dealer_items[i][j] = nullptr;
+			}
+		}
+	}
 
-    // Delete other windows
-    if (windows.player_health) { delwin(windows.player_health); windows.player_health = nullptr; }
-    if (windows.dealer_health) { delwin(windows.dealer_health); windows.dealer_health = nullptr; }
-    if (windows.player_draw) { delwin(windows.player_draw); windows.player_draw = nullptr; }
-    if (windows.dealer_draw) { delwin(windows.dealer_draw); windows.dealer_draw = nullptr; }
-    if (windows.bullets_table) { delwin(windows.bullets_table); windows.bullets_table = nullptr;}
+	// Delete other windows
+	if (windows.player_health)
+	{
+		delwin(windows.player_health);
+		windows.player_health = nullptr;
+	}
+	if (windows.dealer_health)
+	{
+		delwin(windows.dealer_health);
+		windows.dealer_health = nullptr;
+	}
+	if (windows.player_draw)
+	{
+		delwin(windows.player_draw);
+		windows.player_draw = nullptr;
+	}
+	if (windows.dealer_draw)
+	{
+		delwin(windows.dealer_draw);
+		windows.dealer_draw = nullptr;
+	}
+	if (windows.bullets_table)
+	{
+		delwin(windows.bullets_table);
+		windows.bullets_table = nullptr;
+	}
 }
 // Declare healthbar
 void healthbar(WINDOW *bar, int health);
@@ -134,11 +162,11 @@ int game(WINDOW *game_win)
 	init_pair(9, COLOR_MAGENTA, COLOR_BLACK);
 
 	int ch;
-    // init the GameWindows
-    int HEIGHT, WIDTH;
+	// init the GameWindows
+	int HEIGHT, WIDTH;
 	getmaxyx(game_win, HEIGHT, WIDTH);
-	      
-    GameWindows windows = initGameWindows(game_win);
+
+	GameWindows windows = initGameWindows(game_win);
 	// Game state variables and initiate players, shells
 	int selectedRow = 0, selectedCol = 0;
 	string pickedItemText = "";
@@ -597,8 +625,8 @@ int game(WINDOW *game_win)
 			break;
 		} // end switch
 	} // end while
-    
-    deleteGameWindows(windows);
+
+	deleteGameWindows(windows);
 
 	delwin(game_win);
 	endwin();
