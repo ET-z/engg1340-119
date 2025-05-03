@@ -39,6 +39,20 @@ struct GameWindows
 GameWindows initGameWindows(WINDOW *game_win);
 void delGameWindows(GameWindows &windows);
 
+struct endState
+{
+    string winstatus = "";
+    int totalPlayerDamage = 0;
+    int totalPlayerHealthLoss = 0;
+    int totalDealerHealthLoss = 0;
+    int roundsNumber = 0;
+    int totalLive = 0;
+    int totalBlank = 0;
+    int totalPlayerItemUsed = 0;
+};
+
+void endStats(WINDOW * win, const endState &end);
+
 int main();
 int game(WINDOW *game_win);
 int tutorial1(WINDOW *game_win);
