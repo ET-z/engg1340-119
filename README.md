@@ -11,7 +11,7 @@
 - @DuskNova **Tianhong Gao** - 3036459300
 - @tmng **Tran Minh Nguyen** - 3036384892
 - @tue-nhi **Nguyen Tue Nhi** - 3036364517
-- @kk212371 **Name** Kong Tianxi - 3036392461
+- @kk212371 **Kong Tianxi** - 3036392461
 - @Maggie-maoyiqi **Mao Yiqi** - 3036291186
 
 ---
@@ -23,9 +23,9 @@
 > No more blood transfusions.
 > Now, me and you, we are dancing on the edge of life and death.
 
-Buckshot Roulette is a popular online game.
+Buckshot Roulette is a 2023 indie tabletop horror video game developed and published by Estonian game developer Mike Klubnika on itch.io, which gained lots of attention and traction among gamers. This is a remake of this game using C++.
 
-- Explain rules of the game, etc.
+The game feature a mysterious figure, "The Dealer", of whom we play a modified Russian Roulette. Player and the dealer only has 100 health, and each round will have 9 shells (live or blank). This is a shootout until one man dies, and the game will continue to reload if both are alive. Items are included in the game, but use them wisely and you might stand a chance.
 
 ---
 
@@ -38,11 +38,15 @@ make run
 ```
 
 > [!CAUTION]
-> Make sure your terminal is big enough to run the game!
+> Make sure your terminal is big enough to run the game! 
+> Resizing the screen, lowering the font size in your terminal or changing to another terminal are proven methods. The screen size is set so that the UX is optimized
 
 ---
 
 ## How to play the game
+
+Refer to the tutorial (t) on the initial menu screen.
+
 
 > [!NOTE]
 > For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
