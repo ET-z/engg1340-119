@@ -332,7 +332,16 @@ int game(WINDOW *game_win)
 		{
 		case 27: // ESC
 		{
-			return 1;
+			int result = ::pause();
+			if (result == 0)
+				continue;
+			else if (result == 1)
+				return 1;
+			else if (result == 2)
+			{
+				inGame = false;
+				break;
+			}
 			break;
 		}
 
