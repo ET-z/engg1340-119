@@ -30,6 +30,7 @@ The game feature a mysterious figure, "The Dealer", of whom we play a modified R
 ---
 
 ## How to run the game
+
 This game requires the ncurses library to run properly!
 To compile the game and immediately run it, enter the following command into your Linux terminal:
 
@@ -38,28 +39,26 @@ make run
 ```
 
 > [!CAUTION]
-> Make sure your terminal is big enough to run the game! 
+> Make sure your terminal is big enough to run the game!
 > Resizing the screen, lowering the font size in your terminal or changing to another terminal are proven methods. The screen size is set so that the UX is optimized
 
 ---
 
 ## How to play the game
 
-Refer to the tutorial (t) on the initial menu screen. GOAL: Outlast the dealer. 
-
+Refer to the tutorial (t) on the initial menu screen. GOAL: Outlast the dealer.
 
 Choose the difficulty of the AI when starting the game, there are 3 modes to be chosen from.
-   > 1. Dumb AI: Always shoots the player
-   > 2. Risk aware: if there is more than 40% chance of a live shell, it will shoot the player
-   > 3. Scope aware: knows the order of the shells and will act accordingly
-Controls: 
-   > Use the arrow keys to navigate your inventory
-   > E/e -> Pick up and use an item
-   > Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
 
+> 1.  Dumb AI: Always shoots the player
+> 2.  Random AI: Flips a coin to shoot himself or the player
+> 3.  Smart AI: Keeps track of live and blank shells remaining an considers probability.
+>     Controls:
+>     Use the arrow keys to navigate your inventory
+>     E/e -> Pick up and use an item
+>     Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
 
-
-[!NOTE]
+> [!NOTE]
 > For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
 
 ### Items
@@ -83,10 +82,10 @@ To pick up item: press E/e
 > developers on the system had to commit and push every miniscule change,
 > then pull the remote repository to the linux server to debug.
 > Thus, there are so many commits without proper descriptions.
->
 
 > This game is not infringing on any of the rights of the original Buckshot Roulette according to Fair Use
 > Future improvements: More items available, double player mode and smarter AI algorithm
+
 ---
 
 ## About our project
@@ -95,6 +94,7 @@ To pick up item: press E/e
 
 Our shell generation function utilize the rand(time(0)) function to generate a random seed. We use the random_shuffle function to generate a sequence of the shells.\
 Our items are also randomly generated and placed.
+
 ```
 Pseudocode:
 FUNCTION InitializeRandomness:
@@ -118,9 +118,11 @@ FUNCTION PickRandomItem (inventory):
 // On Reload:
 //   shells = GenerateShells(...)
 ```
+
 ### Data structure for storin data / Dynamic memory management
 
-Vectors to store items and shells as well as pointers are used (Working with ncurses requires initiating multiple WINDOW * pointers). The game window is properly cleared and deleted when you exit the game.
+Vectors to store items and shells as well as pointers are used (Working with ncurses requires initiating multiple WINDOW \* pointers). The game window is properly cleared and deleted when you exit the game.
+
 ```
 Pseudocode:
 // Dynamic Memory with ncurses Windows (manual management)
@@ -141,9 +143,11 @@ FUNCTION DeleteWindows (structOrList):
   // ... use windows in windowData ...
   DeleteWindows(windowData) // Windows are destroyed (memory deallocated)
 ```
+
 ### File I/O
 
 Drawing of the player and The Dealer is handled by the fin function, ASCII art of the characters are placed inside .txt files and drew to the screen row by row.
+
 ```
 Pseudocode:
 // At the start of the program:
@@ -181,6 +185,9 @@ FUNCTION DrawPlayer (window, art):
 //   currentDealerFrame = GetDealerAnimationFrame(animationState)
 //   DrawDealer(dealerWindow, dealerAnimations[currentDealerFrame])
 ```
+
+Some examples of file I/O. The following are extracts from text files to display the dealer and player.
+
 ```
      AAAAAAA       AAAAAAA
     AA    AS          AA   AA

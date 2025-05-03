@@ -43,7 +43,7 @@ void dealerDumb(WINDOW *game_win, int &playerHealth, bool &currentShell, int &de
     }
 }
 
-// Risk-Aware AI: Attack only if risk is reasonable
+// Random AI: Attack only if risk is reasonable
 void dealerRiskAware(WINDOW *game_win, int &playerHealth, int &dealerHealth, int &liveCount, int &totalShells, bool &currentShell, bool &playerTurn, int &dealerDamage, bool &dealerTurn)
 {
     srand(time(0));
