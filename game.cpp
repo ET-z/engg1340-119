@@ -582,12 +582,12 @@ int game(WINDOW *game_win)
 						}
 					}
 					bool currentShell = rounds[currentRound++];
-					dealerAI(game_win, player.health, AI.health, currenShell,
+					dealerAI(game_win, player.health, AI.health, currentShell,
 									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, player.isTurn, AI.damage, AI.isTurn);
 					while (AI.isTurn == true && currentRound < rounds.size())
 					{
 						currentShell = rounds[currentRound++];
-						dealerAI(game_win, player.health, AI.health, currenShell,
+						dealerAI(game_win, player.health, AI.health, currentShell,
 										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, player.isTurn, AI.damage, AI.isTurn);
 					}
 					player.isTurn = true;
