@@ -112,7 +112,7 @@ void dealerSmart(WINDOW *game_win, int &playerHealth, int &dealerHealth, bool &c
 {
     float risk = totalShells > 0 ? (float)liveCount / totalShells : 0;
 
-    if (risk > 0.5)
+    if (risk >= 0.5)
     {
         printCentere(game_win, "[Smart AI] Dealer wants blood! He shoots you.", 25);
         wclear(game_win);

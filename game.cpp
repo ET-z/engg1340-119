@@ -587,6 +587,8 @@ int game(WINDOW *game_win)
 					while (AI.isTurn == true && currentRound < rounds.size())
 					{
 						currentShell = rounds[currentRound++];
+						remainingLiveShells = count(rounds.begin() + currentRound, rounds.end(), true);
+						remainingTotalShells = rounds.size() - currentRound;
 						dealerAI(game_win, player.health, AI.health, currentShell,
 										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, player.isTurn, AI.damage, AI.isTurn);
 					}
