@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <random>
+#include <ctime>
 
 void printCentere(WINDOW *win, const std::string &message, int y_center)
 {
