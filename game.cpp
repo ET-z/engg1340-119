@@ -156,37 +156,37 @@ void deleteGameWindows(GameWindows &windows)
 	}
 }
 
-void endStats(WINDOW * win, const endState &end){
-    wclear(win); // Clear the game window
-    box(win, 0, 0); // Redraw border
+void endStats(WINDOW *win, const endState &end)
+{
+	wclear(win);		// Clear the game window
+	box(win, 0, 0); // Redraw border
 
-    int HEIGHT, WIDTH;
-    getmaxyx(win, HEIGHT, WIDTH);
+	int HEIGHT, WIDTH;
+	getmaxyx(win, HEIGHT, WIDTH);
 
-    // Display Stats
-    int start_y = HEIGHT / 2 - 2;
-    int col1_x = WIDTH / 4;
-    int col2_x = WIDTH * 3 / 4;
+	// Display Stats
+	int start_y = HEIGHT / 2 - 2;
+	int col1_x = WIDTH / 4;
+	int col2_x = WIDTH * 3 / 4;
 
-    mvwprintw(win, start_y, col1_x, "--- Your Stats ---");
-    mvwprintw(win, start_y + 2, col1_x, "Damage Dealt: %d", end.totalPlayerDamage);
-    mvwprintw(win, start_y + 3, col1_x, "Damage Taken: %d", end.totalPlayerHealthLoss);
-    mvwprintw(win, start_y + 4, col1_x, "Items Used: %d", end.totalPlayerItemUsed);
+	mvwprintw(win, start_y, col1_x, "--- Your Stats ---");
+	mvwprintw(win, start_y + 2, col1_x, "Damage Dealt: %d", end.totalPlayerDamage);
+	mvwprintw(win, start_y + 3, col1_x, "Damage Taken: %d", end.totalPlayerHealthLoss);
+	mvwprintw(win, start_y + 4, col1_x, "Items Used: %d", end.totalPlayerItemUsed);
 
-    mvwprintw(win, start_y, col2_x, "--- Dealer Stats ---");
-    mvwprintw(win, start_y + 2, col2_x, "Damage Taken: %d", end.totalDealerHealthLoss);
+	mvwprintw(win, start_y, col2_x, "--- Dealer Stats ---");
+	mvwprintw(win, start_y + 2, col2_x, "Damage Taken: %d", end.totalDealerHealthLoss);
 
-    mvwprintw(win, start_y + 6, col1_x, "--- Game Stats ---");
-    mvwprintw(win, start_y + 7, col1_x, "Rounds Completed: %d", end.roundsNumber);
-    mvwprintw(win, start_y + 8, col1_x, "Live Shells: %d", end.totalLive);
-    mvwprintw(win, start_y + 9, col1_x, "Blank Shells: %d", end.totalBlank);
-    // Prompt to return
-    printCentered(win, "Press any key to return to the main menu...", HEIGHT - 5);
+	mvwprintw(win, start_y + 6, col1_x, "--- Game Stats ---");
+	mvwprintw(win, start_y + 7, col1_x, "Rounds Completed: %d", end.roundsNumber);
+	mvwprintw(win, start_y + 8, col1_x, "Live Shells: %d", end.totalLive);
+	mvwprintw(win, start_y + 9, col1_x, "Blank Shells: %d", end.totalBlank);
+	// Prompt to return
+	printCentered(win, "Press any key to return to the main menu...", HEIGHT - 5);
 
-    wrefresh(win); // Refresh the window to show everything
-    wgetch(win);   // Wait for user input before exiting the end screen
+	wrefresh(win); // Refresh the window to show everything
+	wgetch(win);	 // Wait for user input before exiting the end screen
 }
-
 
 // Declare healthbar
 void healthbar(WINDOW *bar, int health);
@@ -207,7 +207,7 @@ int game(WINDOW *game_win)
 	GameWindows windows = initGameWindows(game_win);
 	// Game state variables and initiate players, shells
 	endState end;
-    int selectedRow = 0, selectedCol = 0;
+	int selectedRow = 0, selectedCol = 0;
 	string pickedItemText = "";
 	string dealerPicked = "";
 	Player player("ENGG1340", 100, true);
@@ -223,7 +223,7 @@ int game(WINDOW *game_win)
 	string initialShells = gen.getShells();
 	for (char c : initialShells)
 		rounds.push_back(c == '1');
-    end.roundsNumber += 1;
+	end.roundsNumber += 1;
 
 	healthbar(windows.player_health, player.health);
 	healthbar(windows.dealer_health, AI.health);
@@ -309,11 +309,12 @@ int game(WINDOW *game_win)
 		int remainingBlankShells = count(rounds.begin() + currentRound, rounds.end(), false);
 		string liveText = "Live shells: " + to_string(remainingLiveShells);
 		string blankText = "Blank shells: " + to_string(remainingBlankShells);
-        
-        if (currentRound == 0){
-            end.totalLive += remainingLiveShells;
-            end.totalBlank += remainingBlankShells;
-        }
+
+		if (currentRound == 0)
+		{
+			end.totalLive += remainingLiveShells;
+			end.totalBlank += remainingBlankShells;
+		}
 		if (currentRound == 0 && animCount == 0)
 		{
 			// Add random items to inevntories
@@ -482,8 +483,8 @@ int game(WINDOW *game_win)
 					if (result)
 					{
 						end.totalPlayerDamage += player.damage;
-                        end.totalDealerHealthLoss += player.damage;
-                        AI.health = max(AI.health - player.damage, 0);
+						end.totalDealerHealthLoss += player.damage;
+						AI.health = max(AI.health - player.damage, 0);
 						string damageMessage = "A live shell! Dealer takes " + to_string(player.damage) + " damage.";
 						printCentered(game_win, damageMessage, 6);
 						player.damage = 20;
@@ -516,8 +517,8 @@ int game(WINDOW *game_win)
 					bool result = rounds[currentRound++];
 					if (result)
 					{
-                        end.totalPlayerDamage += player.damage;
-                        end.totalPlayerHealthLoss += player.damage;
+						end.totalPlayerDamage += player.damage;
+						end.totalPlayerHealthLoss += player.damage;
 						player.health = max(player.health - player.damage, 0);
 						player.damage = 20;
 						printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
@@ -651,7 +652,7 @@ int game(WINDOW *game_win)
 
 			if (currentRound >= rounds.size())
 			{
-                end.roundsNumber += 1;
+				end.roundsNumber += 1;
 				string shellString = gen.getShells();
 				rounds.clear();
 				for (char c : shellString)
@@ -672,9 +673,10 @@ int game(WINDOW *game_win)
 			break;
 		} // end switch
 	} // end while
-    if (not inGame){
-        endStats(game_win, end);
-    }
+	if (!inGame)
+	{
+		endStats(game_win, end);
+	}
 	deleteGameWindows(windows);
 
 	return 1;
