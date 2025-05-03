@@ -589,6 +589,10 @@ int game(WINDOW *game_win)
 						currenShell = rounds[currentRound++];
 						dealerAI(game_win, player.health, AI.health, currenShell,
 										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, player.isTurn, AI.damage, AI.isTurn);
+						if (currenShell >= rounds.size())
+						{
+							break;
+						}
 					}
 					player.isTurn = true;
 					if (player.health <= 0)
