@@ -172,15 +172,13 @@ int game(WINDOW *game_win)
 	string pickedItemText = "";
 	string dealerPicked = "";
 	Player player("ENGG1340", 100, true);
-	Opponent AI("S1mple", 100, false);
-	int playerDamage = 20;
-	int dealerDamage = 20;
+	Opponent AI("S1mple", 100, true);
+	player.damage = 20;
+	AI.damage = 20;
 	ShellGenerator gen;
 	vector<bool> rounds;
 	int currentRound = 0;
-	bool playerTurn = true;
 	bool handcuffAlreadyUsed = false;
-	bool dealerTurn = true;
 
 	// generate bullets before game starts
 	string initialShells = gen.getShells();
@@ -224,7 +222,7 @@ int game(WINDOW *game_win)
 			mvwprintw(game_win, 14, (WIDTH - pickedItemText.length()) / 2, pickedItemText.c_str());
 		}
 
-		string playerTurnstring = "Player turn? " + to_string(playerTurn);
+		string playerTurnstring = "Player turn? " + to_string(player.isTurn);
 		mvwprintw(game_win, 3, (WIDTH - playerTurnstring.length()) / 2, playerTurnstring.c_str());
 		// Draw shell boxes in bullets table ifbullets not empty
 		if (!rounds.empty())
@@ -382,7 +380,7 @@ int game(WINDOW *game_win)
 				{
 					pickedItemText = "You will now deal double damage";
 					windows.player_item_texts[selectedRow][selectedCol] = "";
-					playerDamage = 40;
+					player.damage = 40;
 				}
 				else if (windows.player_item_texts[selectedRow][selectedCol] == "magnifyingGlass")
 				{
@@ -432,24 +430,24 @@ int game(WINDOW *game_win)
 			wrefresh(game_win);
 			int action = wgetch(game_win);
 
-			if (playerTurn)
+			if (player.isTurn)
 			{
 				if (action == '1')
 				{
 					bool result = rounds[currentRound++];
 					if (result)
 					{
-						AI.health = max(AI.health - playerDamage, 0);
-						string damageMessage = "A live shell! Dealer takes " + to_string(playerDamage) + " damage.";
+						AI.health = max(AI.health - player.damage, 0);
+						string damageMessage = "A live shell! Dealer takes " + to_string(player.damage) + " damage.";
 						printCentered(game_win, damageMessage, 6);
-						playerDamage = 20;
+						player.damage = 20;
 						if (AI.health <= 0)
 						{
 							napms(2000);
 							continue;
 						}
 						napms(3000);
-						playerTurn = false;
+						player.isTurn = false;
 						// Add refresh and delay before dealer's move
 						wclear(game_win);
 						box(game_win, 0, 0);
@@ -459,8 +457,8 @@ int game(WINDOW *game_win)
 					{
 						printCentered(game_win, "Oops! Blank! Your turn ends.", 6);
 						napms(3000);
-						playerDamage = 20;
-						playerTurn = false;
+						player.damage = 20;
+						player.isTurn = false;
 						// Add refresh and delay before dealer's move
 						wclear(game_win);
 						box(game_win, 0, 0);
@@ -472,8 +470,8 @@ int game(WINDOW *game_win)
 					bool result = rounds[currentRound++];
 					if (result)
 					{
-						player.health = max(player.health - playerDamage, 0);
-						playerDamage = 20;
+						player.health = max(player.health - player.damage, 0);
+						player.damage = 20;
 						printCentered(game_win, "You shot yourself with a live shell! -20 HP.", 6);
 						if (player.health <= 0)
 						{
@@ -481,7 +479,7 @@ int game(WINDOW *game_win)
 							continue;
 						}
 						napms(3000);
-						playerTurn = false;
+						player.isTurn = false;
 						// Add refresh and delay before dealer's move
 						wclear(game_win);
 						box(game_win, 0, 0);
@@ -491,16 +489,16 @@ int game(WINDOW *game_win)
 					{
 						printCentered(game_win, "Blank! Lucky! Shoot again.", 6);
 						napms(3000);
-						playerTurn = true;
+						player.isTurn = true;
 					}
 				}
 
-				if (!playerTurn)
+				if (!player.isTurn)
 				{
 					if (handcuffAlreadyUsed)
 					{
 						handcuffAlreadyUsed = false;
-						playerTurn = true;
+						player.isTurn = true;
 						wclear(game_win);
 						box(game_win, 0, 0);
 						wrefresh(game_win);
@@ -554,7 +552,7 @@ int game(WINDOW *game_win)
 								else if (item == "knife")
 								{
 									dealerPicked = "Dealer will now deal double damage";
-									dealerDamage = 40;
+									AI.damage = 40;
 									windows.dealer_item_texts[coords.first][coords.second] = "";
 								}
 								else if (item == "magnifyingGlass")
@@ -585,14 +583,14 @@ int game(WINDOW *game_win)
 					}
 					bool currenShell = rounds[currentRound++];
 					dealerAI(game_win, player.health, AI.health, currenShell,
-									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage, dealerTurn);
-					while (dealerTurn == true)
+									 remainingLiveShells, remainingTotalShells, currentDealerAILevel, player.isTurn, AI.damage, AI.isTurn);
+					while (AI.isTurn == true)
 					{
 						currenShell = rounds[currentRound++];
 						dealerAI(game_win, player.health, AI.health, currenShell,
-										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, playerTurn, dealerDamage, dealerTurn);
+										 remainingLiveShells, remainingTotalShells, currentDealerAILevel, player.isTurn, AI.damage, AI.isTurn);
 					}
-					playerTurn = true;
+					player.isTurn = true;
 					if (player.health <= 0)
 					{
 						inGame = false;
