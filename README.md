@@ -23,9 +23,9 @@
 > No more blood transfusions.
 > Now, me and you, we are dancing on the edge of life and death.
 
-Buckshot Roulette is a 2023 indie tabletop horror video game developed and published by Estonian game developer Mike Klubnika on itch.io, which gained lots of attention and traction among gamers. This is a remake of this game using C++.
+Buckshot Roulette is a 2023 indie tabletop horror video game developed and published by Estonian game developer Mike Klubnika on itch.io, which gained lots of attention and traction among gamers. This is a remake of this game using C++, with slightly different feature including: different AI levels and item usage mechanics.
 
-The game feature a mysterious figure, "The Dealer", of whom we play a modified Russian Roulette. Player and the dealer only has 100 health, and each round will have 9 shells (live or blank). This is a shootout until one man dies, and the game will continue to reload if both are alive. Items are included in the game, but use them wisely and you might stand a chance.
+The game feature a mysterious figure, "The Dealer", of whom we play against a modified Russian Roulette. Player and the dealer only has 100 health, and each round will have 9 shells (live or blank). This is a shootout until one man dies, and the game will continue to reload if both are alive. Items are included in the game, but use them wisely and you might stand a chance.
 
 ---
 
@@ -63,17 +63,17 @@ Choose the difficulty of the AI when starting the game, there are 3 modes to be 
 - Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
 - ESCAPE -> Pause the game
 
-> [!NOTE]
-> For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
-
 ### Items
 
-Apple → +20 HP\
-Knife → Double damage! (20 -> 40 damage)\
-Beer → Discard the current shell\
-Magnifying Glass → See if the next shell is live\
-Handcuff → Skip the dealer's turn\
-To pick up item: press E/e
+- Apple → +20 HP\
+- Knife → Double damage! (20 -> 40 damage)\
+- Beer → Discard the current shell\
+- Magnifying Glass → See if the next shell is live\
+- Handcuff → Skip the dealer's turn\
+- To use an item: press E/e
+
+> [!NOTE]
+> For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
 
 ---
 
