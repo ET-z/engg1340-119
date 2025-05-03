@@ -50,13 +50,17 @@ Refer to the tutorial (t) on the initial menu screen. GOAL: Outlast the dealer.
 
 Choose the difficulty of the AI when starting the game, there are 3 modes to be chosen from.
 
-> 1.  Dumb AI: Always shoots the player
-> 2.  Random AI: Flips a coin to shoot himself or the player
-> 3.  Smart AI: Keeps track of live and blank shells remaining an considers probability.
->     Controls:
->     Use the arrow keys to navigate your inventory
->     E/e -> Pick up and use an item
->     Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
+### Difficulties
+
+1.  Dumb AI: Always shoots the player
+2.  Random AI: Flips a coin to shoot himself or the player
+3.  Smart AI: Keeps track of live and blank shells remaining an considers probability.
+
+### Controls:
+
+    Use the arrow keys to navigate your inventory
+    E/e -> Pick up and use an item
+    Enter/ Space -> Initiate shooting, choose 1 to shoot yourself, choose 2 to shoot The Dealer.
 
 > [!NOTE]
 > For the best experience, we recommend playing the official [soundtrack](https://www.youtube.com/watch?app=desktop&v=tZmq052Cf_Q&ab_channel=Tobythefloof) in the background!
@@ -69,9 +73,6 @@ Beer → Discard the current shell\
 Magnifying Glass → See if the next shell is live\
 Handcuff → Skip the dealer's turn\
 To pick up item: press E/e
-
-> [!TIP]
-> Helpful advice for doing things better or more easily.
 
 ---
 
